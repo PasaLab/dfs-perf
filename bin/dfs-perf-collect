@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+function printUsage {
+  echo "Usage: dfs-perf-collect <TaskType>"
+}
+
+# if less than 1 args specified, show usage
+if [ $# -le 0 ]; then
+  printUsage
+  exit 1
+fi
+
+bin=`cd "$( dirname "$0" )"; pwd`
+
+DEFAULT_PERF_LIBEXEC_DIR="$bin"/../libexec
+DFS_PERF_LIBEXEC_DIR=${DFS_PERF_LIBEXEC_DIR:-$DEFAULT_PERF_LIBEXEC_DIR}
+. $DFS_PERF_LIBEXEC_DIR/dfs-perf-config.sh
+
+NODELIST=$DFS_PERF_CONF_DIR/slaves
+
+DFS_PERF_OUT_REPORTS_DIR=$DFS_PERF_OUT_DIR/contexts_$1
+if [ -e $DFS_PERF_OUT_REPORTS_DIR ]; then
+  rm -rf $DFS_PERF_OUT_REPORTS_DIR
+fi
+mkdir -p $DFS_PERF_OUT_REPORTS_DIR
+
+taskid=0
+for slave in `cat "$NODELIST"|sed  "s/#.*$//;/^$/d"`; do
+  echo -n "Collect from $slave... "
+  scp $slave:$DFS_PERF_OUT_DIR/context$1-$taskid@$slave $DFS_PERF_OUT_REPORTS_DIR/context$1-$taskid@$slave
+  sleep 0.02
+  taskid=`expr $taskid + 1`
+done
+wait
+
+$JAVA -cp $DFS_PERF_CONF_DIR/:$DFS_PERF_JAR -Dpasalab.dfs.perf.home=$DFS_PERF_HOME -Dpasalab.dfs.perf.logger.type="PERF_LOGGER" -Dlog4j.configuration=file:$DFS_PERF_CONF_DIR/log4j.properties $DFS_PERF_JAVA_OPTS pasalab.dfs.perf.tools.DfsPerfCollector $1 $DFS_PERF_OUT_REPORTS_DIR

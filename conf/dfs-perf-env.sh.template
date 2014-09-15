@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+# The following gives an example:
+
+if [[ `uname -a` == Darwin* ]]; then
+  # Assuming Mac OS X
+  export JAVA_HOME=${JAVA_HOME:-$(/usr/libexec/java_home)}
+  export DFS_PERF_JAVA_OPTS="-Djava.security.krb5.realm= -Djava.security.krb5.kdc="
+else
+  # Assuming Linux
+  if [ -z "$JAVA_HOME" ]; then
+    export JAVA_HOME=/usr/lib/jvm/java-7-oracle
+  fi
+fi
+
+export JAVA="$JAVA_HOME/bin/java"
+
+#the DFS Master address
+export DFS_PERF_DFS_ADRESS="dfs://master:port"
+
+#the workspace dir in DFS
+export DFS_PERF_WORKSPACE="/tmp/dfs-perf-workspace"
+
+#the report output path
+export DFS_PERF_OUT_DIR="$DFS_PERF_HOME/result"
+
+#if true, the DfsPerfSupervision will print the names of those running and remaining nodes
+DFS_PERF_STATUS_DEBUG="false"
+
+#if true, the test will abort when the number of failed nodes more than the threshold
+DFS_PERF_FAILED_ABORT="true"
+DFS_PERF_FAILED_PERCENTAGE=1
+
+CONF_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+export DFS_PERF_JAVA_OPTS+="
+  -Dlog4j.configuration=file:$CONF_DIR/log4j.properties
+  -Dpasalab.dfs.perf.failed.abort=$DFS_PERF_FAILED_ABORT
+  -Dpasalab.dfs.perf.failed.percentage=$DFS_PERF_FAILED_PERCENTAGE
+  -Dpasalab.dfs.perf.status.debug=$DFS_PERF_STATUS_DEBUG
+  -Dpasalab.dfs.perf.dfs.address=$DFS_PERF_DFS_ADRESS
+  -Dpasalab.dfs.perf.dfs.dir=$DFS_PERF_WORKSPACE
+  -Dpasalab.dfs.perf.out.dir=$DFS_PERF_OUT_DIR
+"
