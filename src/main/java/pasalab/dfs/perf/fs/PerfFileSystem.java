@@ -8,13 +8,49 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import pasalab.dfs.perf.PerfConstants;
+import pasalab.dfs.perf.conf.PerfConf;
 
 public abstract class PerfFileSystem {
   protected static final Logger LOG = Logger.getLogger(PerfConstants.PERF_LOGGER_TYPE);
 
   public static PerfFileSystem get(String path) throws IOException {
-    // TODO: Implement file systems.
-    return null;
+    if (isHdfs(path)) {
+      // TODO: Implement HDFS.
+      return null;
+    } else if (isLocalFS(path)) {
+      // TODO: Implement LocalFS.
+      return null;
+    } else if (isTfs(path)) {
+      return PerfFileSystemTfs.getClient(path);
+    }
+    throw new IOException("Unknown file system scheme " + path);
+  }
+
+  private static boolean isHdfs(final String path) {
+    for (final String prefix : PerfConf.get().HDFS_PREFIX) {
+      if (path.startsWith(prefix)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private static boolean isLocalFS(final String path) {
+    for (final String prefix : PerfConf.get().LFS_PREFIX) {
+      if (path.startsWith(prefix)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private static boolean isTfs(final String path) {
+    for (final String prefix : PerfConf.get().TFS_PREFIX) {
+      if (path.startsWith(prefix)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**

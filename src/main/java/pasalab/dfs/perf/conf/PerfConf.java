@@ -4,6 +4,8 @@ import java.io.File;
 
 import org.apache.log4j.Logger;
 
+import com.google.common.collect.ImmutableList;
+
 /**
  * DFS-Perf Configurations
  */
@@ -28,6 +30,11 @@ public class PerfConf extends Utils {
 
   public final boolean FAILED_THEN_ABORT;
   public final int FAILED_PERCENTAGE;
+
+  // TODO: Add and get from properties
+  public final ImmutableList<String> HDFS_PREFIX = ImmutableList.of("hdfs://");
+  public final ImmutableList<String> LFS_PREFIX = ImmutableList.of("file://");
+  public final ImmutableList<String> TFS_PREFIX = ImmutableList.of("tachyon://");
 
   private PerfConf() {
     if (System.getProperty("pasalab.dfs.perf.home") == null) {
