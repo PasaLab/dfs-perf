@@ -18,8 +18,7 @@ public abstract class PerfFileSystem {
       // TODO: Implement HDFS.
       return null;
     } else if (isLocalFS(path)) {
-      // TODO: Implement LocalFS.
-      return null;
+      return PerfFileSystemLocal.getClient();
     } else if (isTfs(path)) {
       return PerfFileSystemTfs.getClient(path);
     }
