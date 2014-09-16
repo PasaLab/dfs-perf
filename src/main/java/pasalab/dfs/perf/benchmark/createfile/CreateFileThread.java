@@ -44,7 +44,7 @@ public class CreateFileThread implements Runnable {
   public void run() {
     try {
       PerfFileSystem fs = PerfFileSystem.get(mDfsAddress);
-      for (int i = 0; i < mFileNum; i++) {
+      for (int i = 0; i < mFileNum; i ++) {
         String fileName = mTargetDir + "/" + ID + "-" + i;
         if (mFileLength > 0) {
           OutputStream os = fs.create(fileName, 1024 * 1024 * 1024, "TRY_CACHE");

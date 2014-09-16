@@ -43,7 +43,7 @@ public class ReadTotalReport extends PerfTotalReport {
         mId = taskContext.getStartTimeMs();
       }
       if (!taskContext.getSuccess()) {
-        mFailedTasks++;
+        mFailedTasks ++;
         mFailedSlaves += taskContext.getId() + "@" + taskContext.getNodeName() + " ";
         mReadThroughput.add(new Float[0]);
         continue;
@@ -51,7 +51,7 @@ public class ReadTotalReport extends PerfTotalReport {
       long[] bytes = taskContext.getReadBytes();
       long[] timeMs = taskContext.getThreadTimeMs();
       Float[] throughput = new Float[bytes.length];
-      for (int i = 0; i < bytes.length; i++) {
+      for (int i = 0; i < bytes.length; i ++) {
         // now throughput is in MB/s
         throughput[i] = bytes[i] / 1024.0f / 1024.0f / (timeMs[i] / 1000.0f);
       }
@@ -98,7 +98,7 @@ public class ReadTotalReport extends PerfTotalReport {
   private String generateThroughput() {
     StringBuffer sbThroughput = new StringBuffer("SlaveName\tReadThroughput(MB/s)\n");
     float totalThroughput = 0;
-    for (int i = 0; i < mSlavesNum; i++) {
+    for (int i = 0; i < mSlavesNum; i ++) {
       float slaveThroughput = 0;
       for (float throughput : mReadThroughput.get(i)) {
         slaveThroughput += throughput;
@@ -126,7 +126,7 @@ public class ReadTotalReport extends PerfTotalReport {
     fout.write("********** Read Throughput **********\n");
     fout.write(generateThroughput());
     fout.write("********** Slave Details **********\n");
-    for (int i = 0; i < mSlavesNum; i++) {
+    for (int i = 0; i < mSlavesNum; i ++) {
       fout.write(generateSlaveDetails(i));
     }
     fout.close();

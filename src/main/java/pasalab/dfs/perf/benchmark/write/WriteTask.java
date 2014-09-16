@@ -47,7 +47,7 @@ public class WriteTask extends PerfTask implements Supervisible {
           ListGenerator.generateWriteFiles(threadsNum,
               mTaskConf.getIntProperty("files.per.thread"), writeDir);
       mWriteThreads = new WriteThread[threadsNum];
-      for (int i = 0; i < threadsNum; i++) {
+      for (int i = 0; i < threadsNum; i ++) {
         mWriteThreads[i] =
             new WriteThread(i, writeFileList[i], mWriteType,
                 mTaskConf.getIntProperty("block.size.bytes"),
@@ -65,7 +65,7 @@ public class WriteTask extends PerfTask implements Supervisible {
   @Override
   protected boolean runTask(TaskContext taskContext) {
     mWriteThreadsList = new ArrayList<Thread>(mWriteThreads.length);
-    for (int i = 0; i < mWriteThreads.length; i++) {
+    for (int i = 0; i < mWriteThreads.length; i ++) {
       Thread writeThread = new Thread(mWriteThreads[i]);
       mWriteThreadsList.add(writeThread);
       writeThread.start();

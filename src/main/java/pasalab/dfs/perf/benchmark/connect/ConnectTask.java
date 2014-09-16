@@ -39,7 +39,7 @@ public class ConnectTask extends PerfTask implements Supervisible {
       int clientsPerThread = mTaskConf.getIntProperty("clients.per.thread");
       int opsPerThread = mTaskConf.getIntProperty("ops.per.thread");
       mConnectThreads = new ConnectThread[threadsNum];
-      for (int i = 0; i < threadsNum; i++) {
+      for (int i = 0; i < threadsNum; i ++) {
         mConnectThreads[i] = new ConnectThread(i, clientsPerThread, opsPerThread, workDir);
       }
       LOG.info("Create " + threadsNum + " connect threads");
@@ -53,7 +53,7 @@ public class ConnectTask extends PerfTask implements Supervisible {
   @Override
   protected boolean runTask(TaskContext taskContext) {
     mConnectThreadsList = new ArrayList<Thread>(mConnectThreads.length);
-    for (int i = 0; i < mConnectThreads.length; i++) {
+    for (int i = 0; i < mConnectThreads.length; i ++) {
       Thread connectThread = new Thread(mConnectThreads[i]);
       mConnectThreadsList.add(connectThread);
       connectThread.start();

@@ -16,7 +16,7 @@ public class ListGenerator {
       List<String> candidates) {
     List<String> ret = new ArrayList<String>(filesPerThread);
     int range = candidates.size();
-    for (int i = 0; i < filesPerThread; i++) {
+    for (int i = 0; i < filesPerThread; i ++) {
       ret.add(candidates.get(sRand.nextInt(range)));
     }
     return ret;
@@ -27,7 +27,7 @@ public class ListGenerator {
     List<String> ret = new ArrayList<String>(filesPerThread);
     int range = candidates.size();
     int index = range / threadsNum * id;
-    for (int i = 0; i < filesPerThread; i++) {
+    for (int i = 0; i < filesPerThread; i ++) {
       ret.add(candidates.get(index));
       index = (index + 1) % range;
     }
@@ -53,11 +53,11 @@ public class ListGenerator {
       } else if (readMode.isSequence()) {
         ret[0] = generateSingleSequenceReadFiles(0, threadsNum, filesPerThread, candidates);
       }
-      for (int i = 1; i < threadsNum; i++) {
+      for (int i = 1; i < threadsNum; i ++) {
         ret[i] = new ArrayList<String>(ret[0]);
       }
     } else {
-      for (int i = 0; i < threadsNum; i++) {
+      for (int i = 0; i < threadsNum; i ++) {
         if (readMode.isRandom()) {
           ret[i] = generateSingleRandomReadFiles(filesPerThread, candidates);
         } else if (readMode.isSequence()) {
@@ -79,9 +79,9 @@ public class ListGenerator {
   public static List<String>[] generateWriteFiles(int threadsNum, int filesPerThread,
       String dirPrefix) {
     List<String>[] ret = new List[threadsNum];
-    for (int i = 0; i < threadsNum; i++) {
+    for (int i = 0; i < threadsNum; i ++) {
       ret[i] = new ArrayList<String>(filesPerThread);
-      for (int j = 0; j < filesPerThread; j++) {
+      for (int j = 0; j < filesPerThread; j ++) {
         ret[i].add(dirPrefix + "/" + i + "-" + j);
       }
     }

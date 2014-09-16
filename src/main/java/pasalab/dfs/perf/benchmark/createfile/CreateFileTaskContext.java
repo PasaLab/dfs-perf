@@ -23,11 +23,11 @@ public class CreateFileTaskContext extends TaskContext {
     ret.mFinishTimeMs = Long.parseLong(fin.readLine());
     ret.mSuccess = Boolean.parseBoolean(fin.readLine());
     int n = Integer.parseInt(fin.readLine());
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < n; i ++) {
       ret.mSuccessFiles.add(Integer.parseInt(fin.readLine()));
     }
     n = Integer.parseInt(fin.readLine());
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < n; i ++) {
       ret.mTimeStamps.add(Long.parseLong(fin.readLine()));
     }
     fin.close();

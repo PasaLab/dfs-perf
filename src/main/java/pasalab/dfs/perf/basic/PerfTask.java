@@ -2,7 +2,6 @@ package pasalab.dfs.perf.basic;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 
 import org.apache.log4j.Logger;
 

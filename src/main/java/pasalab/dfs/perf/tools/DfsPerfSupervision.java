@@ -30,9 +30,9 @@ public class DfsPerfSupervision {
   private static boolean allFinished() {
     int slavesNum = sSlaveStates.length;
     int finishedNum = 0;
-    for (int i = 0; i < slavesNum; i++) {
+    for (int i = 0; i < slavesNum; i ++) {
       if (sSlaveStates[i] == SLAVE_STATE_FAILED || sSlaveStates[i] == SLAVE_STATE_SUCCESS) {
-        finishedNum++;
+        finishedNum ++;
       }
     }
     return (finishedNum == slavesNum);
@@ -42,7 +42,7 @@ public class DfsPerfSupervision {
     int failedSlaves = 0;
     for (int state : sSlaveStates) {
       if ((state == SLAVE_STATE_FAILED) || (state == SLAVE_STATE_INITIAL && round > 10)) {
-        failedSlaves++;
+        failedSlaves ++;
       }
     }
     int failedThreshold = percentage * sSlaveStates.length / 100;
@@ -61,19 +61,19 @@ public class DfsPerfSupervision {
       sbSuccessSlaves = new StringBuffer("Success:");
       sbFailedSlaves = new StringBuffer("Failed:");
     }
-    for (int i = 0; i < sSlaveStates.length; i++) {
+    for (int i = 0; i < sSlaveStates.length; i ++) {
       if (sSlaveStates[i] == SLAVE_STATE_RUNNING) {
-        runningSlaves++;
+        runningSlaves ++;
         if (debug) {
           sbRunningSlaves.append(" " + i + "@" + slaves.get(i));
         }
       } else if (sSlaveStates[i] == SLAVE_STATE_SUCCESS) {
-        successSlaves++;
+        successSlaves ++;
         if (debug) {
           sbSuccessSlaves.append(" " + i + "@" + slaves.get(i));
         }
       } else if (sSlaveStates[i] == SLAVE_STATE_FAILED) {
-        failedSlaves++;
+        failedSlaves ++;
         if (debug) {
           sbFailedSlaves.append(" " + i + "@" + slaves.get(i));
         }
@@ -100,7 +100,7 @@ public class DfsPerfSupervision {
       int index = 0;
       slavesNum = Integer.parseInt(args[0]);
       slaves = new ArrayList<String>(slavesNum);
-      for (index = 1; index < slavesNum + 1; index++) {
+      for (index = 1; index < slavesNum + 1; index ++) {
         slaves.add(args[index]);
       }
       taskType = args[index];
@@ -115,7 +115,7 @@ public class DfsPerfSupervision {
       TaskConfiguration taskConf = TaskConfiguration.get(taskType, true);
       sSlaveStates = new int[slavesNum];
       sSlaveTasks = new PerfTask[slavesNum];
-      for (int i = 0; i < slavesNum; i++) {
+      for (int i = 0; i < slavesNum; i ++) {
         sSlaveStates[i] = SLAVE_STATE_INITIAL;
         sSlaveTasks[i] = TaskType.get().getTaskClass(taskType);
         sSlaveTasks[i].initialSet(i, slaves.get(i), taskType, taskConf);
@@ -144,7 +144,7 @@ public class DfsPerfSupervision {
       int round = 0;
       while (!allFinished()) {
         Thread.sleep(2000);
-        for (int i = 0; i < sSlaveStates.length; i++) {
+        for (int i = 0; i < sSlaveStates.length; i ++) {
           if (sSlaveStates[i] == SLAVE_STATE_INITIAL) {
             String readyPath = ((Supervisible) sSlaveTasks[i]).getDfsReadyPath();
             if (fs.exists(readyPath)) {
@@ -172,7 +172,7 @@ public class DfsPerfSupervision {
             }
           }
         }
-        round++;
+        round ++;
         printSlaveStatus(perfConf.STATUS_DEBUG, slaves);
         if (perfConf.FAILED_THEN_ABORT && needAbort(round, perfConf.FAILED_PERCENTAGE)) {
           java.lang.Runtime.getRuntime().exec(perfConf.DFS_PERF_HOME + "/bin/dfs-perf-abort");

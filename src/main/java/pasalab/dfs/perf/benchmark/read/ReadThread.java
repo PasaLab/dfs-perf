@@ -20,7 +20,6 @@ public class ReadThread implements Runnable {
 
   private byte[] mContent;
   private List<String> mReadFileList;
-  private int mReadGrainBytes;
   private String mReadType;
   private ReadThreadStatistic mStatistic;
   private String mDfsAddress;
@@ -29,7 +28,6 @@ public class ReadThread implements Runnable {
     ID = id;
     mContent = new byte[grainBytes];
     mReadFileList = readFileList;
-    mReadGrainBytes = grainBytes;
     mReadType = readType;
     mStatistic = new ReadThreadStatistic();
     mDfsAddress = PerfConf.get().DFS_ADDRESS;

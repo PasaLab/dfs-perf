@@ -45,7 +45,7 @@ public class CreateFileTotalReport extends PerfTotalReport {
         mId = taskContext.getStartTimeMs();
       }
       if (!taskContext.getSuccess()) {
-        mFailedTasks++;
+        mFailedTasks ++;
         mFailedSlaves += taskContext.getId() + "@" + taskContext.getNodeName() + " ";
         mElapsedTimeMs.add(0L);
         mSuccessFiles.add(new Integer[0]);
@@ -57,7 +57,7 @@ public class CreateFileTotalReport extends PerfTotalReport {
       List<Long> slaveTimeStamps = taskContext.getTimeStamps();
       Integer[] files = new Integer[slaveSuccessFiles.size()];
       Long[] timeMs = new Long[slaveTimeStamps.size()];
-      for (int i = 0; i < files.length; i++) {
+      for (int i = 0; i < files.length; i ++) {
         files[i] = slaveSuccessFiles.get(i);
         timeMs[i] = slaveTimeStamps.get(i);
       }
@@ -74,7 +74,7 @@ public class CreateFileTotalReport extends PerfTotalReport {
     Integer[] files = mSuccessFiles.get(slaveIndex);
     Long[] timeMs = mTimeStamps.get(slaveIndex);
     sbSlaveDetail.append("\t" + new Date(timeMs[0]) + ":" + files[0] + " operations\n");
-    for (int i = 1; i < files.length; i++) {
+    for (int i = 1; i < files.length; i ++) {
       double perf = (files[i] - files[i - 1]) * 1000.0 / (timeMs[i] - timeMs[i - 1]);
       sbSlaveDetail.append("\t" + new Date(timeMs[i]) + ":" + files[i] + " operations; "
           + ((int) (perf * 100)) / 100.0 + " files/sec\n");
@@ -122,7 +122,7 @@ public class CreateFileTotalReport extends PerfTotalReport {
     fout.write("********** CreateFile Test Settings **********\n");
     fout.write(generateCreateFileConf());
     fout.write("********** Slave Details **********\n");
-    for (int i = 0; i < mSlavesNum; i++) {
+    for (int i = 0; i < mSlavesNum; i ++) {
       fout.write(generateSlaveDetails(i));
     }
     fout.close();

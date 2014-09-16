@@ -29,7 +29,7 @@ public class CreateFileTask extends PerfTask implements Supervisible {
 
       int threadsNum = mTaskConf.getIntProperty("threads.num");
       mCreateFileThreads = new CreateFileThread[threadsNum];
-      for (int i = 0; i < threadsNum; i++) {
+      for (int i = 0; i < threadsNum; i ++) {
         mCreateFileThreads[i] =
             new CreateFileThread(mId * threadsNum + i,
                 mTaskConf.getIntProperty("files.per.thread"),
@@ -46,7 +46,7 @@ public class CreateFileTask extends PerfTask implements Supervisible {
   @Override
   protected boolean runTask(TaskContext taskContext) {
     mCreateFileThreadsList = new ArrayList<Thread>(mCreateFileThreads.length);
-    for (int i = 0; i < mCreateFileThreads.length; i++) {
+    for (int i = 0; i < mCreateFileThreads.length; i ++) {
       Thread createFileThread = new Thread(mCreateFileThreads[i]);
       mCreateFileThreadsList.add(createFileThread);
       createFileThread.start();
@@ -59,7 +59,7 @@ public class CreateFileTask extends PerfTask implements Supervisible {
       while (running) {
         Thread.sleep(1000);
         running = false;
-        count++;
+        count ++;
         for (Thread thread : mCreateFileThreadsList) {
           if (thread.isAlive()) {
             running = true;

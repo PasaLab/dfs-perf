@@ -38,7 +38,7 @@ public class ConnectTotalReport extends PerfTotalReport {
         mId = taskContext.getStartTimeMs();
       }
       if (!taskContext.getSuccess()) {
-        mFailedTasks++;
+        mFailedTasks ++;
         mFailedSlaves += taskContext.getId() + "@" + taskContext.getNodeName() + " ";
         mMetadataPerf.add(new Float[0]);
         continue;
@@ -46,7 +46,7 @@ public class ConnectTotalReport extends PerfTotalReport {
       int[] ops = taskContext.getOps();
       long[] timeMs = taskContext.getThreadTimeMs();
       Float[] metadataPerf = new Float[ops.length];
-      for (int i = 0; i < ops.length; i++) {
+      for (int i = 0; i < ops.length; i ++) {
         // now it's in ops/sec
         metadataPerf[i] = ops[i] / (timeMs[i] / 1000.0f);
       }
@@ -93,7 +93,7 @@ public class ConnectTotalReport extends PerfTotalReport {
     StringBuffer sbThroughput =
         new StringBuffer("SlaveName\tMetadataOperationPerformance(ops/sec)\n");
     float totalPerf = 0;
-    for (int i = 0; i < mSlavesNum; i++) {
+    for (int i = 0; i < mSlavesNum; i ++) {
       float slavePerf = 0;
       for (float metadataPerf : mMetadataPerf.get(i)) {
         slavePerf += metadataPerf;
@@ -121,7 +121,7 @@ public class ConnectTotalReport extends PerfTotalReport {
     fout.write("********** Metadata Operation Performace **********\n");
     fout.write(generateMetadataPerf());
     fout.write("********** Slave Details **********\n");
-    for (int i = 0; i < mSlavesNum; i++) {
+    for (int i = 0; i < mSlavesNum; i ++) {
       fout.write(generateSlaveDetails(i));
     }
     fout.close();

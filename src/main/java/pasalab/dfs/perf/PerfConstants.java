@@ -18,7 +18,7 @@ public class PerfConstants {
     int index = 0;
     while ((ret >= 1024) && (index < PERF_MEMORY_UNITS.length - 1)) {
       ret /= 1024;
-      index++;
+      index ++;
     }
     return ret + PERF_MEMORY_UNITS[index];
   }

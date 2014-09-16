@@ -41,7 +41,7 @@ public class ConnectThread implements Runnable {
   public void run() {
     mStatistic.setStartTimeMs(System.currentTimeMillis());
     try {
-      for (int i = 0; i < mClients.length; i++) {
+      for (int i = 0; i < mClients.length; i ++) {
         mClients[i] = PerfFileSystem.get(mDfsAddress);
       }
     } catch (IOException e) {
@@ -53,7 +53,7 @@ public class ConnectThread implements Runnable {
     int nextOp = OP_MKDIR;
     String fileName = "";
     try {
-      for (int i = 0; i < mOps; i++) {
+      for (int i = 0; i < mOps; i ++) {
         if (nextOp == OP_DELETE) {
           mClients[nextClient].delete(fileName, true);
           nextOp = OP_MKDIR;
@@ -77,7 +77,7 @@ public class ConnectThread implements Runnable {
       mStatistic.setFinishTimeMs(System.currentTimeMillis());
       return;
     }
-    for (int i = 0; i < mClients.length; i++) {
+    for (int i = 0; i < mClients.length; i ++) {
       try {
         mClients[i].close();
       } catch (IOException e) {
