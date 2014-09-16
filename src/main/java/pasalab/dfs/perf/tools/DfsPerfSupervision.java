@@ -184,8 +184,11 @@ public class DfsPerfSupervision {
       if (fs.exists(perfConf.DFS_DIR + "/SYNC_START_SIGNAL")) {
         fs.delete(perfConf.DFS_DIR + "/SYNC_START_SIGNAL", false);
       }
-      if (((Supervisible) sSlaveTasks[0]).cleanupWorkspace()) {
-        fs.delete(perfConf.DFS_DIR, true);
+      for (PerfTask task : sSlaveTasks) {
+        String cleanup = ((Supervisible) task).cleanupWorkspace();
+        if (cleanup != null) {
+          fs.delete(cleanup, true);
+        }
       }
       fs.close();
     } catch (IOException e) {
