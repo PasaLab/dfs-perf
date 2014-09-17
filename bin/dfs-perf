@@ -3,7 +3,7 @@
 function printUsage {
   echo "Usage: dfs-perf <TaskType>"
   echo "now TaskType is one of:"
-  echo -e "  Connect, CreateFile, Read, Write"
+  echo -e "  Foo"
   echo "the detailed configurations are in conf/testSuite/"
 }
 

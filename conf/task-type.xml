@@ -1,28 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <taskTypes>
   <type>
-    <name>Read</name>
-    <taskClass>pasalab.dfs.perf.benchmark.read.ReadTask</taskClass>
-    <taskContextClass>pasalab.dfs.perf.benchmark.read.ReadTaskContext</taskContextClass>
-    <totalReportClass>pasalab.dfs.perf.benchmark.read.ReadTotalReport</totalReportClass>
-  </type>
-  <type>
-    <name>Write</name>
-    <taskClass>pasalab.dfs.perf.benchmark.write.WriteTask</taskClass>
-    <taskContextClass>pasalab.dfs.perf.benchmark.write.WriteTaskContext</taskContextClass>
-    <totalReportClass>pasalab.dfs.perf.benchmark.write.WriteTotalReport</totalReportClass>
-  </type>
-  <type>
-    <name>Connect</name>
-    <taskClass>pasalab.dfs.perf.benchmark.connect.ConnectTask</taskClass>
-    <taskContextClass>pasalab.dfs.perf.benchmark.connect.ConnectTaskContext</taskContextClass>
-    <totalReportClass>pasalab.dfs.perf.benchmark.connect.ConnectTotalReport</totalReportClass>
-  </type>
-  <type>
-    <name>CreateFile</name>
-    <taskClass>pasalab.dfs.perf.benchmark.createfile.CreateFileTask</taskClass>
-    <taskContextClass>pasalab.dfs.perf.benchmark.createfile.CreateFileTaskContext</taskContextClass>
-    <totalReportClass>pasalab.dfs.perf.benchmark.createfile.CreateFileTotalReport</totalReportClass>
+    <name>Foo</name>
+    <taskClass>pasalab.dfs.perf.benchmark.foo.FooTask</taskClass>
+    <taskContextClass>pasalab.dfs.perf.benchmark.foo.FooTaskContext</taskContextClass>
+    <taskThreadClass>pasalab.dfs.perf.benchmark.foo.FooThread</taskThreadClass>
+    <totalReportClass>pasalab.dfs.perf.benchmark.foo.FooTotalReport</totalReportClass>
   </type>
 </taskTypes>
 

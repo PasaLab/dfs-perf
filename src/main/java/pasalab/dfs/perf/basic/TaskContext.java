@@ -28,7 +28,7 @@ public abstract class TaskContext {
     mTaskType = taskType;
     mStartTimeMs = System.currentTimeMillis();
     mFinishTimeMs = mStartTimeMs;
-    mSuccess = false;
+    mSuccess = true;
   }
 
   public int getId() {
@@ -66,6 +66,13 @@ public abstract class TaskContext {
   public void setSuccess(boolean success) {
     mSuccess = success;
   }
+
+  /**
+   * Set contexts from test threads.
+   * 
+   * @param threads
+   */
+  public abstract void setFromThread(PerfThread[] threads);
 
   /**
    * Output this task report to file.

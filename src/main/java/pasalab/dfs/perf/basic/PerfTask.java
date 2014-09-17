@@ -2,6 +2,8 @@ package pasalab.dfs.perf.basic;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -21,11 +23,13 @@ public abstract class PerfTask {
   protected TaskConfiguration mTaskConf;
   protected String mTaskType;
 
-  public void initialSet(int id, String nodeName, String taskType, TaskConfiguration taskConf) {
+  private PerfThread[] mThreads;
+
+  public void initialSet(int id, String nodeName, TaskConfiguration taskConf, String taskType) {
     mId = id;
     mNodeName = nodeName;
-    mTaskType = taskType;
     mTaskConf = taskConf;
+    mTaskType = taskType;
   }
 
   /**
@@ -37,18 +41,10 @@ public abstract class PerfTask {
   protected abstract boolean setupTask(TaskContext taskContext);
 
   /**
-   * Run the task.
-   * 
-   * @param taskContext The statistics of this task
-   * @return true if setup successfully, false otherwise
-   */
-  protected abstract boolean runTask(TaskContext taskContext);
-
-  /**
    * Cleanup the task. Do some following work.
    * 
    * @param taskContext The statistics of this task
-   * @return true if setup successfully, false otherwise
+   * @return true if cleanup successfully, false otherwise
    */
   protected abstract boolean cleanupTask(TaskContext taskContext);
 
@@ -75,26 +71,63 @@ public abstract class PerfTask {
         return false;
       }
     }
-    return setupTask(taskContext);
+
+    boolean ret = setupTask(taskContext);
+    mThreads = new PerfThread[PerfConf.get().THREADS_NUM];
+    try {
+      for (int i = 0; i < mThreads.length; i ++) {
+        mThreads[i] = TaskType.get().getTaskThreadClass(mTaskType);
+        mThreads[i].initialSet(i, mId, mNodeName, mTaskType);
+        ret &= mThreads[i].setupThread(mTaskConf);
+      }
+    } catch (Exception e) {
+      LOG.error("Error to create task thread", e);
+      return false;
+    }
+    return ret;
   }
 
   public boolean run(TaskContext taskContext) {
-    if (this instanceof Supervisible) {
-      try {
+    List<Thread> threadList = new ArrayList<Thread>(mThreads.length);
+    try {
+      for (int i = 0; i < mThreads.length; i ++) {
+        Thread t = new Thread(mThreads[i]);
+        threadList.add(t);
+      }
+
+      if (this instanceof Supervisible) {
         PerfFileSystem fs = PerfFileSystem.get(PerfConf.get().DFS_ADDRESS);
         String dfsReadyFilePath = ((Supervisible) this).getDfsReadyPath();
         fs.createEmptyFile(dfsReadyFilePath);
         fs.close();
-      } catch (IOException e) {
-        LOG.error("Failed to start Supervisible task", e);
-        return false;
       }
+
+      for (Thread t : threadList) {
+        t.start();
+      }
+      for (Thread t : threadList) {
+        t.join();
+      }
+    } catch (IOException e) {
+      LOG.error("Error when run task", e);
+      return false;
+    } catch (InterruptedException e) {
+      LOG.error("Error when wait all threads", e);
+      return false;
+    } catch (Exception e) {
+      LOG.error("Error to create task thread", e);
+      return false;
     }
-    return runTask(taskContext);
+    return true;
   }
 
   public boolean cleanup(TaskContext taskContext) {
-    boolean ret = cleanupTask(taskContext);
+    boolean ret = true;
+    for (int i = 0; i < mThreads.length; i ++) {
+      ret &= mThreads[i].cleanupThread(mTaskConf);
+    }
+    ret &= cleanupTask(taskContext);
+    taskContext.setFromThread(mThreads);
     taskContext.setFinishTimeMs(System.currentTimeMillis());
     try {
       String outDirPath = PerfConf.get().OUT_FOLDER;
@@ -110,6 +143,7 @@ public abstract class PerfTask {
       LOG.error("Error when generate the task report", e);
       ret = false;
     }
+
     if (this instanceof Supervisible) {
       try {
         PerfFileSystem fs = PerfFileSystem.get(PerfConf.get().DFS_ADDRESS);
@@ -122,7 +156,7 @@ public abstract class PerfTask {
         }
         fs.close();
       } catch (IOException e) {
-        LOG.error("Failed to start Supervisible task", e);
+        LOG.error("Failed to cleanup Supervisible task", e);
         ret = false;
       }
     }

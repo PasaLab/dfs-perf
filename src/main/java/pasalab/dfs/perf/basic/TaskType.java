@@ -33,6 +33,7 @@ public class TaskType {
 
   private Map<String, String> mTaskClasses;
   private Map<String, String> mTaskContextClasses;
+  private Map<String, String> mTaskThreadClasses;
   private Map<String, String> mTotalReportClasses;
 
   private TaskType(String xmlFileName) throws Exception {
@@ -43,6 +44,7 @@ public class TaskType {
     saxParser.parse(xmlFile, saxTaskType);
     mTaskClasses = saxTaskType.getTaskClasses();
     mTaskContextClasses = saxTaskType.getTaskContextClasses();
+    mTaskThreadClasses = saxTaskType.getTaskThreadClasses();
     mTotalReportClasses = saxTaskType.getTotalReportClasses();
   }
 
@@ -68,6 +70,11 @@ public class TaskType {
   public TaskContext getTaskContextClass(String type) throws Exception {
     String taskContextClassName = mTaskContextClasses.get(type);
     return (TaskContext) Class.forName(taskContextClassName).newInstance();
+  }
+
+  public PerfThread getTaskThreadClass(String type) throws Exception {
+    String taskThreadClassName = mTaskThreadClasses.get(type);
+    return (PerfThread) Class.forName(taskThreadClassName).newInstance();
   }
 
   /**

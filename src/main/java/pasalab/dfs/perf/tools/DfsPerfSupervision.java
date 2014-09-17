@@ -118,7 +118,7 @@ public class DfsPerfSupervision {
       for (int i = 0; i < slavesNum; i ++) {
         sSlaveStates[i] = SLAVE_STATE_INITIAL;
         sSlaveTasks[i] = TaskType.get().getTaskClass(taskType);
-        sSlaveTasks[i].initialSet(i, slaves.get(i), taskType, taskConf);
+        sSlaveTasks[i].initialSet(i, slaves.get(i), taskConf, taskType);
       }
     } catch (Exception e) {
       e.printStackTrace();

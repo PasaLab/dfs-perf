@@ -43,7 +43,7 @@ public class DfsPerf {
 
       TaskConfiguration taskConf = TaskConfiguration.get(taskType, true);
       PerfTask task = TaskType.get().getTaskClass(taskType);
-      task.initialSet(nodeId, nodeName, taskType, taskConf);
+      task.initialSet(nodeId, nodeName, taskConf, taskType);
       TaskContext taskContext = TaskType.get().getTaskContextClass(taskType);
       taskContext.initialSet(nodeId, nodeName, taskType);
       if (!task.setup(taskContext)) {
@@ -52,7 +52,7 @@ public class DfsPerf {
       }
       if (!task.run(taskContext)) {
         LOG.error("Failed to start task");
-        System.exit(-1);
+        taskContext.setSuccess(false);
       }
       if (!task.cleanup(taskContext)) {
         LOG.error("Failed to cleanup the task");

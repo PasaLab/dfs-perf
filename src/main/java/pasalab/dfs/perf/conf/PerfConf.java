@@ -27,6 +27,7 @@ public class PerfConf extends Utils {
   public final boolean STATUS_DEBUG;
   public final String DFS_ADDRESS;
   public final String DFS_DIR;
+  public final int THREADS_NUM;
 
   public final boolean FAILED_THEN_ABORT;
   public final int FAILED_PERCENTAGE;
@@ -49,6 +50,7 @@ public class PerfConf extends Utils {
     DFS_ADDRESS = getProperty("pasalab.dfs.perf.dfs.address", "dfs://master:port");
     DFS_DIR = getProperty("pasalab.dfs.perf.dfs.dir", "/tmp/dfs-perf-workspace");
     OUT_FOLDER = getProperty("pasalab.dfs.perf.out.dir", DFS_PERF_HOME + "/result");
+    THREADS_NUM = getIntProperty("pasalab.dfs.perf.threads.num", 1);
 
     FAILED_THEN_ABORT = getBooleanProperty("pasalab.dfs.perf.failed.abort", true);
     FAILED_PERCENTAGE = getIntProperty("pasalab.dfs.perf.failed.percentage", 1);

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
   <property>
-    <name>threads.num</name>
-    <value>4</value>
+    <name>foo.interval</name>
+    <value>10000</value>
     <description>the threads num of read test</description>
   </property>
   <property>
