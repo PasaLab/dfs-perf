@@ -7,5 +7,19 @@
     <taskThreadClass>pasalab.dfs.perf.benchmark.foo.FooThread</taskThreadClass>
     <totalReportClass>pasalab.dfs.perf.benchmark.foo.FooTotalReport</totalReportClass>
   </type>
+  <type>
+    <name>SimpleRead</name>
+    <taskClass>pasalab.dfs.perf.benchmark.simpleRead.SimpleReadTask</taskClass>
+    <taskContextClass>pasalab.dfs.perf.benchmark.simpleRead.SimpleReadTaskContext</taskContextClass>
+    <taskThreadClass>pasalab.dfs.perf.benchmark.simpleRead.SimpleReadThread</taskThreadClass>
+    <totalReportClass>pasalab.dfs.perf.benchmark.simpleRead.SimpleReadTotalReport</totalReportClass>
+  </type>
+  <type>
+    <name>SimpleWrite</name>
+    <taskClass>pasalab.dfs.perf.benchmark.simpleWrite.SimpleWriteTask</taskClass>
+    <taskContextClass>pasalab.dfs.perf.benchmark.simpleWrite.SimpleWriteTaskContext</taskContextClass>
+    <taskThreadClass>pasalab.dfs.perf.benchmark.simpleWrite.SimpleWriteThread</taskThreadClass>
+    <totalReportClass>pasalab.dfs.perf.benchmark.simpleWrite.SimpleWriteTotalReport</totalReportClass>
+  </type>
 </taskTypes>
 

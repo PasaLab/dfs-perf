@@ -69,6 +69,12 @@ public class TaskConfiguration {
     mProperties.put(name, value);
   }
 
+  public synchronized Map<String, String> getAllProperties() {
+    Map<String, String> ret = new HashMap<String, String>(mProperties.size());
+    ret.putAll(mProperties);
+    return ret;
+  }
+
   public synchronized boolean getBooleanProperty(String property) {
     if (mProperties.containsKey(property)) {
       return Boolean.valueOf(mProperties.get(property));

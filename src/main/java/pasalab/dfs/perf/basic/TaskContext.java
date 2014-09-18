@@ -68,6 +68,14 @@ public abstract class TaskContext {
   }
 
   /**
+   * Load this task context from file
+   * 
+   * @param file the input file
+   * @throws IOException
+   */
+  public abstract void loadFromFile(File file) throws IOException;
+
+  /**
    * Set contexts from test threads.
    * 
    * @param threads
@@ -75,7 +83,7 @@ public abstract class TaskContext {
   public abstract void setFromThread(PerfThread[] threads);
 
   /**
-   * Output this task report to file.
+   * Output this task context to file.
    * 
    * @param file the output file
    * @throws IOException

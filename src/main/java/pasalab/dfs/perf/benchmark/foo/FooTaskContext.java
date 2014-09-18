@@ -11,6 +11,11 @@ import pasalab.dfs.perf.basic.TaskContext;
 public class FooTaskContext extends TaskContext {
 
   @Override
+  public void loadFromFile(File file) throws IOException {
+    return;
+  }
+
+  @Override
   public void setFromThread(PerfThread[] threads) {
     LOG.info(threads.length);
   }

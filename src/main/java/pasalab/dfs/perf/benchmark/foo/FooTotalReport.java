@@ -6,13 +6,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import pasalab.dfs.perf.basic.PerfTotalReport;
+import pasalab.dfs.perf.basic.TaskContext;
 
 public class FooTotalReport extends PerfTotalReport {
   private int num;
 
   @Override
-  public void initialFromTaskContexts(File[] taskContextFiles) throws IOException {
-    num = taskContextFiles.length;
+  public void initialFromTaskContexts(TaskContext[] taskContexts) throws IOException {
+    num = taskContexts.length;
   }
 
   @Override
