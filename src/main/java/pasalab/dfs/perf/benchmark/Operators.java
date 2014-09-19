@@ -15,20 +15,20 @@ public class Operators {
     return PerfFileSystem.get(fsPath);
   }
 
-  public static boolean metadataSample(PerfFileSystem fs, String filePath) throws IOException {
+  public static int metadataSample(PerfFileSystem fs, String filePath) throws IOException {
     if (!fs.mkdirs(filePath, true)) {
-      return false;
+      return 0;
     }
     if (!fs.exists(filePath)) {
-      return false;
+      return 1;
     }
     if (!fs.rename(filePath, filePath + "-__-__-")) {
-      return false;
+      return 2;
     }
     if (!fs.delete(filePath + "-__-__-", true)) {
-      return false;
+      return 3;
     }
-    return true;
+    return 4;
   }
 
   public static long readSingleFile(PerfFileSystem fs, String filePath, int bufferSize)

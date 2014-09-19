@@ -21,5 +21,12 @@
     <taskThreadClass>pasalab.dfs.perf.benchmark.simpleWrite.SimpleWriteThread</taskThreadClass>
     <totalReportClass>pasalab.dfs.perf.benchmark.simpleWrite.SimpleWriteTotalReport</totalReportClass>
   </type>
+  <type>
+    <name>Metadata</name>
+    <taskClass>pasalab.dfs.perf.benchmark.metadata.MetadataTask</taskClass>
+    <taskContextClass>pasalab.dfs.perf.benchmark.metadata.MetadataTaskContext</taskContextClass>
+    <taskThreadClass>pasalab.dfs.perf.benchmark.metadata.MetadataThread</taskThreadClass>
+    <totalReportClass>pasalab.dfs.perf.benchmark.metadata.MetadataTotalReport</totalReportClass>
+  </type>
 </taskTypes>
 

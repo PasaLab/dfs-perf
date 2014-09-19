@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <property>
+    <name>clients.per.thread</name>
+    <value>20</value>
+    <description>the number of clients to connect to the file system for each thread</description>
+  </property>
+  <property>
+    <name>ops.per.thread</name>
+    <value>1000</value>
+    <description>the metadata operations for each thread</description>
+  </property>
+</configuration>
+
