@@ -13,7 +13,7 @@ public class SimpleReadTask extends SimpleTask {
     ((SimpleReadTaskContext) taskContext).initial(mTaskConf);
     try {
       PerfFileSystem fs = PerfFileSystem.get(PerfConf.get().DFS_ADDRESS);
-      String readDir = PerfConf.get().DFS_DIR + "/" + mId;
+      String readDir = PerfConf.get().DFS_DIR + "/simple-read-write/" + mId;
       if (!fs.exists(readDir)) {
         throw new IOException("No data to read at " + readDir);
       }

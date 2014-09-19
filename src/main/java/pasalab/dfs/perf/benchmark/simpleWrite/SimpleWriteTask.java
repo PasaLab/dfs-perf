@@ -13,7 +13,7 @@ public class SimpleWriteTask extends SimpleTask {
     ((SimpleWriteTaskContext) taskContext).initial(mTaskConf);
     try {
       PerfFileSystem fs = PerfFileSystem.get(PerfConf.get().DFS_ADDRESS);
-      String writeDir = PerfConf.get().DFS_DIR + "/" + mId;
+      String writeDir = PerfConf.get().DFS_DIR + "/simple-read-write/" + mId;
       if (fs.exists(writeDir)) {
         fs.delete(writeDir, true);
         LOG.info("Write dir " + writeDir + "already exists, delete if");
