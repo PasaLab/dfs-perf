@@ -51,7 +51,7 @@ public class IterateThread extends PerfThread {
     mFileSystem.delete(syncDirPath + "/" + syncFileName, false);
     while (!mFileSystem.listFullPath(syncDirPath).isEmpty()) {
       try {
-        Thread.sleep(500);
+        Thread.sleep(300);
       } catch (InterruptedException e) {
         LOG.error("Error in Sync Barrier", e);
       }
