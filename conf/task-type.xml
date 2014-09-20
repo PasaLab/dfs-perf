@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <taskTypes>
   <type>
-    <name>Foo</name>
-    <taskClass>pasalab.dfs.perf.benchmark.foo.FooTask</taskClass>
-    <taskContextClass>pasalab.dfs.perf.benchmark.foo.FooTaskContext</taskContextClass>
-    <taskThreadClass>pasalab.dfs.perf.benchmark.foo.FooThread</taskThreadClass>
-    <totalReportClass>pasalab.dfs.perf.benchmark.foo.FooTotalReport</totalReportClass>
-  </type>
-  <type>
     <name>SimpleRead</name>
     <taskClass>pasalab.dfs.perf.benchmark.simpleRead.SimpleReadTask</taskClass>
     <taskContextClass>pasalab.dfs.perf.benchmark.simpleRead.SimpleReadTaskContext</taskContextClass>
@@ -27,6 +20,27 @@
     <taskContextClass>pasalab.dfs.perf.benchmark.metadata.MetadataTaskContext</taskContextClass>
     <taskThreadClass>pasalab.dfs.perf.benchmark.metadata.MetadataThread</taskThreadClass>
     <totalReportClass>pasalab.dfs.perf.benchmark.metadata.MetadataTotalReport</totalReportClass>
+  </type>
+  <type>
+    <name>SkipRead</name>
+    <taskClass>pasalab.dfs.perf.benchmark.skipRead.SkipReadTask</taskClass>
+    <taskContextClass>pasalab.dfs.perf.benchmark.skipRead.SkipReadTaskContext</taskContextClass>
+    <taskThreadClass>pasalab.dfs.perf.benchmark.skipRead.SkipReadThread</taskThreadClass>
+    <totalReportClass>pasalab.dfs.perf.benchmark.skipRead.SkipReadTotalReport</totalReportClass>
+  </type>
+  <type>
+    <name>Iterate</name>
+    <taskClass>pasalab.dfs.perf.benchmark.iterate.IterateTask</taskClass>
+    <taskContextClass>pasalab.dfs.perf.benchmark.iterate.IterateTaskContext</taskContextClass>
+    <taskThreadClass>pasalab.dfs.perf.benchmark.iterate.IterateThread</taskThreadClass>
+    <totalReportClass>pasalab.dfs.perf.benchmark.iterate.IterateTotalReport</totalReportClass>
+  </type>
+  <type>
+    <name>Iterate2</name>
+    <taskClass>pasalab.dfs.perf.benchmark.iterate.IterateTask</taskClass>
+    <taskContextClass>pasalab.dfs.perf.benchmark.iterate.IterateTaskContext</taskContextClass>
+    <taskThreadClass>pasalab.dfs.perf.benchmark.iterate.Iterate2Thread</taskThreadClass>
+    <totalReportClass>pasalab.dfs.perf.benchmark.iterate.IterateTotalReport</totalReportClass>
   </type>
 </taskTypes>
 
