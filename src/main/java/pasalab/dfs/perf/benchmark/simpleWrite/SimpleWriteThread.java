@@ -13,7 +13,7 @@ import pasalab.dfs.perf.fs.PerfFileSystem;
 public class SimpleWriteThread extends PerfThread {
   private int mBlockSize;
   private int mBufferSize;
-  private Long mFileLength;
+  private long mFileLength;
   private PerfFileSystem mFileSystem;
   private List<String> mWriteFiles;
   private String mWriteType;
