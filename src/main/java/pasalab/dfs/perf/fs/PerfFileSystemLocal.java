@@ -123,6 +123,10 @@ public class PerfFileSystemLocal extends PerfFileSystem {
   public boolean rename(String src, String dst) throws IOException {
     File srcFile = new File(src);
     File dstFile = new File(dst);
+    File pFile = dstFile.getParentFile();
+    if (pFile != null) {
+      pFile.mkdirs();
+    }
     return srcFile.renameTo(dstFile);
   }
 
