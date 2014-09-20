@@ -10,7 +10,7 @@ import pasalab.dfs.perf.benchmark.SimpleTaskContext;
 public class IterateTaskContext extends SimpleTaskContext {
   @Override
   public void setFromThread(PerfThread[] threads) {
-    mAdditiveStatistics = new HashMap<String, List<Double>>(1);
+    mAdditiveStatistics = new HashMap<String, List<Double>>(2);
     List<Double> readThroughputs = new ArrayList<Double>(threads.length);
     List<Double> writeThroughputs = new ArrayList<Double>(threads.length);
     for (PerfThread thread : threads) {
