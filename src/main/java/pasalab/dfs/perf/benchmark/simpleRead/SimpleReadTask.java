@@ -10,7 +10,6 @@ import pasalab.dfs.perf.fs.PerfFileSystem;
 public class SimpleReadTask extends SimpleTask {
   @Override
   protected boolean setupTask(TaskContext taskContext) {
-    ((SimpleReadTaskContext) taskContext).initial(mTaskConf);
     try {
       PerfFileSystem fs = PerfFileSystem.get(PerfConf.get().DFS_ADDRESS);
       String readDir = PerfConf.get().DFS_DIR + "/simple-read-write/" + mId;

@@ -31,7 +31,6 @@ public abstract class SimpleTask extends PerfTask implements Supervisible {
 
   @Override
   protected boolean setupTask(TaskContext taskContext) {
-    ((SimpleTaskContext) taskContext).initial(mTaskConf);
     try {
       PerfFileSystem fs = PerfFileSystem.get(PerfConf.get().DFS_ADDRESS);
       String workspacePath = PerfConf.get().DFS_DIR;

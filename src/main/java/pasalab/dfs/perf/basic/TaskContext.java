@@ -22,7 +22,7 @@ public abstract class TaskContext {
   protected long mStartTimeMs;
   protected boolean mSuccess;
 
-  public void initialSet(int id, String nodeName, String taskType) {
+  public void initial(int id, String nodeName, String taskType, TaskConfiguration taskConf) {
     mId = id;
     mNodeName = nodeName;
     mTaskType = taskType;

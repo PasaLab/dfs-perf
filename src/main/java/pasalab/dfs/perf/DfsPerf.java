@@ -45,7 +45,7 @@ public class DfsPerf {
       PerfTask task = TaskType.get().getTaskClass(taskType);
       task.initialSet(nodeId, nodeName, taskConf, taskType);
       TaskContext taskContext = TaskType.get().getTaskContextClass(taskType);
-      taskContext.initialSet(nodeId, nodeName, taskType);
+      taskContext.initial(nodeId, nodeName, taskType, taskConf);
       if (!task.setup(taskContext)) {
         LOG.error("Failed to setup task");
         System.exit(-1);

@@ -21,7 +21,9 @@ public abstract class SimpleTaskContext extends TaskContext {
 
   protected Map<String, List<Double>> mAdditiveStatistics;
 
-  public void initial(TaskConfiguration taskConf) {
+  @Override
+  public void initial(int id, String nodeName, String taskType, TaskConfiguration taskConf) {
+    super.initial(id, nodeName, taskType, taskConf);
     mConf = taskConf.getAllProperties();
     mConf.put("dfs.perf.dfs.address", PerfConf.get().DFS_ADDRESS);
   }

@@ -15,13 +15,12 @@ public class MetadataTask extends SimpleTask {
 
   @Override
   protected boolean setupTask(TaskContext taskContext) {
-    ((MetadataTaskContext) taskContext).initial(mTaskConf);
     try {
       PerfFileSystem fs = PerfFileSystem.get(PerfConf.get().DFS_ADDRESS);
       String workDir = PerfConf.get().DFS_DIR + "/metadata/" + mId;
       if (fs.exists(workDir)) {
         fs.delete(workDir, true);
-        LOG.info("Work dir " + workDir + "already exists, delete if");
+        LOG.info("Work dir " + workDir + "already exists, delete it");
       }
       fs.mkdirs(workDir, true);
       mTaskConf.addProperty("work.dir", workDir);
