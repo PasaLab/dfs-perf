@@ -3,7 +3,8 @@
 function printUsage {
   echo "Usage: dfs-perf <TaskType>"
   echo "now TaskType is one of:"
-  echo -e "  Foo"
+  echo -e "  SimpleWrite SimpleRead SkipRead SkipRead2 Metadata"
+  echo -e "  Iterate Iterate2 Massive"
   echo "the detailed configurations are in conf/testSuite/"
 }
 
