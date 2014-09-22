@@ -32,11 +32,6 @@ public class PerfConf extends Utils {
   public final boolean FAILED_THEN_ABORT;
   public final int FAILED_PERCENTAGE;
 
-  // TODO: Add and get from properties
-  public final ImmutableList<String> HDFS_PREFIX = ImmutableList.of("hdfs://");
-  public final ImmutableList<String> LFS_PREFIX = ImmutableList.of("file://");
-  public final ImmutableList<String> TFS_PREFIX = ImmutableList.of("tachyon://");
-
   private PerfConf() {
     if (System.getProperty("pasalab.dfs.perf.home") == null) {
       LOG.warn("pasalab.dfs.perf.home is not set. Using /tmp/dfs_perf_default_home as the default value.");

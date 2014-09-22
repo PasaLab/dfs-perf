@@ -8,15 +8,14 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import pasalab.dfs.perf.PerfConstants;
-import pasalab.dfs.perf.conf.PerfConf;
+import pasalab.dfs.perf.conf.DfsConf;
 
 public abstract class PerfFileSystem {
   protected static final Logger LOG = Logger.getLogger(PerfConstants.PERF_LOGGER_TYPE);
 
   public static PerfFileSystem get(String path) throws IOException {
     if (isHdfs(path)) {
-      // TODO: Implement HDFS.
-      return null;
+      return PerfFileSystemHdfs.getClient(path, DfsConf.get().HDFS_IMPL);
     } else if (isLocalFS(path)) {
       return PerfFileSystemLocal.getClient();
     } else if (isTfs(path)) {
@@ -26,7 +25,7 @@ public abstract class PerfFileSystem {
   }
 
   private static boolean isHdfs(final String path) {
-    for (final String prefix : PerfConf.get().HDFS_PREFIX) {
+    for (final String prefix : DfsConf.get().HDFS_PREFIX) {
       if (path.startsWith(prefix)) {
         return true;
       }
@@ -35,7 +34,7 @@ public abstract class PerfFileSystem {
   }
 
   private static boolean isLocalFS(final String path) {
-    for (final String prefix : PerfConf.get().LFS_PREFIX) {
+    for (final String prefix : DfsConf.get().LFS_PREFIX) {
       if (path.startsWith(prefix)) {
         return true;
       }
@@ -44,7 +43,7 @@ public abstract class PerfFileSystem {
   }
 
   private static boolean isTfs(final String path) {
-    for (final String prefix : PerfConf.get().TFS_PREFIX) {
+    for (final String prefix : DfsConf.get().TFS_PREFIX) {
       if (path.startsWith(prefix)) {
         return true;
       }
