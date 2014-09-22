@@ -5,6 +5,5 @@ tests.log*
 .idea/
 .metadata/
 .settings/
-conf/slaves
 logs/
 target/
