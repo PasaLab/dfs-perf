@@ -1,12 +1,9 @@
 package pasalab.dfs.perf.benchmark;
 
-import java.io.IOException;
-
 import pasalab.dfs.perf.basic.PerfTask;
 import pasalab.dfs.perf.basic.Supervisible;
 import pasalab.dfs.perf.basic.TaskContext;
 import pasalab.dfs.perf.conf.PerfConf;
-import pasalab.dfs.perf.fs.PerfFileSystem;
 
 public abstract class SimpleTask extends PerfTask implements Supervisible {
   @Override
@@ -31,17 +28,8 @@ public abstract class SimpleTask extends PerfTask implements Supervisible {
 
   @Override
   protected boolean setupTask(TaskContext taskContext) {
-    try {
-      PerfFileSystem fs = PerfFileSystem.get(PerfConf.get().DFS_ADDRESS);
-      String workspacePath = PerfConf.get().DFS_DIR;
-      if (!fs.exists(workspacePath)) {
-        fs.mkdirs(workspacePath, true);
-      }
-      LOG.info("DFS workspace " + workspacePath);
-    } catch (IOException e) {
-      LOG.error("Failed to setup task " + mId, e);
-      return false;
-    }
+    String workspacePath = PerfConf.get().DFS_DIR;
+    LOG.info("DFS workspace " + workspacePath);
     return true;
   }
 

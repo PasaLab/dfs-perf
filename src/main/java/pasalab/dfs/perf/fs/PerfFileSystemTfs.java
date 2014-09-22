@@ -102,7 +102,7 @@ public class PerfFileSystemTfs extends PerfFileSystem {
   @Override
   public List<String> listFullPath(String path) throws IOException {
     List<ClientFileInfo> files = mTfs.listStatus(path);
-    if (files == null || files.size() == 0) {
+    if (files == null) {
       return null;
     }
     ArrayList<String> ret = new ArrayList<String>(files.size());
