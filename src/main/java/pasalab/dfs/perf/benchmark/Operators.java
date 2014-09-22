@@ -3,10 +3,13 @@ package pasalab.dfs.perf.benchmark;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Random;
 
 import pasalab.dfs.perf.fs.PerfFileSystem;
 
 public class Operators {
+  private static final Random RAND = new Random(System.currentTimeMillis());
+
   /**
    * Close the connect to the file system.
    * 
@@ -50,6 +53,29 @@ public class Operators {
       return 3;
     }
     return 4;
+  }
+
+  /**
+   * Skip randomly then read the file.
+   * 
+   * @param fs
+   * @param filePath
+   * @param bufferSize
+   * @param readBytes
+   * @param readType
+   * @return
+   * @throws IOException
+   */
+  public static long randomSkipRead(PerfFileSystem fs, String filePath, int bufferSize,
+      long readBytes, String readType) throws IOException {
+    byte[] content = new byte[bufferSize];
+    long fileLen = fs.getLength(filePath);
+    long skipBytes = RAND.nextLong() % fileLen;
+    InputStream is = fs.open(filePath, readType);
+    is.skip(skipBytes);
+    long readLen = readSpecifiedBytes(is, content, readBytes);
+    is.close();
+    return readLen;
   }
 
   /**

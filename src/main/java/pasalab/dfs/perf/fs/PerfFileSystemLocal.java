@@ -74,6 +74,11 @@ public class PerfFileSystemLocal extends PerfFileSystem {
   }
 
   @Override
+  public long getLength(String path) throws IOException {
+    return new File(path).length();
+  }
+
+  @Override
   public boolean isDirectory(String path) throws IOException {
     return new File(path).isDirectory();
   }
@@ -129,5 +134,4 @@ public class PerfFileSystemLocal extends PerfFileSystem {
     }
     return srcFile.renameTo(dstFile);
   }
-
 }

@@ -83,6 +83,15 @@ public class PerfFileSystemHdfs extends PerfFileSystem {
   }
 
   @Override
+  public long getLength(String path) throws IOException {
+    Path p = new Path(path);
+    if (!mHdfs.exists(p)) {
+      return 0;
+    }
+    return mHdfs.getFileStatus(p).getLen();
+  }
+
+  @Override
   public boolean isDirectory(String path) throws IOException {
     return mHdfs.isDirectory(new Path(path));
 

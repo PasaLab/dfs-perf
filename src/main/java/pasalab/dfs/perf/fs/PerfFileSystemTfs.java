@@ -84,6 +84,14 @@ public class PerfFileSystemTfs extends PerfFileSystem {
   }
 
   @Override
+  public long getLength(String path) throws IOException {
+    if (!mTfs.exist(path)) {
+      return 0;
+    }
+    return mTfs.getFile(path).length();
+  }
+
+  @Override
   public boolean isDirectory(String path) throws IOException {
     if (!mTfs.exist(path)) {
       return false;

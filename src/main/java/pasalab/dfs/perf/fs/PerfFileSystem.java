@@ -119,6 +119,15 @@ public abstract class PerfFileSystem {
   public abstract boolean exists(String path) throws IOException;
 
   /**
+   * Get the length of the file, in bytes.
+   * 
+   * @param path
+   * @return the length of the file in bytes
+   * @throws IOException
+   */
+  public abstract long getLength(String path) throws IOException;
+
+  /**
    * Check if the path is a directory.
    * 
    * @param path the file's full path
