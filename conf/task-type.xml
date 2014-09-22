@@ -29,6 +29,13 @@
     <totalReportClass>pasalab.dfs.perf.benchmark.skipRead.SkipReadTotalReport</totalReportClass>
   </type>
   <type>
+    <name>SkipRead2</name>
+    <taskClass>pasalab.dfs.perf.benchmark.skipRead.SkipReadTask</taskClass>
+    <taskContextClass>pasalab.dfs.perf.benchmark.skipRead.SkipReadTaskContext</taskContextClass>
+    <taskThreadClass>pasalab.dfs.perf.benchmark.skipRead.SkipRead2Thread</taskThreadClass>
+    <totalReportClass>pasalab.dfs.perf.benchmark.skipRead.SkipReadTotalReport</totalReportClass>
+  </type>
+  <type>
     <name>Iterate</name>
     <taskClass>pasalab.dfs.perf.benchmark.iterate.IterateTask</taskClass>
     <taskContextClass>pasalab.dfs.perf.benchmark.iterate.IterateTaskContext</taskContextClass>

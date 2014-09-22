@@ -2,33 +2,13 @@ package pasalab.dfs.perf.benchmark.skipRead;
 
 import java.io.IOException;
 import java.util.List;
-
-import pasalab.dfs.perf.basic.PerfThread;
 import pasalab.dfs.perf.basic.TaskConfiguration;
 import pasalab.dfs.perf.benchmark.ListGenerator;
 import pasalab.dfs.perf.benchmark.Operators;
 import pasalab.dfs.perf.conf.PerfConf;
-import pasalab.dfs.perf.fs.PerfFileSystem;
 
-public class SkipReadThread extends PerfThread {
-  protected int mBufferSize;
-  protected PerfFileSystem mFileSystem;
-  protected long mReadBytes;
-  protected List<String> mReadFiles;
-  protected String mReadType;
-  protected long mSkipBytes;
-  protected boolean mSkipOnce;
-
-  protected boolean mSuccess;
-  protected double mThroughput; // in MB/s
-
-  public boolean getSuccess() {
-    return mSuccess;
-  }
-
-  public double getThroughput() {
-    return mThroughput;
-  }
+public class SkipRead2Thread extends SkipReadThread {
+  private int mSkipTimes;
 
   @Override
   public void run() {
@@ -37,14 +17,9 @@ public class SkipReadThread extends PerfThread {
     mSuccess = true;
     for (String fileName : mReadFiles) {
       try {
-        if (mSkipOnce) {
+        for (int s = 0; s < mSkipTimes; s ++) {
           readBytes +=
-              Operators.skipReadOnce(mFileSystem, fileName, mBufferSize, mSkipBytes, mReadBytes,
-                  mReadType);
-        } else {
-          readBytes +=
-              Operators.skipReadToEnd(mFileSystem, fileName, mBufferSize, mSkipBytes, mReadBytes,
-                  mReadType);
+              Operators.randomSkipRead(mFileSystem, fileName, mBufferSize, mReadBytes, mReadType);
         }
       } catch (IOException e) {
         LOG.error("Failed to read file " + fileName, e);
@@ -60,8 +35,7 @@ public class SkipReadThread extends PerfThread {
   public boolean setupThread(TaskConfiguration taskConf) {
     mBufferSize = taskConf.getIntProperty("buffer.size.bytes");
     mReadBytes = taskConf.getLongProperty("read.bytes");
-    mSkipBytes = taskConf.getLongProperty("skip.bytes");
-    mSkipOnce = taskConf.getBooleanProperty("skip.and.read.once");
+    mSkipTimes = taskConf.getIntProperty("skip.times.per.file");
     mReadType = taskConf.getProperty("read.type");
     try {
       mFileSystem = Operators.connect((PerfConf.get().DFS_ADDRESS));
@@ -85,16 +59,6 @@ public class SkipReadThread extends PerfThread {
     }
     mSuccess = false;
     mThroughput = 0;
-    return true;
-  }
-
-  @Override
-  public boolean cleanupThread(TaskConfiguration taskConf) {
-    try {
-      Operators.close(mFileSystem);
-    } catch (IOException e) {
-      LOG.warn("Error when close file system, task " + mTaskId + " - thread " + mId, e);
-    }
     return true;
   }
 }
