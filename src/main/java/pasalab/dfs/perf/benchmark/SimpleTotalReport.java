@@ -11,7 +11,7 @@ import java.util.Map;
 import pasalab.dfs.perf.basic.PerfTotalReport;
 import pasalab.dfs.perf.basic.TaskContext;
 
-public abstract class SimpleTotalReport extends PerfTotalReport {
+public class SimpleTotalReport extends PerfTotalReport {
   protected String mFailedSlaves = "";
   protected int mFailedTasks = 0;
   protected long mId = Long.MAX_VALUE;

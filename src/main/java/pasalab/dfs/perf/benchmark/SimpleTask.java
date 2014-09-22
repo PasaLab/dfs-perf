@@ -5,7 +5,7 @@ import pasalab.dfs.perf.basic.Supervisible;
 import pasalab.dfs.perf.basic.TaskContext;
 import pasalab.dfs.perf.conf.PerfConf;
 
-public abstract class SimpleTask extends PerfTask implements Supervisible {
+public class SimpleTask extends PerfTask implements Supervisible {
   @Override
   public String cleanupWorkspace() {
     return null;

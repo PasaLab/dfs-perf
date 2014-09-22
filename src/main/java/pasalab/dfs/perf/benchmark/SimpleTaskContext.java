@@ -16,7 +16,7 @@ import pasalab.dfs.perf.basic.TaskConfiguration;
 import pasalab.dfs.perf.basic.TaskContext;
 import pasalab.dfs.perf.conf.PerfConf;
 
-public abstract class SimpleTaskContext extends TaskContext {
+public class SimpleTaskContext extends TaskContext {
   protected Map<String, String> mConf;
 
   protected Map<String, List<Double>> mAdditiveStatistics;
