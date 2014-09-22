@@ -17,7 +17,7 @@ public class DfsPerf {
 
   public static void main(String[] args) {
     if (args.length < 3) {
-      LOG.error("Wrong program arguments. Should be <NODENAME> <NODEID> <TaskType>"
+      LOG.error("Wrong program arguments. Should be <NODENAME> <TASKID> <TaskType>"
           + "See more in bin/dfs-perf");
       System.exit(-1);
     }
