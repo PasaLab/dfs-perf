@@ -7,7 +7,7 @@
   </property>
   <property>
     <name>basic.files.per.thread</name>
-    <value>4</value>
+    <value>2</value>
     <description>the number of global files to write at the beginning for each thread</description>
   </property>
   <property>
@@ -32,7 +32,7 @@
   </property>
   <property>
     <name>write.type</name>
-    <value>CACHE_THROUGH</value>
+    <value>THROUGH</value>
     <description>the WriteType of the write operation, now only used for Tachyon</description>
   </property>
 </configuration>

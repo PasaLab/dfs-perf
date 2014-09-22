@@ -37,7 +37,7 @@
   </property>
   <property>
     <name>write.type</name>
-    <value>CACHE_THROUGH</value>
+    <value>THROUGH</value>
     <description>the WriteType of the write operation, now only used for Tachyon</description>
   </property>
 </configuration>

@@ -6,7 +6,7 @@
     <description>the number of files to read for each read thread</description>
   </property>
   <property>
-    <name>mode</name>
+    <name>read.mode</name>
     <value>SEQUENCE</value>
     <description>the read mode of read test, should be RANDOM or SEQUENCE</description>
   </property>

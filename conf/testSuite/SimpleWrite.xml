@@ -2,7 +2,7 @@
 <configuration>
   <property>
     <name>files.per.thread</name>
-    <value>4</value>
+    <value>2</value>
     <description>the number of files to write for each write thread</description>
   </property>
   <property>
