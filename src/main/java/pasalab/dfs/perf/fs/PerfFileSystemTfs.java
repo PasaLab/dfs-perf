@@ -9,10 +9,10 @@ import java.util.List;
 
 import com.google.common.base.Throwables;
 
+import tachyon.TachyonURI;
 import tachyon.client.ReadType;
 import tachyon.client.TachyonFS;
 import tachyon.client.WriteType;
-import tachyon.org.apache.thrift.TException;
 import tachyon.thrift.ClientFileInfo;
 
 public class PerfFileSystemTfs extends PerfFileSystem {
@@ -24,7 +24,7 @@ public class PerfFileSystemTfs extends PerfFileSystem {
 
   private PerfFileSystemTfs(String path) {
     try {
-      mTfs = TachyonFS.get(path);
+      mTfs = TachyonFS.get(new TachyonURI(path));
     } catch (IOException e) {
       LOG.error("Failed to get TachyonFS", e);
       Throwables.propagate(e);
@@ -33,83 +33,86 @@ public class PerfFileSystemTfs extends PerfFileSystem {
 
   @Override
   public void close() throws IOException {
-    try {
-      mTfs.close();
-    } catch (TException e) {
-      LOG.warn("Failed to close TachyonFS", e);
-    }
+    mTfs.close();
   }
 
   @Override
   public OutputStream create(String path) throws IOException {
-    if (!mTfs.exist(path)) {
-      mTfs.createFile(path);
+    TachyonURI uri = new TachyonURI(path);
+    if (!mTfs.exist(uri)) {
+      mTfs.createFile(uri);
     }
-    return mTfs.getFile(path).getOutStream(WriteType.TRY_CACHE);
+    return mTfs.getFile(uri).getOutStream(WriteType.TRY_CACHE);
   }
 
   @Override
   public OutputStream create(String path, int blockSizeByte) throws IOException {
-    if (!mTfs.exist(path)) {
-      mTfs.createFile(path, blockSizeByte);
+    TachyonURI uri = new TachyonURI(path);
+    if (!mTfs.exist(uri)) {
+      mTfs.createFile(uri, blockSizeByte);
     }
-    return mTfs.getFile(path).getOutStream(WriteType.TRY_CACHE);
+    return mTfs.getFile(uri).getOutStream(WriteType.TRY_CACHE);
   }
 
   @Override
   public OutputStream create(String path, int blockSizeByte, String writeType) throws IOException {
     WriteType type = WriteType.getOpType(writeType);
-    if (!mTfs.exist(path)) {
-      mTfs.createFile(path, blockSizeByte);
+    TachyonURI uri = new TachyonURI(path);
+    if (!mTfs.exist(uri)) {
+      mTfs.createFile(uri, blockSizeByte);
     }
-    return mTfs.getFile(path).getOutStream(type);
+    return mTfs.getFile(uri).getOutStream(type);
   }
 
   @Override
   public boolean createEmptyFile(String path) throws IOException {
-    if (mTfs.exist(path)) {
+    TachyonURI uri = new TachyonURI(path);
+    if (mTfs.exist(uri)) {
       return false;
     }
-    return (mTfs.createFile(path) != -1);
+    return (mTfs.createFile(uri) != -1);
   }
 
   @Override
   public boolean delete(String path, boolean recursive) throws IOException {
-    return mTfs.delete(path, recursive);
+    return mTfs.delete(new TachyonURI(path), recursive);
   }
 
   @Override
   public boolean exists(String path) throws IOException {
-    return mTfs.exist(path);
+    return mTfs.exist(new TachyonURI(path));
   }
 
   @Override
   public long getLength(String path) throws IOException {
-    if (!mTfs.exist(path)) {
+    TachyonURI uri = new TachyonURI(path);
+    if (!mTfs.exist(uri)) {
       return 0;
     }
-    return mTfs.getFile(path).length();
+    return mTfs.getFile(uri).length();
   }
 
   @Override
   public boolean isDirectory(String path) throws IOException {
-    if (!mTfs.exist(path)) {
+    TachyonURI uri = new TachyonURI(path);
+    if (!mTfs.exist(uri)) {
       return false;
     }
-    return mTfs.getFile(path).isDirectory();
+    return mTfs.getFile(uri).isDirectory();
   }
 
   @Override
   public boolean isFile(String path) throws IOException {
-    if (!mTfs.exist(path)) {
+    TachyonURI uri = new TachyonURI(path);
+    if (!mTfs.exist(uri)) {
       return false;
     }
-    return mTfs.getFile(path).isFile();
+    return mTfs.getFile(uri).isFile();
   }
 
   @Override
   public List<String> listFullPath(String path) throws IOException {
-    List<ClientFileInfo> files = mTfs.listStatus(path);
+    List<ClientFileInfo> files = mTfs.listStatus(new TachyonURI(path));
     if (files == null) {
       return null;
     }
@@ -122,32 +125,37 @@ public class PerfFileSystemTfs extends PerfFileSystem {
 
   @Override
   public boolean mkdirs(String path, boolean createParent) throws IOException {
-    if (mTfs.exist(path)) {
+    TachyonURI uri = new TachyonURI(path);
+    if (mTfs.exist(uri)) {
       return false;
     }
-    return mTfs.mkdir(path);
+    return mTfs.mkdirs(uri, createParent);
   }
 
   @Override
   public InputStream open(String path) throws IOException {
-    if (!mTfs.exist(path)) {
+    TachyonURI uri = new TachyonURI(path);
+    if (!mTfs.exist(uri)) {
       throw new FileNotFoundException("File not exists " + path);
     }
-    return mTfs.getFile(path).getInStream(ReadType.NO_CACHE);
+    return mTfs.getFile(uri).getInStream(ReadType.NO_CACHE);
   }
 
   @Override
   public InputStream open(String path, String readType) throws IOException {
     ReadType type = ReadType.getOpType(readType);
-    if (!mTfs.exist(path)) {
+    TachyonURI uri = new TachyonURI(path);
+    if (!mTfs.exist(uri)) {
       throw new FileNotFoundException("File not exists " + path);
     }
-    return mTfs.getFile(path).getInStream(type);
+    return mTfs.getFile(uri).getInStream(type);
   }
 
   @Override
   public boolean rename(String src, String dst) throws IOException {
-    return mTfs.rename(src, dst);
+    TachyonURI srcURI = new TachyonURI(src);
+    TachyonURI dstURI = new TachyonURI(dst);
+    return mTfs.rename(srcURI, dstURI);
   }
 
 }
