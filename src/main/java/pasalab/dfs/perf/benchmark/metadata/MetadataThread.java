@@ -11,7 +11,7 @@ import pasalab.dfs.perf.fs.PerfFileSystem;
 public class MetadataThread extends PerfThread {
   private PerfFileSystem[] mClients;
   private int mClientsNum;
-  private int mOps;
+  private int mOpTimeMs;
   private String mWorkDir;
 
   private double mRate; // in ops/sec
@@ -27,11 +27,11 @@ public class MetadataThread extends PerfThread {
 
   @Override
   public void run() {
-    long timeMs = System.currentTimeMillis();
     int currentOps = 0;
     int nextClient = 0;
     mSuccess = true;
-    while (currentOps < mOps) {
+    long timeMs = System.currentTimeMillis();
+    while ((System.currentTimeMillis() - timeMs) < mOpTimeMs) {
       try {
         currentOps += Operators.metadataSample(mClients[nextClient], mWorkDir + "/" + mId);
       } catch (IOException e) {
@@ -48,7 +48,7 @@ public class MetadataThread extends PerfThread {
   @Override
   public boolean setupThread(TaskConfiguration taskConf) {
     mClientsNum = taskConf.getIntProperty("clients.per.thread");
-    mOps = taskConf.getIntProperty("ops.per.thread");
+    mOpTimeMs = taskConf.getIntProperty("op.second.per.thread") * 1000;
     mWorkDir = taskConf.getProperty("work.dir");
     try {
       mClients = new PerfFileSystem[mClientsNum];

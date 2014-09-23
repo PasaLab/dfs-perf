@@ -6,9 +6,9 @@
     <description>the number of clients to connect to the file system for each thread</description>
   </property>
   <property>
-    <name>ops.per.thread</name>
-    <value>1000</value>
-    <description>the metadata operations for each thread</description>
+    <name>op.second.per.thread</name>
+    <value>5</value>
+    <description>the metadata operations time for each thread, in seconds</description>
   </property>
 </configuration>
 
