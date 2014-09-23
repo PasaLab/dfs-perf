@@ -39,10 +39,26 @@
       <artifactId>hadoop-client</artifactId>
       <version>${hadoop.version}</version>
     </dependency>
+<!--    <dependency>
+      <groupId>com.peircean.libgfapi-jni</groupId>
+      <artifactId>libgfapi-jni</artifactId>
+      <version>1.0.2</version>
+    </dependency>
+    <dependency>
+      <groupId>com.peircean.glusterfs</groupId>
+      <artifactId>glusterfs-java-filesystem</artifactId>
+      <version>1.0.2</version>
+    </dependency>-->
+    <dependency>
+      <groupId>org.gluster</groupId>
+      <artifactId>glusterfs-hadoop</artifactId>
+      <version>${glusterfs-hadoop.version}</version>
+    </dependency>
   </dependencies>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <glusterfs-hadoop.version>2.3.5</glusterfs-hadoop.version>
     <hadoop.version>2.3.0</hadoop.version>
     <tachyon.version>0.6.0-SNAPSHOT</tachyon.version>
   </properties>

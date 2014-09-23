@@ -14,7 +14,11 @@ public abstract class PerfFileSystem {
   protected static final Logger LOG = Logger.getLogger(PerfConstants.PERF_LOGGER_TYPE);
 
   public static PerfFileSystem get(String path) throws IOException {
-    if (isHdfs(path)) {
+    if (isGlusterfs(path)) {
+      DfsConf dfsConf = DfsConf.get();
+      return PerfFileSystemGlusterfs.getClient(path, dfsConf.GLUSTERFS_IMPL,
+          dfsConf.GLUSTERFS_VOLUMES, dfsConf.GLUSTERFS_MOUNTS);
+    } else if (isHdfs(path)) {
       return PerfFileSystemHdfs.getClient(path, DfsConf.get().HDFS_IMPL);
     } else if (isLocalFS(path)) {
       return PerfFileSystemLocal.getClient();
@@ -22,6 +26,15 @@ public abstract class PerfFileSystem {
       return PerfFileSystemTfs.getClient(path);
     }
     throw new IOException("Unknown file system scheme " + path);
+  }
+
+  private static boolean isGlusterfs(final String path) {
+    for (final String prefix : DfsConf.get().GLUSTER_PREFIX) {
+      if (path.startsWith(prefix)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private static boolean isHdfs(final String path) {

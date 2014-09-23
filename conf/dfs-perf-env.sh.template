@@ -51,7 +51,9 @@ export DFS_PERF_JAVA_OPTS+="
 export DFS_PERF_DFS_OPTS="
   -Dpasalab.dfs.perf.hdfs.impl=org.apache.hadoop.hdfs.DistributedFileSystem
   -Dtachyon.user.master.client.timeout.ms=600000
-  -Dglusterfs.xxx=xxx
+  -Dpasalab.dfs.glusterfs.impl=org.apache.hadoop.fs.glusterfs.GlusterFileSystem
+  -Dpasalab.dfs.perf.glusterfs.volumes=glusterfs_vol
+  -Dpasalab.dfs.perf.glusterfs.mounts=/vol
 "
 
 export DFS_PERF_JAVA_OPTS+=$DFS_PERF_DFS_OPTS
