@@ -15,7 +15,6 @@ import pasalab.dfs.perf.conf.PerfConf;
 import pasalab.dfs.perf.thrift.MasterService;
 import pasalab.dfs.perf.thrift.SlaveAlreadyRegisterException;
 import pasalab.dfs.perf.thrift.SlaveNotRegisterException;
-import tachyon.util.NetworkUtils;
 
 public class MasterClient implements Closeable {
   private static final Logger LOG = Logger.getLogger(PerfConstants.PERF_LOGGER_TYPE);
