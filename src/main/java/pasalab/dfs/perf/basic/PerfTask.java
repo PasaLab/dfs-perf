@@ -33,6 +33,14 @@ public abstract class PerfTask {
   }
 
   /**
+   * If you want to cleanup certain work directory after the whole test finished, return in here.
+   * Otherwise return null.
+   * 
+   * @return the work directory to cleanup, otherwise null;
+   */
+  public abstract String getCleanupDir();
+
+  /**
    * Setup the task. Do some preparations.
    * 
    * @param taskContext The statistics of this task
@@ -50,28 +58,6 @@ public abstract class PerfTask {
 
   public boolean setup(TaskContext taskContext) {
     taskContext.setStartTimeMs(System.currentTimeMillis());
-    if (this instanceof Supervisible) {
-      try {
-        PerfFileSystem fs = PerfFileSystem.get(PerfConf.get().DFS_ADDRESS);
-        String dfsFailedFilePath = ((Supervisible) this).getDfsFailedPath();
-        String dfsReadyFilePath = ((Supervisible) this).getDfsReadyPath();
-        String dfsSuccessFilePath = ((Supervisible) this).getDfsSuccessPath();
-        if (fs.exists(dfsFailedFilePath)) {
-          fs.delete(dfsFailedFilePath, true);
-        }
-        if (fs.exists(dfsReadyFilePath)) {
-          fs.delete(dfsReadyFilePath, true);
-        }
-        if (fs.exists(dfsSuccessFilePath)) {
-          fs.delete(dfsSuccessFilePath, true);
-        }
-        fs.close();
-      } catch (IOException e) {
-        LOG.error("Failed to setup Supervisible task", e);
-        return false;
-      }
-    }
-
     boolean ret = setupTask(taskContext);
     mThreads = new PerfThread[PerfConf.get().THREADS_NUM];
     try {
@@ -94,23 +80,12 @@ public abstract class PerfTask {
         Thread t = new Thread(mThreads[i]);
         threadList.add(t);
       }
-
-      if (this instanceof Supervisible) {
-        PerfFileSystem fs = PerfFileSystem.get(PerfConf.get().DFS_ADDRESS);
-        String dfsReadyFilePath = ((Supervisible) this).getDfsReadyPath();
-        fs.createEmptyFile(dfsReadyFilePath);
-        fs.close();
-      }
-
       for (Thread t : threadList) {
         t.start();
       }
       for (Thread t : threadList) {
         t.join();
       }
-    } catch (IOException e) {
-      LOG.error("Error when run task", e);
-      return false;
     } catch (InterruptedException e) {
       LOG.error("Error when wait all threads", e);
       return false;
@@ -142,23 +117,6 @@ public abstract class PerfTask {
     } catch (IOException e) {
       LOG.error("Error when generate the task report", e);
       ret = false;
-    }
-
-    if (this instanceof Supervisible) {
-      try {
-        PerfFileSystem fs = PerfFileSystem.get(PerfConf.get().DFS_ADDRESS);
-        String dfsFailedFilePath = ((Supervisible) this).getDfsFailedPath();
-        String dfsSuccessFilePath = ((Supervisible) this).getDfsSuccessPath();
-        if (taskContext.getSuccess() && ret) {
-          fs.createEmptyFile(dfsSuccessFilePath);
-        } else {
-          fs.createEmptyFile(dfsFailedFilePath);
-        }
-        fs.close();
-      } catch (IOException e) {
-        LOG.error("Failed to cleanup Supervisible task", e);
-        ret = false;
-      }
     }
     return ret;
   }

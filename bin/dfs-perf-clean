@@ -16,4 +16,4 @@ DEFAULT_PERF_LIBEXEC_DIR="$bin"/../libexec
 DFS_PERF_LIBEXEC_DIR=${DFS_PERF_LIBEXEC_DIR:-$DEFAULT_PERF_LIBEXEC_DIR}
 . $DFS_PERF_LIBEXEC_DIR/dfs-perf-config.sh
 
-$JAVA -cp $DFS_PERF_CONF_DIR/:$DFS_PERF_JAR -Dpasalab.dfs.perf.home=$DFS_PERF_HOME -Dpasalab.dfs.perf.logger.type="PERF_LOGGER" -Dlog4j.configuration=file:$DFS_PERF_CONF_DIR/log4j.properties $DFS_PERF_JAVA_OPTS pasalab.dfs.perf.tools.DfsPerfCleaner
+$JAVA -cp $DFS_PERF_CONF_DIR/:$DFS_PERF_JAR -Dpasalab.dfs.perf.home=$DFS_PERF_HOME -Dpasalab.dfs.perf.logger.type="PERF_TOOLS_LOGGER" -Dlog4j.configuration=file:$DFS_PERF_CONF_DIR/log4j.properties $DFS_PERF_JAVA_OPTS pasalab.dfs.perf.tools.DfsPerfCleaner

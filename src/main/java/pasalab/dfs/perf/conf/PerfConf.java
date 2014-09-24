@@ -32,6 +32,10 @@ public class PerfConf extends Utils {
   public final boolean FAILED_THEN_ABORT;
   public final int FAILED_PERCENTAGE;
 
+  public final String DFS_PERF_MASTER_HOSTNAME;
+  public final int DFS_PERF_MASTER_PORT;
+  public final long UNREGISTER_TIMEOUT_MS;
+
   private PerfConf() {
     if (System.getProperty("pasalab.dfs.perf.home") == null) {
       LOG.warn("pasalab.dfs.perf.home is not set. Using /tmp/dfs_perf_default_home as the default value.");
@@ -49,5 +53,9 @@ public class PerfConf extends Utils {
 
     FAILED_THEN_ABORT = getBooleanProperty("pasalab.dfs.perf.failed.abort", true);
     FAILED_PERCENTAGE = getIntProperty("pasalab.dfs.perf.failed.percentage", 1);
+
+    DFS_PERF_MASTER_HOSTNAME = getProperty("pasalab.dfs.perf.master.hostname", "localhost");
+    DFS_PERF_MASTER_PORT = getIntProperty("pasalab.dfs.perf.master.port", 23333);
+    UNREGISTER_TIMEOUT_MS = getLongProperty("pasalab.dfs.perf.unregister.timeout.ms", 10000);
   }
 }

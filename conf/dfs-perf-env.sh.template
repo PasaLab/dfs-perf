@@ -24,8 +24,15 @@ export DFS_PERF_WORKSPACE="/tmp/dfs-perf-workspace"
 #the report output path
 export DFS_PERF_OUT_DIR="$DFS_PERF_HOME/result"
 
+#the dfs-perf master service address
+DFS_PERF_MASTER_HOSTNAME="master"
+DFS_PERF_MASTER_PORT=23333
+
 #the threads num
 DFS_PERF_THREADS_NUM=1
+
+#the slave is considered to be failed if not register in this time
+DFS_PERF_UNREGISTER_TIMEOUT_MS=10000
 
 #if true, the DfsPerfSupervision will print the names of those running and remaining nodes
 DFS_PERF_STATUS_DEBUG="false"
@@ -41,10 +48,13 @@ export DFS_PERF_JAVA_OPTS+="
   -Dpasalab.dfs.perf.failed.abort=$DFS_PERF_FAILED_ABORT
   -Dpasalab.dfs.perf.failed.percentage=$DFS_PERF_FAILED_PERCENTAGE
   -Dpasalab.dfs.perf.status.debug=$DFS_PERF_STATUS_DEBUG
+  -Dpasalab.dfs.perf.master.hostname=$DFS_PERF_MASTER_HOSTNAME
+  -Dpasalab.dfs.perf.master.port=$DFS_PERF_MASTER_PORT
   -Dpasalab.dfs.perf.dfs.address=$DFS_PERF_DFS_ADRESS
   -Dpasalab.dfs.perf.dfs.dir=$DFS_PERF_WORKSPACE
   -Dpasalab.dfs.perf.out.dir=$DFS_PERF_OUT_DIR
   -Dpasalab.dfs.perf.threads.num=$DFS_PERF_THREADS_NUM
+  -Dpasalab.dfs.perf.unregister.timeout.ms=$DFS_PERF_UNREGISTER_TIMEOUT_MS
 "
 
 #Configurations for file systems

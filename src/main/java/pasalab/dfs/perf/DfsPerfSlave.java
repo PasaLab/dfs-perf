@@ -6,28 +6,23 @@ import pasalab.dfs.perf.basic.PerfTask;
 import pasalab.dfs.perf.basic.TaskConfiguration;
 import pasalab.dfs.perf.basic.TaskContext;
 import pasalab.dfs.perf.basic.TaskType;
-import pasalab.dfs.perf.conf.PerfConf;
-import pasalab.dfs.perf.fs.PerfFileSystem;
 
-/**
- * Entry point for a DFS-Perf process
- */
-public class DfsPerf {
+public class DfsPerfSlave {
   private static final Logger LOG = Logger.getLogger(PerfConstants.PERF_LOGGER_TYPE);
 
   public static void main(String[] args) {
     if (args.length < 3) {
-      LOG.error("Wrong program arguments. Should be <NODENAME> <TASKID> <TaskType>"
+      LOG.error("Wrong program arguments. Should be <NodeName> <TaskId> <TaskType>"
           + "See more in bin/dfs-perf");
       System.exit(-1);
     }
 
     String nodeName = null;
-    int nodeId = -1;
+    int taskId = -1;
     String taskType = null;
     try {
       nodeName = args[0];
-      nodeId = Integer.parseInt(args[1]);
+      taskId = Integer.parseInt(args[1]);
       taskType = args[2];
     } catch (Exception e) {
       LOG.error("Failed to parse the input args", e);
@@ -35,28 +30,26 @@ public class DfsPerf {
     }
 
     try {
-      PerfFileSystem fs = PerfFileSystem.get(PerfConf.get().DFS_ADDRESS);
-      while (!fs.exists(PerfConf.get().DFS_DIR + "/SYNC_START_SIGNAL")) {
-        Thread.sleep(500);
-      }
-      fs.close();
-
       TaskConfiguration taskConf = TaskConfiguration.get(taskType, true);
       PerfTask task = TaskType.get().getTaskClass(taskType);
-      task.initialSet(nodeId, nodeName, taskConf, taskType);
+      task.initialSet(taskId, nodeName, taskConf, taskType);
       TaskContext taskContext = TaskType.get().getTaskContextClass(taskType);
-      taskContext.initial(nodeId, nodeName, taskType, taskConf);
-      if (!task.setup(taskContext)) {
-        LOG.error("Failed to setup task");
-        System.exit(-1);
+      taskContext.initial(taskId, nodeName, taskType, taskConf);
+
+      MasterClient masterClient = new MasterClient();
+      while (!masterClient.slave_register(taskId, nodeName, task.getCleanupDir())) {
+        Thread.sleep(1000);
+      }
+
+      masterClient.slave_ready(taskId, nodeName, task.setup(taskContext));
+
+      while (!masterClient.slave_canRun(taskId, nodeName)) {
+        Thread.sleep(500);
       }
       if (!task.run(taskContext)) {
-        LOG.error("Failed to start task");
-        taskContext.setSuccess(false);
-      }
-      if (!task.cleanup(taskContext)) {
-        LOG.error("Failed to cleanup the task");
-        System.exit(-1);
+        masterClient.slave_finish(taskId, nodeName, false);
+      } else {
+        masterClient.slave_finish(taskId, nodeName, task.cleanup(taskContext));
       }
     } catch (Exception e) {
       LOG.error("Error in task", e);

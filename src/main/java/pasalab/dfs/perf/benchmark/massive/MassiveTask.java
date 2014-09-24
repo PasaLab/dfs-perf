@@ -6,7 +6,7 @@ import pasalab.dfs.perf.conf.PerfConf;
 
 public class MassiveTask extends SimpleTask {
   @Override
-  public String cleanupWorkspace() {
+  public String getCleanupDir() {
     return PerfConf.get().DFS_DIR + "/massive";
   }
 

@@ -13,7 +13,7 @@ fi
 bin=`cd "$( dirname "$0" )"; pwd`
 
 count=0;
-for pid in `ps -A -o pid,command | grep -i "[j]ava" | grep "pasalab.dfs.perf.DfsPerf" | awk '{print $1}'`; do
+for pid in `ps -A -o pid,command | grep -i "[j]ava" | grep "pasalab.dfs.perf.DfsPerfSlave" | awk '{print $1}'`; do
   kill -9 $pid 2> /dev/null
   count=`expr $count + 1`
 done
