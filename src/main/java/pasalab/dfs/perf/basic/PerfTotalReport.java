@@ -21,7 +21,7 @@ public abstract class PerfTotalReport {
    * @param taskContexts the contexts for all the task slaves
    * @throws IOException
    */
-  public abstract void initialFromTaskContexts(TaskContext[] taskContexts) throws IOException;
+  public abstract void initialFromTaskContexts(PerfTaskContext[] taskContexts) throws IOException;
 
   /**
    * Output this total report to file.

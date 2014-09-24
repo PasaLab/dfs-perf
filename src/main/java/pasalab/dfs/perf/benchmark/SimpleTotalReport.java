@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import pasalab.dfs.perf.basic.PerfTaskContext;
 import pasalab.dfs.perf.basic.PerfTotalReport;
-import pasalab.dfs.perf.basic.TaskContext;
 
 public class SimpleTotalReport extends PerfTotalReport {
   protected String mFailedSlaves = "";
@@ -22,13 +22,13 @@ public class SimpleTotalReport extends PerfTotalReport {
   protected List<Map<String, List<Double>>> mStatistics;
 
   @Override
-  public void initialFromTaskContexts(TaskContext[] taskContexts) throws IOException {
+  public void initialFromTaskContexts(PerfTaskContext[] taskContexts) throws IOException {
     mSlavesNum = taskContexts.length;
     mSlaves = new ArrayList<String>(mSlavesNum);
     mConf = ((SimpleTaskContext) taskContexts[0]).getConf();
     mStatistics = new ArrayList<Map<String, List<Double>>>(mSlavesNum);
 
-    for (TaskContext taskContext : taskContexts) {
+    for (PerfTaskContext taskContext : taskContexts) {
       SimpleTaskContext context = (SimpleTaskContext) taskContext;
       mSlaves.add(context.getId() + "@" + context.getNodeName());
       mStatistics.add(context.getAdditiveStatistics());

@@ -9,9 +9,9 @@ import pasalab.dfs.perf.PerfConstants;
 
 /**
  * The abstract class for all test statistics. For new test, you should implement your own
- * TaskReport.
+ * PerfTaskContext.
  */
-public abstract class TaskContext {
+public abstract class PerfTaskContext {
   protected static final Logger LOG = Logger.getLogger(PerfConstants.PERF_LOGGER_TYPE);
 
   protected int mId;

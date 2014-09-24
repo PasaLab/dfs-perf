@@ -3,8 +3,8 @@ package pasalab.dfs.perf.tools;
 import java.io.File;
 import java.io.IOException;
 
+import pasalab.dfs.perf.basic.PerfTaskContext;
 import pasalab.dfs.perf.basic.PerfTotalReport;
-import pasalab.dfs.perf.basic.TaskContext;
 import pasalab.dfs.perf.basic.TaskType;
 import pasalab.dfs.perf.conf.PerfConf;
 
@@ -26,7 +26,7 @@ public class DfsPerfCollector {
       if (contextFiles == null || contextFiles.length == 0) {
         throw new IOException("No task context files exists under " + args[1]);
       }
-      TaskContext[] taskContexts = new TaskContext[contextFiles.length];
+      PerfTaskContext[] taskContexts = new PerfTaskContext[contextFiles.length];
       for (int i = 0; i < contextFiles.length; i ++) {
         taskContexts[i] = TaskType.get().getTaskContextClass(args[0]);
         taskContexts[i].loadFromFile(contextFiles[i]);

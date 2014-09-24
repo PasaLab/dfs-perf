@@ -3,8 +3,8 @@ package pasalab.dfs.perf;
 import org.apache.log4j.Logger;
 
 import pasalab.dfs.perf.basic.PerfTask;
+import pasalab.dfs.perf.basic.PerfTaskContext;
 import pasalab.dfs.perf.basic.TaskConfiguration;
-import pasalab.dfs.perf.basic.TaskContext;
 import pasalab.dfs.perf.basic.TaskType;
 
 public class DfsPerfSlave {
@@ -33,7 +33,7 @@ public class DfsPerfSlave {
       TaskConfiguration taskConf = TaskConfiguration.get(taskType, true);
       PerfTask task = TaskType.get().getTaskClass(taskType);
       task.initialSet(taskId, nodeName, taskConf, taskType);
-      TaskContext taskContext = TaskType.get().getTaskContextClass(taskType);
+      PerfTaskContext taskContext = TaskType.get().getTaskContextClass(taskType);
       taskContext.initial(taskId, nodeName, taskType, taskConf);
 
       MasterClient masterClient = new MasterClient();

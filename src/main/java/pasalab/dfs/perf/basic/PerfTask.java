@@ -9,7 +9,6 @@ import org.apache.log4j.Logger;
 
 import pasalab.dfs.perf.PerfConstants;
 import pasalab.dfs.perf.conf.PerfConf;
-import pasalab.dfs.perf.fs.PerfFileSystem;
 
 /**
  * The abstract class for all the test tasks. For new test, you should create a new class which
@@ -46,7 +45,7 @@ public abstract class PerfTask {
    * @param taskContext The statistics of this task
    * @return true if setup successfully, false otherwise
    */
-  protected abstract boolean setupTask(TaskContext taskContext);
+  protected abstract boolean setupTask(PerfTaskContext taskContext);
 
   /**
    * Cleanup the task. Do some following work.
@@ -54,9 +53,9 @@ public abstract class PerfTask {
    * @param taskContext The statistics of this task
    * @return true if cleanup successfully, false otherwise
    */
-  protected abstract boolean cleanupTask(TaskContext taskContext);
+  protected abstract boolean cleanupTask(PerfTaskContext taskContext);
 
-  public boolean setup(TaskContext taskContext) {
+  public boolean setup(PerfTaskContext taskContext) {
     taskContext.setStartTimeMs(System.currentTimeMillis());
     boolean ret = setupTask(taskContext);
     mThreads = new PerfThread[PerfConf.get().THREADS_NUM];
@@ -73,7 +72,7 @@ public abstract class PerfTask {
     return ret;
   }
 
-  public boolean run(TaskContext taskContext) {
+  public boolean run(PerfTaskContext taskContext) {
     List<Thread> threadList = new ArrayList<Thread>(mThreads.length);
     try {
       for (int i = 0; i < mThreads.length; i ++) {
@@ -96,7 +95,7 @@ public abstract class PerfTask {
     return true;
   }
 
-  public boolean cleanup(TaskContext taskContext) {
+  public boolean cleanup(PerfTaskContext taskContext) {
     boolean ret = true;
     for (int i = 0; i < mThreads.length; i ++) {
       ret &= mThreads[i].cleanupThread(mTaskConf);
