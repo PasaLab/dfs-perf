@@ -283,22 +283,4 @@ public class Operators {
     writeContentToFile(os, fileSize, bufferSize);
     os.close();
   }
-
-  /**
-   * Create a file and write to it at a tmp path, then rename it to the dst path.
-   * 
-   * @param fs
-   * @param tmpPath
-   * @param dstPath
-   * @param fileSize
-   * @param blockSize
-   * @param bufferSize
-   * @param writeType
-   * @throws IOException
-   */
-  public static void writeToTmpAndRename(PerfFileSystem fs, String tmpPath, String dstPath,
-      long fileSize, int blockSize, int bufferSize, String writeType) throws IOException {
-    writeSingleFile(fs, tmpPath, fileSize, blockSize, bufferSize, writeType);
-    fs.rename(tmpPath, dstPath);
-  }
 }

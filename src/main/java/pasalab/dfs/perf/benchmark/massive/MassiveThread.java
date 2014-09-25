@@ -113,9 +113,10 @@ public class MassiveThread extends PerfThread {
       } else { // write
         try {
           String writeFileName = mTaskId + "-" + mId + "--" + index;
-          Operators.writeToTmpAndRename(mFileSystem, tmpDir + "/" + writeFileName, dataDir + "/"
-              + writeFileName, mFileLength, mBlockSize, mBufferSize, mWriteType);
+          Operators.writeSingleFile(mFileSystem, tmpDir + "/" + writeFileName, mFileLength,
+              mBlockSize, mBufferSize, mWriteType);
           writeBytes += mFileLength;
+          mFileSystem.rename(tmpDir + "/" + writeFileName, dataDir + "/" + writeFileName);
         } catch (IOException e) {
           LOG.error("Failed to write file", e);
           mSuccess = false;
