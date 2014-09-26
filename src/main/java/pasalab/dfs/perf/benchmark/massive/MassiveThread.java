@@ -50,7 +50,7 @@ public class MassiveThread extends PerfThread {
   }
 
   private void syncBarrier() throws IOException {
-    String syncDirPath = mWorkDir + "/sync/";
+    String syncDirPath = mWorkDir + "/sync";
     String syncFileName = mTaskId + "-" + mId;
     mFileSystem.delete(syncDirPath + "/" + syncFileName, false);
     while (!mFileSystem.listFullPath(syncDirPath).isEmpty()) {
