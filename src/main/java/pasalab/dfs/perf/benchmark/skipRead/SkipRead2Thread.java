@@ -12,15 +12,14 @@ public class SkipRead2Thread extends SkipReadThread {
 
   @Override
   public void run() {
-    long timeMs = System.currentTimeMillis();
     long readBytes = 0;
     mSuccess = true;
+    long timeMs = System.currentTimeMillis();
     for (String fileName : mReadFiles) {
       try {
-        for (int s = 0; s < mSkipTimes; s ++) {
-          readBytes +=
-              Operators.randomSkipRead(mFileSystem, fileName, mBufferSize, mReadBytes, mReadType);
-        }
+        readBytes +=
+            Operators.randomSkipRead(mFileSystem, fileName, mBufferSize, mReadBytes, mReadType,
+                mSkipTimes);
       } catch (IOException e) {
         LOG.error("Failed to read file " + fileName, e);
         mSuccess = false;

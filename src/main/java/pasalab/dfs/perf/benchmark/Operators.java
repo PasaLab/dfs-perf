@@ -56,25 +56,29 @@ public class Operators {
   }
 
   /**
-   * Skip randomly then read the file.
+   * Skip randomly then read the file for times.
    * 
    * @param fs
    * @param filePath
    * @param bufferSize
    * @param readBytes
    * @param readType
+   * @param times
    * @return
    * @throws IOException
    */
   public static long randomSkipRead(PerfFileSystem fs, String filePath, int bufferSize,
-      long readBytes, String readType) throws IOException {
+      long readBytes, String readType, int times) throws IOException {
     byte[] content = new byte[bufferSize];
+    long readLen = 0;
     long fileLen = fs.getLength(filePath);
-    long skipBytes = RAND.nextLong() % fileLen;
-    InputStream is = fs.open(filePath, readType);
-    is.skip(skipBytes);
-    long readLen = readSpecifiedBytes(is, content, readBytes);
-    is.close();
+    for (int t = 0; t < times; t ++) {
+      long skipBytes = RAND.nextLong() % fileLen;
+      InputStream is = fs.open(filePath, readType);
+      is.skip(skipBytes);
+      readLen += readSpecifiedBytes(is, content, readBytes);
+      is.close();
+    }
     return readLen;
   }
 
