@@ -39,16 +39,27 @@
       <artifactId>hadoop-client</artifactId>
       <version>${hadoop.version}</version>
     </dependency>
-<!--    <dependency>
-      <groupId>com.peircean.libgfapi-jni</groupId>
-      <artifactId>libgfapi-jni</artifactId>
-      <version>1.0.2</version>
+    <dependency>
+      <groupId>org.apache.thrift</groupId>
+      <artifactId>libthrift</artifactId>
+      <version>${libthrift.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
-      <groupId>com.peircean.glusterfs</groupId>
-      <artifactId>glusterfs-java-filesystem</artifactId>
-      <version>1.0.2</version>
-    </dependency>-->
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
     <dependency>
       <groupId>org.gluster</groupId>
       <artifactId>glusterfs-hadoop</artifactId>
@@ -60,6 +71,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <glusterfs-hadoop.version>2.3.5</glusterfs-hadoop.version>
     <hadoop.version>2.3.0</hadoop.version>
+    <libthrift.version>0.9.1</libthrift.version>
+    <slf4j.version>1.7.2</slf4j.version>
     <tachyon.version>0.6.0-SNAPSHOT</tachyon.version>
   </properties>
 
