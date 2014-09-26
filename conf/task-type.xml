@@ -56,5 +56,12 @@
     <taskThreadClass>pasalab.dfs.perf.benchmark.massive.MassiveThread</taskThreadClass>
     <totalReportClass>pasalab.dfs.perf.benchmark.SimpleTotalReport</totalReportClass>
   </type>
+  <type>
+    <name>Mixture</name>
+    <taskClass>pasalab.dfs.perf.benchmark.mixture.MixtureTask</taskClass>
+    <taskContextClass>pasalab.dfs.perf.benchmark.mixture.MixtureTaskContext</taskContextClass>
+    <taskThreadClass>pasalab.dfs.perf.benchmark.mixture.MixtureThread</taskThreadClass>
+    <totalReportClass>pasalab.dfs.perf.benchmark.SimpleTotalReport</totalReportClass>
+  </type>
 </taskTypes>
 
