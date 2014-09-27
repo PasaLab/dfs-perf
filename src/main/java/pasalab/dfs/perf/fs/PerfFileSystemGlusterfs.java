@@ -29,6 +29,7 @@ public class PerfFileSystemGlusterfs extends PerfFileSystem {
     Configuration conf = new Configuration();
     conf.set("fs.defaultFS", path);
     conf.set("fs.glusterfs.impl", glusterfsImpl);
+    conf.set("mapred.system.dir", "glusterfs:///mapred/system");
     conf.set("fs.glusterfs.volumes", glusterfsVolumes);
     conf.set("fs.glusterfs.volume.fuse." + glusterfsVolumes, glusterfsMounts);
 
