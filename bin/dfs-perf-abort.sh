@@ -19,4 +19,4 @@ for pid in `ps -A -o pid,command | grep -i "[j]ava" | grep "pasalab.dfs.perf.Dfs
 done
 echo "Killed $count processes"
 
-sleep 2
+sleep 1

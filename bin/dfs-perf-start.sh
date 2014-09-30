@@ -27,4 +27,4 @@ JAVACOMMAND="$JAVA -cp $DFS_PERF_CONF_DIR/:$DFS_PERF_JAR -Dpasalab.dfs.perf.home
 echo "Starting dfs-perf task-$2 @ `hostname -f`"
 (nohup $JAVACOMMAND $* > /dev/null 2>&1 ) &
 
-sleep 2
+sleep 1
