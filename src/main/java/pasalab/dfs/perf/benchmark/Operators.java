@@ -74,6 +74,9 @@ public class Operators {
     long fileLen = fs.getLength(filePath);
     for (int t = 0; t < times; t ++) {
       long skipBytes = RAND.nextLong() % fileLen;
+      if (skipBytes < 0) {
+        skipBytes = -skipBytes;
+      }
       InputStream is = fs.open(filePath, readType);
       is.skip(skipBytes);
       readLen += readSpecifiedBytes(is, content, readBytes);
