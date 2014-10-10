@@ -37,7 +37,6 @@ public class MetadataThread extends PerfThread {
       } catch (IOException e) {
         LOG.error("Failed to do metadata operation", e);
         mSuccess = false;
-        break;
       }
       nextClient = (nextClient + 1) % mClientsNum;
     }

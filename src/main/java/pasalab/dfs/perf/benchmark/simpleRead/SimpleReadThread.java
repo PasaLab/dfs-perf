@@ -38,7 +38,6 @@ public class SimpleReadThread extends PerfThread {
       } catch (IOException e) {
         LOG.error("Failed to read file " + fileName, e);
         mSuccess = false;
-        break;
       }
     }
     timeMs = System.currentTimeMillis() - timeMs;

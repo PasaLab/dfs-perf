@@ -78,7 +78,6 @@ public class IterateThread extends PerfThread {
         } catch (IOException e) {
           LOG.error("Failed to write file", e);
           mSuccess = false;
-          break;
         }
       }
       tTimeMs = System.currentTimeMillis() - tTimeMs;

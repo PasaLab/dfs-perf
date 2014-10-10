@@ -107,7 +107,6 @@ public class MassiveThread extends PerfThread {
         } catch (IOException e) {
           LOG.error("Failed to read file", e);
           mSuccess = false;
-          break;
         }
         readTimeMs += System.currentTimeMillis() - tTimeMs;
       } else { // write
@@ -120,7 +119,6 @@ public class MassiveThread extends PerfThread {
         } catch (IOException e) {
           LOG.error("Failed to write file", e);
           mSuccess = false;
-          break;
         }
         writeTimeMs += System.currentTimeMillis() - tTimeMs;
       }
