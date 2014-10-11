@@ -21,6 +21,7 @@ public class MassiveThread extends PerfThread {
   private PerfFileSystem mFileSystem;
   private String mReadType;
   private long mLimitTimeMs;
+  private boolean mShuffle;
   private String mWorkDir;
   private String mWriteType;
 
@@ -71,8 +72,13 @@ public class MassiveThread extends PerfThread {
     long writeBytes = 0;
     long writeTimeMs = 0;
     mSuccess = true;
-    String dataDir = mWorkDir + "/data";
     String tmpDir = mWorkDir + "/tmp";
+    String dataDir;
+    if (mShuffle) {
+      dataDir = mWorkDir + "/data";
+    } else {
+      dataDir = mWorkDir + "/data/" + mTaskId;
+    }
 
     long tTimeMs = System.currentTimeMillis();
     for (int b = 0; b < mBasicFilesNum; b ++) {
@@ -140,6 +146,7 @@ public class MassiveThread extends PerfThread {
     mFileLength = taskConf.getLongProperty("file.length.bytes");
     mLimitTimeMs = taskConf.getLongProperty("time.seconds") * 1000;
     mReadType = taskConf.getProperty("read.type");
+    mShuffle = taskConf.getBooleanProperty("shuffle.mode");
     mWorkDir = taskConf.getProperty("work.dir");
     mBasicFilesNum = taskConf.getIntProperty("basic.files.per.thread");
     mWriteType = taskConf.getProperty("write.type");

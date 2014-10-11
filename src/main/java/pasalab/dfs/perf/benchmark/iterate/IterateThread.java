@@ -18,6 +18,7 @@ public class IterateThread extends PerfThread {
   protected int mIterations;
   protected int mReadFilesNum;
   protected String mReadType;
+  protected boolean mShuffle;
   protected String mWorkDir;
   protected int mWriteFilesNum;
   protected String mWriteType;
@@ -66,7 +67,12 @@ public class IterateThread extends PerfThread {
     long writeTimeMs = 0;
     mSuccess = true;
     for (int i = 0; i < mIterations; i ++) {
-      String dataDir = mWorkDir + "/data/" + i;
+      String dataDir;
+      if (mShuffle) {
+        dataDir = mWorkDir + "/data/" + i;
+      } else {
+        dataDir = mWorkDir + "/data/" + mTaskId + "/" + i;
+      }
 
       long tTimeMs = System.currentTimeMillis();
       for (int w = 0; w < mWriteFilesNum; w ++) {
@@ -115,6 +121,7 @@ public class IterateThread extends PerfThread {
     mIterations = taskConf.getIntProperty("iterations");
     mReadFilesNum = taskConf.getIntProperty("read.files.per.thread");
     mReadType = taskConf.getProperty("read.type");
+    mShuffle = taskConf.getBooleanProperty("shuffle.mode");
     mWorkDir = taskConf.getProperty("work.dir");
     mWriteFilesNum = taskConf.getIntProperty("write.files.per.thread");
     mWriteType = taskConf.getProperty("write.type");

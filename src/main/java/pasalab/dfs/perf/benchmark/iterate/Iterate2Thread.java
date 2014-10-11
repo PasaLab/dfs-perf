@@ -15,7 +15,12 @@ public class Iterate2Thread extends IterateThread {
     long writeTimeMs = 0;
     mSuccess = true;
 
-    String dataDir = mWorkDir + "/data";
+    String dataDir;
+    if (mShuffle) {
+      dataDir = mWorkDir + "/data";
+    } else {
+      dataDir = mWorkDir + "/data/" + mTaskId;
+    }
     long tTimeMs = System.currentTimeMillis();
     for (int w = 0; w < mWriteFilesNum; w ++) {
       try {

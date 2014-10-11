@@ -6,6 +6,11 @@
     <description>the number of the read-write iteration</description>
   </property>
   <property>
+    <name>shuffle.mode</name>
+    <value>false</value>
+    <description>shuffle mode means it may read remotely</description>
+  </property>
+  <property>
     <name>read.files.per.thread</name>
     <value>2</value>
     <description>the number of global files to read for each thread</description>
