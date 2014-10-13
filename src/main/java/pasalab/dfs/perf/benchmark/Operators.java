@@ -40,8 +40,14 @@ public class Operators {
    * @throws IOException
    */
   public static int metadataSample(PerfFileSystem fs, String filePath) throws IOException {
-    if (!fs.mkdirs(filePath, true)) {
-      return 0;
+    if (RAND.nextBoolean()) {
+      if (!fs.mkdirs(filePath, true)) {
+        return 0;
+      }
+    } else {
+      if (!fs.createEmptyFile(filePath)) {
+        return 0;
+      }
     }
     if (!fs.exists(filePath)) {
       return 1;
