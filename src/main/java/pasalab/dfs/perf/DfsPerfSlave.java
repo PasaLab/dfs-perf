@@ -49,7 +49,8 @@ public class DfsPerfSlave {
       if (!task.run(taskContext)) {
         masterClient.slave_finish(taskId, nodeName, false);
       } else {
-        masterClient.slave_finish(taskId, nodeName, task.cleanup(taskContext));
+        masterClient.slave_finish(taskId, nodeName,
+            task.cleanup(taskContext) & taskContext.getSuccess());
       }
     } catch (Exception e) {
       LOG.error("Error in task", e);
