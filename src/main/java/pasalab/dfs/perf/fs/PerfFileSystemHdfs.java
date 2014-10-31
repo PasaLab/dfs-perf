@@ -31,7 +31,7 @@ public class PerfFileSystemHdfs extends PerfFileSystem {
 
     // To disable the instance cache for hdfs client, otherwise it causes the FileSystem closed
     // exception.
-    conf.set("fs.hdfs.impl.disable.cache", System.getProperty("fs.hdfs.impl.disable.cache", "true"));
+    conf.set("fs.hdfs.impl.disable.cache", "true");
 
     try {
       mHdfs = FileSystem.get(conf);
@@ -109,10 +109,10 @@ public class PerfFileSystemHdfs extends PerfFileSystem {
       list.add(path);
       return list;
     } else if (isDirectory(path)) {
-      FileStatus fs[] = mHdfs.listStatus(new Path(path));
+      FileStatus[] fs = mHdfs.listStatus(new Path(path));
       int len = fs.length;
       ArrayList<String> list = new ArrayList<String>(len);
-      Path listpath[] = FileUtil.stat2Paths(fs);
+      Path[] listpath = FileUtil.stat2Paths(fs);
       for (int i = 0; i < len; i ++) {
         list.add(listpath[i].toString());
       }

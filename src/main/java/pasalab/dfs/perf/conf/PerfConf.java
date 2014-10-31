@@ -4,21 +4,19 @@ import java.io.File;
 
 import org.apache.log4j.Logger;
 
-import com.google.common.collect.ImmutableList;
-
 /**
  * DFS-Perf Configurations
  */
 public class PerfConf extends Utils {
   private static final Logger LOG = Logger.getLogger("");
 
-  private static PerfConf PERF_CONF = null;
+  private static PerfConf sPerfConf = null;
 
   public static synchronized PerfConf get() {
-    if (PERF_CONF == null) {
-      PERF_CONF = new PerfConf();
+    if (sPerfConf == null) {
+      sPerfConf = new PerfConf();
     }
-    return PERF_CONF;
+    return sPerfConf;
   }
 
   public final String DFS_PERF_HOME;
@@ -38,7 +36,8 @@ public class PerfConf extends Utils {
 
   private PerfConf() {
     if (System.getProperty("pasalab.dfs.perf.home") == null) {
-      LOG.warn("pasalab.dfs.perf.home is not set. Using /tmp/dfs_perf_default_home as the default value.");
+      LOG.warn("pasalab.dfs.perf.home is not set."
+          + "Using /tmp/dfs_perf_default_home as the default value.");
       File file = new File("/tmp/dfs_perf_default_home");
       if (!file.exists()) {
         file.mkdirs();

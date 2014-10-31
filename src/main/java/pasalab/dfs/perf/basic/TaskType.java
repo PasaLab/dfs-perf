@@ -17,18 +17,18 @@ import pasalab.dfs.perf.util.SAXTaskType;
 public class TaskType {
   private static final Logger LOG = Logger.getLogger("");
 
-  private static TaskType taskType = null;
+  private static TaskType sTaskType = null;
 
   public static synchronized TaskType get() {
-    if (taskType == null) {
+    if (sTaskType == null) {
       try {
-        taskType = new TaskType(PerfConf.get().DFS_PERF_HOME + "/conf/task-type.xml");
+        sTaskType = new TaskType(PerfConf.get().DFS_PERF_HOME + "/conf/task-type.xml");
       } catch (Exception e) {
         LOG.error("Error when parse conf/task-type.xml", e);
         throw new RuntimeException("Failed to parse conf/task-type.xml");
       }
     }
-    return taskType;
+    return sTaskType;
   }
 
   private Map<String, String> mTaskClasses;

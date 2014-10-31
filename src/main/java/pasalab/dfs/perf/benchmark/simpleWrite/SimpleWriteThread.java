@@ -1,4 +1,4 @@
-package pasalab.dfs.perf.benchmark.simpleWrite;
+package pasalab.dfs.perf.benchmark.simplewrite;
 
 import java.io.IOException;
 import java.util.List;

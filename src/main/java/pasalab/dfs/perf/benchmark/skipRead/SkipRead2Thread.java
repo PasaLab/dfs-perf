@@ -1,7 +1,8 @@
-package pasalab.dfs.perf.benchmark.skipRead;
+package pasalab.dfs.perf.benchmark.skipread;
 
 import java.io.IOException;
 import java.util.List;
+
 import pasalab.dfs.perf.basic.TaskConfiguration;
 import pasalab.dfs.perf.benchmark.ListGenerator;
 import pasalab.dfs.perf.benchmark.Operators;

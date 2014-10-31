@@ -1,4 +1,4 @@
-package pasalab.dfs.perf.benchmark.simpleWrite;
+package pasalab.dfs.perf.benchmark.simplewrite;
 
 import java.util.ArrayList;
 import java.util.HashMap;

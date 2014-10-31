@@ -1,4 +1,4 @@
-package pasalab.dfs.perf.benchmark.skipRead;
+package pasalab.dfs.perf.benchmark.skipread;
 
 import java.io.IOException;
 

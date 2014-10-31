@@ -1,4 +1,4 @@
-package pasalab.dfs.perf.benchmark.simpleWrite;
+package pasalab.dfs.perf.benchmark.simplewrite;
 
 import pasalab.dfs.perf.basic.PerfTaskContext;
 import pasalab.dfs.perf.benchmark.SimpleTask;

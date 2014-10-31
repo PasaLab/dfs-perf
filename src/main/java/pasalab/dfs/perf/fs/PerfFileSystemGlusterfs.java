@@ -172,10 +172,10 @@ public class PerfFileSystemGlusterfs extends PerfFileSystem {
       int cnt = 0;
       while (cnt < MAX_TRY) {
         try {
-          FileStatus fs[] = mGlusterfs.listStatus(new Path(path));
+          FileStatus[] fs = mGlusterfs.listStatus(new Path(path));
           int len = fs.length;
           ArrayList<String> list = new ArrayList<String>(len);
-          Path listpath[] = FileUtil.stat2Paths(fs);
+          Path[] listpath = FileUtil.stat2Paths(fs);
           for (int i = 0; i < len; i ++) {
             list.add(listpath[i].toString());
           }

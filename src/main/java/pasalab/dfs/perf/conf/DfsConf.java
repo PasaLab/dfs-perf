@@ -3,13 +3,13 @@ package pasalab.dfs.perf.conf;
 import com.google.common.collect.ImmutableList;
 
 public class DfsConf extends Utils {
-  private static DfsConf DFS_CONF = null;
+  private static DfsConf sDfsConf = null;
 
   public static synchronized DfsConf get() {
-    if (DFS_CONF == null) {
-      DFS_CONF = new DfsConf();
+    if (sDfsConf == null) {
+      sDfsConf = new DfsConf();
     }
-    return DFS_CONF;
+    return sDfsConf;
   }
 
   // TODO: Add and get from properties

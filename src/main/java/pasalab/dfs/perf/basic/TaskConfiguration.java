@@ -22,7 +22,7 @@ public class TaskConfiguration {
   public static final long DEFAULT_LONG = 0;
   public static final String DEFAULT_STRING = "";
 
-  private static TaskConfiguration taskConf = null;
+  private static TaskConfiguration sTaskConf = null;
 
   /**
    * Get the configuration.
@@ -33,10 +33,10 @@ public class TaskConfiguration {
    * @return the task configuration
    */
   public static synchronized TaskConfiguration get(String type, boolean fromFile) {
-    if (taskConf == null) {
+    if (sTaskConf == null) {
       if (fromFile) {
         try {
-          taskConf =
+          sTaskConf =
               new TaskConfiguration(PerfConf.get().DFS_PERF_HOME + "/conf/testSuite/" + type
                   + ".xml");
         } catch (Exception e) {
@@ -44,10 +44,10 @@ public class TaskConfiguration {
           throw new RuntimeException("Failed to parse conf/testSuite/" + type + ".xml");
         }
       } else {
-        taskConf = new TaskConfiguration();
+        sTaskConf = new TaskConfiguration();
       }
     }
-    return taskConf;
+    return sTaskConf;
   }
 
   private Map<String, String> mProperties;

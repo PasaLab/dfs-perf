@@ -56,7 +56,7 @@ public class PerfFileSystemTfs extends PerfFileSystem {
 
   @Override
   public OutputStream create(String path, int blockSizeByte, String writeType) throws IOException {
-    WriteType type = WriteType.getOpType(writeType);
+    WriteType type = WriteType.valueOf(writeType);
     TachyonURI uri = new TachyonURI(path);
     if (!mTfs.exist(uri)) {
       mTfs.createFile(uri, blockSizeByte);
@@ -143,7 +143,7 @@ public class PerfFileSystemTfs extends PerfFileSystem {
 
   @Override
   public InputStream open(String path, String readType) throws IOException {
-    ReadType type = ReadType.getOpType(readType);
+    ReadType type = ReadType.valueOf(readType);
     TachyonURI uri = new TachyonURI(path);
     if (!mTfs.exist(uri)) {
       throw new FileNotFoundException("File not exists " + path);
