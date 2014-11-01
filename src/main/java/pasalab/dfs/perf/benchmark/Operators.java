@@ -32,6 +32,32 @@ public class Operators {
   }
 
   /**
+   * Skip forward then read the file for times.
+   * 
+   * @param fs
+   * @param filePath
+   * @param bufferSize
+   * @param skipBytes
+   * @param readBytes
+   * @param readType
+   * @param times
+   * @return
+   * @throws IOException
+   */
+  public static long forwardSkipRead(PerfFileSystem fs, String filePath, int bufferSize,
+      long skipBytes, long readBytes, String readType, int times) throws IOException {
+    byte[] content = new byte[bufferSize];
+    long readLen = 0;
+    InputStream is = fs.open(filePath, readType);
+    for (int t = 0; t < times; t ++) {
+      is.skip(skipBytes);
+      readLen += readSpecifiedBytes(is, content, readBytes);
+    }
+    is.close();
+    return readLen;
+  }
+
+  /**
    * Do metadata operations.
    * 
    * @param fs
@@ -40,25 +66,23 @@ public class Operators {
    * @throws IOException
    */
   public static int metadataSample(PerfFileSystem fs, String filePath) throws IOException {
-    if (RAND.nextBoolean()) {
-      if (!fs.mkdirs(filePath, true)) {
-        return 0;
-      }
-    } else {
-      if (!fs.createEmptyFile(filePath)) {
-        return 0;
-      }
+    String emptyFilePath = filePath + "/empty_file";
+    if (!fs.mkdirs(filePath, true)) {
+      return 0;
     }
-    if (!fs.exists(filePath)) {
+    if (!fs.createEmptyFile(emptyFilePath)) {
       return 1;
     }
-    if (!fs.rename(filePath, filePath + "-__-__-")) {
+    if (!fs.exists(emptyFilePath)) {
       return 2;
     }
-    if (!fs.delete(filePath + "-__-__-", true)) {
+    if (!fs.rename(filePath, filePath + "-__-__-")) {
       return 3;
     }
-    return 4;
+    if (!fs.delete(filePath + "-__-__-", true)) {
+      return 4;
+    }
+    return 5;
   }
 
   /**
