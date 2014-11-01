@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function printUsage {
-  echo "Usage: dfs-perf-collect <TaskType>"
+  echo "Usage: dfs-perf-collect <TestCase>"
 }
 
 # if less than 1 args specified, show usage

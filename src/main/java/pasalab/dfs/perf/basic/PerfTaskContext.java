@@ -16,16 +16,16 @@ public abstract class PerfTaskContext {
 
   protected int mId;
   protected String mNodeName;
-  protected String mTaskType;
+  protected String mTestCase;
 
   protected long mFinishTimeMs;
   protected long mStartTimeMs;
   protected boolean mSuccess;
 
-  public void initial(int id, String nodeName, String taskType, TaskConfiguration taskConf) {
+  public void initial(int id, String nodeName, String testCase, TaskConfiguration taskConf) {
     mId = id;
     mNodeName = nodeName;
-    mTaskType = taskType;
+    mTestCase = testCase;
     mStartTimeMs = System.currentTimeMillis();
     mFinishTimeMs = mStartTimeMs;
     mSuccess = true;
@@ -39,8 +39,8 @@ public abstract class PerfTaskContext {
     return mNodeName;
   }
 
-  public String getTaskType() {
-    return mTaskType;
+  public String getTestCase() {
+    return mTestCase;
   }
 
   public long getFinishTimeMs() {

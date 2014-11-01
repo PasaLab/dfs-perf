@@ -5,36 +5,36 @@ import org.apache.log4j.Logger;
 import pasalab.dfs.perf.basic.PerfTask;
 import pasalab.dfs.perf.basic.PerfTaskContext;
 import pasalab.dfs.perf.basic.TaskConfiguration;
-import pasalab.dfs.perf.basic.TaskType;
+import pasalab.dfs.perf.basic.TestCase;
 
 public class DfsPerfSlave {
   private static final Logger LOG = Logger.getLogger(PerfConstants.PERF_LOGGER_TYPE);
 
   public static void main(String[] args) {
     if (args.length < 3) {
-      LOG.error("Wrong program arguments. Should be <NodeName> <TaskId> <TaskType>"
+      LOG.error("Wrong program arguments. Should be <NodeName> <TaskId> <TestCase>"
           + "See more in bin/dfs-perf");
       System.exit(-1);
     }
 
     String nodeName = null;
     int taskId = -1;
-    String taskType = null;
+    String testCase = null;
     try {
       nodeName = args[0];
       taskId = Integer.parseInt(args[1]);
-      taskType = args[2];
+      testCase = args[2];
     } catch (Exception e) {
       LOG.error("Failed to parse the input args", e);
       System.exit(-1);
     }
 
     try {
-      TaskConfiguration taskConf = TaskConfiguration.get(taskType, true);
-      PerfTask task = TaskType.get().getTaskClass(taskType);
-      task.initialSet(taskId, nodeName, taskConf, taskType);
-      PerfTaskContext taskContext = TaskType.get().getTaskContextClass(taskType);
-      taskContext.initial(taskId, nodeName, taskType, taskConf);
+      TaskConfiguration taskConf = TaskConfiguration.get(testCase, true);
+      PerfTask task = TestCase.get().getTaskClass(testCase);
+      task.initialSet(taskId, nodeName, taskConf, testCase);
+      PerfTaskContext taskContext = TestCase.get().getTaskContextClass(testCase);
+      taskContext.initial(taskId, nodeName, testCase, taskConf);
 
       MasterClient masterClient = new MasterClient();
       while (!masterClient.slave_register(taskId, nodeName, task.getCleanupDir())) {

@@ -9,26 +9,26 @@ import javax.xml.parsers.SAXParserFactory;
 import org.apache.log4j.Logger;
 
 import pasalab.dfs.perf.conf.PerfConf;
-import pasalab.dfs.perf.util.SAXTaskType;
+import pasalab.dfs.perf.util.SAXTestCase;
 
 /**
  * Manage the different type of tasks.
  */
-public class TaskType {
+public class TestCase {
   private static final Logger LOG = Logger.getLogger("");
 
-  private static TaskType sTaskType = null;
+  private static TestCase sTestCase = null;
 
-  public static synchronized TaskType get() {
-    if (sTaskType == null) {
+  public static synchronized TestCase get() {
+    if (sTestCase == null) {
       try {
-        sTaskType = new TaskType(PerfConf.get().DFS_PERF_HOME + "/conf/task-type.xml");
+        sTestCase = new TestCase(PerfConf.get().DFS_PERF_HOME + "/conf/test-case.xml");
       } catch (Exception e) {
-        LOG.error("Error when parse conf/task-type.xml", e);
-        throw new RuntimeException("Failed to parse conf/task-type.xml");
+        LOG.error("Error when parse conf/test-case.xml", e);
+        throw new RuntimeException("Failed to parse conf/test-case.xml");
       }
     }
-    return sTaskType;
+    return sTestCase;
   }
 
   private Map<String, String> mTaskClasses;
@@ -36,16 +36,16 @@ public class TaskType {
   private Map<String, String> mTaskThreadClasses;
   private Map<String, String> mTotalReportClasses;
 
-  private TaskType(String xmlFileName) throws Exception {
+  private TestCase(String xmlFileName) throws Exception {
     SAXParserFactory spf = SAXParserFactory.newInstance();
     SAXParser saxParser = spf.newSAXParser();
     File xmlFile = new File(xmlFileName);
-    SAXTaskType saxTaskType = new SAXTaskType();
-    saxParser.parse(xmlFile, saxTaskType);
-    mTaskClasses = saxTaskType.getTaskClasses();
-    mTaskContextClasses = saxTaskType.getTaskContextClasses();
-    mTaskThreadClasses = saxTaskType.getTaskThreadClasses();
-    mTotalReportClasses = saxTaskType.getTotalReportClasses();
+    SAXTestCase saxTestCase = new SAXTestCase();
+    saxParser.parse(xmlFile, saxTestCase);
+    mTaskClasses = saxTestCase.getTaskClasses();
+    mTaskContextClasses = saxTestCase.getTaskContextClasses();
+    mTaskThreadClasses = saxTestCase.getTaskThreadClasses();
+    mTotalReportClasses = saxTestCase.getTotalReportClasses();
   }
 
   /**

@@ -22,8 +22,8 @@ public class SimpleTaskContext extends PerfTaskContext {
   protected Map<String, List<Double>> mAdditiveStatistics;
 
   @Override
-  public void initial(int id, String nodeName, String taskType, TaskConfiguration taskConf) {
-    super.initial(id, nodeName, taskType, taskConf);
+  public void initial(int id, String nodeName, String testCase, TaskConfiguration taskConf) {
+    super.initial(id, nodeName, testCase, taskConf);
     mConf = taskConf.getAllProperties();
     mConf.put("dfs.perf.dfs.address", PerfConf.get().DFS_ADDRESS);
   }
@@ -39,7 +39,7 @@ public class SimpleTaskContext extends PerfTaskContext {
   @Override
   public void loadFromFile(File file) throws IOException {
     BufferedReader fin = new BufferedReader(new FileReader(file));
-    mTaskType = fin.readLine();
+    mTestCase = fin.readLine();
     mId = Integer.parseInt(fin.readLine());
     mNodeName = fin.readLine();
     mSuccess = Boolean.parseBoolean(fin.readLine());
@@ -78,7 +78,7 @@ public class SimpleTaskContext extends PerfTaskContext {
   @Override
   public void writeToFile(File file) throws IOException {
     BufferedWriter fout = new BufferedWriter(new FileWriter(file));
-    fout.write(mTaskType + "\n");
+    fout.write(mTestCase + "\n");
     fout.write(mId + "\n");
     fout.write(mNodeName + "\n");
     fout.write(mSuccess + "\n");

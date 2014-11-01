@@ -12,7 +12,6 @@ script=`basename "$this"`
 config_bin=`cd "$config_bin"; pwd`
 this="$config_bin/$script"
 
-
 export DFS_PERF_PREFIX=`dirname "$this"`/..
 export DFS_PERF_HOME=${DFS_PERF_PREFIX}
 export DFS_PERF_CONF_DIR="$DFS_PERF_HOME/conf"

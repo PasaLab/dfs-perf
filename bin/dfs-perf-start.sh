@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function printUsage {
-  echo "Usage: dfs-perf-start.sh <NodeName> <TaskId> <TaskType>"
+  echo "Usage: dfs-perf-start.sh <NodeName> <TaskId> <TestCase>"
   echo "This is used to start dfs-perf on each node, see more in ./dfs-perf"
 }
 

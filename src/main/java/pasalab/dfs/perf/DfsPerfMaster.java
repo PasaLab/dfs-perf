@@ -62,7 +62,7 @@ public class DfsPerfMaster {
   public static void main(String[] args) {
     int slavesNum = 0;
     Set<String> slaves = null;
-    String taskType = null;
+    String testCase = null;
     try {
       int index = 0;
       slavesNum = Integer.parseInt(args[0]);
@@ -72,13 +72,13 @@ public class DfsPerfMaster {
           throw new Exception("Slave name replicated: " + args[index]);
         }
       }
-      taskType = args[index];
-      System.out.println("Supervise DFS-Perf " + taskType + " Test");
+      testCase = args[index];
+      System.out.println("Supervise DFS-Perf " + testCase + " Test");
     } catch (Exception e) {
       abortAllSlaves();
       e.printStackTrace();
-      System.err.println("Wrong arguments. Should be <SlavesNum> [Slaves...] <TaskType>");
-      LOG.error("Wrong arguments. Should be <SlavesNum> [Slaves...] <TaskType>", e);
+      System.err.println("Wrong arguments. Should be <SlavesNum> [Slaves...] <TestCase>");
+      LOG.error("Wrong arguments. Should be <SlavesNum> [Slaves...] <TestCase>", e);
     }
     DfsPerfMaster master = new DfsPerfMaster(slavesNum, slaves);
     if (!master.start()) {
