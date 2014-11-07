@@ -25,7 +25,7 @@ fi
 mkdir -p $DFS_PERF_OUT_REPORTS_DIR
 
 taskid=0
-for slave in `cat "$NODELIST"|sed  "s/#.*$//;/^$/d"`; do
+for slave in `sort "$NODELIST"|sed  "s/#.*$//;/^$/d"`; do
   echo -n "Collect from $slave... "
   scp $slave:$DFS_PERF_OUT_DIR/context$1-$taskid@$slave $DFS_PERF_OUT_REPORTS_DIR/context$1-$taskid@$slave
   sleep 0.02
