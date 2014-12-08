@@ -11,12 +11,14 @@ public class SkipReadTask extends SimpleTask {
   @Override
   protected boolean setupTask(PerfTaskContext taskContext) {
     try {
-      PerfFileSystem fs = PerfFileSystem.get(PerfConf.get().DFS_ADDRESS);
+      PerfFileSystem fs = PerfFileSystem.get(PerfConf.get().DFS_ADDRESS, null);
+      fs.connect();
       // use the SimpleWrite test data
       String readDir = PerfConf.get().DFS_DIR + "/simple-read-write/" + mId;
       if (!fs.exists(readDir)) {
         throw new IOException("No data to read at " + readDir);
       }
+      fs.close();
       mTaskConf.addProperty("read.dir", readDir);
       LOG.info("Read dir " + readDir);
     } catch (IOException e) {

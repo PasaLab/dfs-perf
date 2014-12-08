@@ -102,4 +102,8 @@ public class TaskConfiguration {
     }
     return DEFAULT_STRING;
   }
+
+  public synchronized boolean hasProperty(String property) {
+    return mProperties.containsKey(property);
+  }
 }

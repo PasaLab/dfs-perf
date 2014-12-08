@@ -15,15 +15,12 @@ public class MassiveThread extends PerfThread {
   private Random mRand;
 
   private int mBasicFilesNum;
-  private int mBlockSize;
   private int mBufferSize;
   private long mFileLength;
   private PerfFileSystem mFileSystem;
-  private String mReadType;
   private long mLimitTimeMs;
   private boolean mShuffle;
   private String mWorkDir;
-  private String mWriteType;
 
   private double mBasicWriteThroughput; // in MB/s
   private double mReadThroughput; // in MB/s
@@ -47,14 +44,14 @@ public class MassiveThread extends PerfThread {
   }
 
   private void initSyncBarrier() throws IOException {
-    mFileSystem.createEmptyFile(mWorkDir + "/sync/" + mTaskId + "-" + mId);
+    mFileSystem.create(mWorkDir + "/sync/" + mTaskId + "-" + mId);
   }
 
   private void syncBarrier() throws IOException {
     String syncDirPath = mWorkDir + "/sync";
     String syncFileName = mTaskId + "-" + mId;
     mFileSystem.delete(syncDirPath + "/" + syncFileName, false);
-    while (!mFileSystem.listFullPath(syncDirPath).isEmpty()) {
+    while (!mFileSystem.list(syncDirPath).isEmpty()) {
       try {
         Thread.sleep(300);
       } catch (InterruptedException e) {
@@ -84,8 +81,7 @@ public class MassiveThread extends PerfThread {
     for (int b = 0; b < mBasicFilesNum; b ++) {
       try {
         String fileName = mTaskId + "-" + mId + "-" + b;
-        Operators.writeSingleFile(mFileSystem, dataDir + "/" + fileName, mFileLength, mBlockSize,
-            mBufferSize, mWriteType);
+        Operators.writeSingleFile(mFileSystem, dataDir + "/" + fileName, mFileLength, mBufferSize);
         basicBytes += mFileLength;
       } catch (IOException e) {
         LOG.error("Failed to write basic file", e);
@@ -107,9 +103,9 @@ public class MassiveThread extends PerfThread {
     while ((tTimeMs = System.currentTimeMillis()) < limitTimeMs) {
       if (mRand.nextBoolean()) { // read
         try {
-          List<String> candidates = mFileSystem.listFullPath(dataDir);
+          List<String> candidates = mFileSystem.list(dataDir);
           String readFilePath = ListGenerator.generateRandomReadFiles(1, candidates).get(0);
-          readBytes += Operators.readSingleFile(mFileSystem, readFilePath, mBufferSize, mReadType);
+          readBytes += Operators.readSingleFile(mFileSystem, readFilePath, mBufferSize);
         } catch (IOException e) {
           LOG.error("Failed to read file", e);
           mSuccess = false;
@@ -119,7 +115,7 @@ public class MassiveThread extends PerfThread {
         try {
           String writeFileName = mTaskId + "-" + mId + "--" + index;
           Operators.writeSingleFile(mFileSystem, tmpDir + "/" + writeFileName, mFileLength,
-              mBlockSize, mBufferSize, mWriteType);
+              mBufferSize);
           writeBytes += mFileLength;
           mFileSystem.rename(tmpDir + "/" + writeFileName, dataDir + "/" + writeFileName);
         } catch (IOException e) {
@@ -142,16 +138,13 @@ public class MassiveThread extends PerfThread {
   public boolean setupThread(TaskConfiguration taskConf) {
     mRand = new Random(System.currentTimeMillis() + mTaskId + mId);
     mBufferSize = taskConf.getIntProperty("buffer.size.bytes");
-    mBlockSize = taskConf.getIntProperty("block.size.bytes");
     mFileLength = taskConf.getLongProperty("file.length.bytes");
     mLimitTimeMs = taskConf.getLongProperty("time.seconds") * 1000;
-    mReadType = taskConf.getProperty("read.type");
     mShuffle = taskConf.getBooleanProperty("shuffle.mode");
     mWorkDir = taskConf.getProperty("work.dir");
     mBasicFilesNum = taskConf.getIntProperty("basic.files.per.thread");
-    mWriteType = taskConf.getProperty("write.type");
     try {
-      mFileSystem = Operators.connect((PerfConf.get().DFS_ADDRESS));
+      mFileSystem = Operators.connect(PerfConf.get().DFS_ADDRESS, taskConf);
       initSyncBarrier();
     } catch (IOException e) {
       LOG.error("Failed to setup thread, task " + mTaskId + " - thread " + mId, e);

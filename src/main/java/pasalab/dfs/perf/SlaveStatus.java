@@ -76,7 +76,8 @@ public class SlaveStatus {
   }
 
   public void cleanup() throws IOException {
-    PerfFileSystem fs = PerfFileSystem.get(PerfConf.get().DFS_ADDRESS);
+    PerfFileSystem fs = PerfFileSystem.get(PerfConf.get().DFS_ADDRESS, null);
+    fs.connect();
     synchronized (this) {
       for (String dir : mCleanupDirs) {
         if (fs.exists(dir)) {

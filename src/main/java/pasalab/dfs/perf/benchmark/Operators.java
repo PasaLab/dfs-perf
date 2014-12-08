@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Random;
 
+import pasalab.dfs.perf.basic.TaskConfiguration;
 import pasalab.dfs.perf.fs.PerfFileSystem;
 
 public class Operators {
@@ -24,11 +25,13 @@ public class Operators {
    * Connect to the file system.
    * 
    * @param fsPath
+   * @param taskConf
    * @return
    * @throws IOException
    */
-  public static PerfFileSystem connect(String fsPath) throws IOException {
-    return PerfFileSystem.get(fsPath);
+  public static PerfFileSystem connect(String fsPath, TaskConfiguration taskConf)
+      throws IOException {
+    return PerfFileSystem.get(fsPath, taskConf);
   }
 
   /**
@@ -39,16 +42,15 @@ public class Operators {
    * @param bufferSize
    * @param skipBytes
    * @param readBytes
-   * @param readType
    * @param times
    * @return
    * @throws IOException
    */
   public static long forwardSkipRead(PerfFileSystem fs, String filePath, int bufferSize,
-      long skipBytes, long readBytes, String readType, int times) throws IOException {
+      long skipBytes, long readBytes, int times) throws IOException {
     byte[] content = new byte[bufferSize];
     long readLen = 0;
-    InputStream is = fs.open(filePath, readType);
+    InputStream is = fs.getInputStream(filePath);
     for (int t = 0; t < times; t ++) {
       is.skip(skipBytes);
       readLen += readSpecifiedBytes(is, content, readBytes);
@@ -67,10 +69,10 @@ public class Operators {
    */
   public static int metadataSample(PerfFileSystem fs, String filePath) throws IOException {
     String emptyFilePath = filePath + "/empty_file";
-    if (!fs.mkdirs(filePath, true)) {
+    if (!fs.mkdir(filePath, true)) {
       return 0;
     }
-    if (!fs.createEmptyFile(emptyFilePath)) {
+    if (!fs.create(emptyFilePath)) {
       return 1;
     }
     if (!fs.exists(emptyFilePath)) {
@@ -92,13 +94,12 @@ public class Operators {
    * @param filePath
    * @param bufferSize
    * @param readBytes
-   * @param readType
    * @param times
    * @return
    * @throws IOException
    */
   public static long randomSkipRead(PerfFileSystem fs, String filePath, int bufferSize,
-      long readBytes, String readType, int times) throws IOException {
+      long readBytes, int times) throws IOException {
     byte[] content = new byte[bufferSize];
     long readLen = 0;
     long fileLen = fs.getLength(filePath);
@@ -107,7 +108,7 @@ public class Operators {
       if (skipBytes < 0) {
         skipBytes = -skipBytes;
       }
-      InputStream is = fs.open(filePath, readType);
+      InputStream is = fs.getInputStream(filePath);
       is.skip(skipBytes);
       readLen += readSpecifiedBytes(is, content, readBytes);
       is.close();
@@ -126,24 +127,9 @@ public class Operators {
    */
   public static long readSingleFile(PerfFileSystem fs, String filePath, int bufferSize)
       throws IOException {
-    return readSingleFile(fs, filePath, bufferSize, "NO_CACHE");
-  }
-
-  /**
-   * Read a file from begin to the end.
-   * 
-   * @param fs
-   * @param filePath
-   * @param bufferSize
-   * @param readType
-   * @return
-   * @throws IOException
-   */
-  public static long readSingleFile(PerfFileSystem fs, String filePath, int bufferSize,
-      String readType) throws IOException {
     long readLen = 0;
     byte[] content = new byte[bufferSize];
-    InputStream is = fs.open(filePath, readType);
+    InputStream is = fs.getInputStream(filePath);
     int onceLen = is.read(content);
     while (onceLen != -1) {
       readLen += (long) onceLen;
@@ -188,25 +174,8 @@ public class Operators {
    */
   public static long skipReadOnce(PerfFileSystem fs, String filePath, int bufferSize,
       long skipBytes, long readBytes) throws IOException {
-    return skipReadOnce(fs, filePath, bufferSize, skipBytes, readBytes, "NO_CACHE");
-  }
-
-  /**
-   * Read a file. Skip once and read once.
-   * 
-   * @param fs
-   * @param filePath
-   * @param bufferSize
-   * @param skipBytes
-   * @param readBytes
-   * @param readType
-   * @return
-   * @throws IOException
-   */
-  public static long skipReadOnce(PerfFileSystem fs, String filePath, int bufferSize,
-      long skipBytes, long readBytes, String readType) throws IOException {
     byte[] content = new byte[bufferSize];
-    InputStream is = fs.open(filePath, readType);
+    InputStream is = fs.getInputStream(filePath);
     is.skip(skipBytes);
     long readLen = readSpecifiedBytes(is, content, readBytes);
     is.close();
@@ -226,26 +195,9 @@ public class Operators {
    */
   public static long skipReadToEnd(PerfFileSystem fs, String filePath, int bufferSize,
       long skipBytes, long readBytes) throws IOException {
-    return skipReadToEnd(fs, filePath, bufferSize, skipBytes, readBytes, "NO_CACHE");
-  }
-
-  /**
-   * Read a file. Skip and read until the end of the file.
-   * 
-   * @param fs
-   * @param filePath
-   * @param bufferSize
-   * @param skipBytes
-   * @param readBytes
-   * @param readType
-   * @return
-   * @throws IOException
-   */
-  public static long skipReadToEnd(PerfFileSystem fs, String filePath, int bufferSize,
-      long skipBytes, long readBytes, String readType) throws IOException {
     byte[] content = new byte[bufferSize];
     long readLen = 0;
-    InputStream is = fs.open(filePath, readType);
+    InputStream is = fs.getInputStream(filePath);
     is.skip(skipBytes);
     long once = readSpecifiedBytes(is, content, readBytes);
     while (once > 0) {
@@ -281,42 +233,7 @@ public class Operators {
    */
   public static void writeSingleFile(PerfFileSystem fs, String filePath, long fileSize,
       int bufferSize) throws IOException {
-    OutputStream os = fs.create(filePath);
-    writeContentToFile(os, fileSize, bufferSize);
-    os.close();
-  }
-
-  /**
-   * Create a file and write to it.
-   * 
-   * @param fs
-   * @param filePath
-   * @param fileSize
-   * @param blockSize
-   * @param bufferSize
-   * @throws IOException
-   */
-  public static void writeSingleFile(PerfFileSystem fs, String filePath, long fileSize,
-      int blockSize, int bufferSize) throws IOException {
-    OutputStream os = fs.create(filePath, blockSize);
-    writeContentToFile(os, fileSize, bufferSize);
-    os.close();
-  }
-
-  /**
-   * Create a file and write to it.
-   * 
-   * @param fs
-   * @param filePath
-   * @param fileSize
-   * @param blockSize
-   * @param bufferSize
-   * @param writeType
-   * @throws IOException
-   */
-  public static void writeSingleFile(PerfFileSystem fs, String filePath, long fileSize,
-      int blockSize, int bufferSize, String writeType) throws IOException {
-    OutputStream os = fs.create(filePath, blockSize, writeType);
+    OutputStream os = fs.getOutputStream(filePath);
     writeContentToFile(os, fileSize, bufferSize);
     os.close();
   }

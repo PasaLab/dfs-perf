@@ -9,11 +9,13 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import pasalab.dfs.perf.basic.TaskConfiguration;
+
 /**
  * This only works for local test.
  */
 public class PerfFileSystemLocal extends PerfFileSystem {
-  public static PerfFileSystem getClient() {
+  public static PerfFileSystem getClient(String path, TaskConfiguration taskConf) {
     return new PerfFileSystemLocal();
   }
 
@@ -21,7 +23,10 @@ public class PerfFileSystemLocal extends PerfFileSystem {
   public void close() throws IOException {}
 
   @Override
-  public OutputStream create(String path) throws IOException {
+  public void connect() throws IOException {}
+
+  @Override
+  public boolean create(String path) throws IOException {
     File file = new File(path);
     File parent = file.getParentFile();
     if (parent != null) {
@@ -29,29 +34,7 @@ public class PerfFileSystemLocal extends PerfFileSystem {
         parent.mkdirs();
       }
     }
-    return new FileOutputStream(path);
-  }
-
-  @Override
-  public OutputStream create(String path, int blockSizeByte) throws IOException {
-    return create(path);
-  }
-
-  @Override
-  public OutputStream create(String path, int blockSizeByte, String writeType) throws IOException {
-    return create(path);
-  }
-
-  @Override
-  public boolean createEmptyFile(String path) throws IOException {
-    File file = new File(path);
-    File parent = file.getParentFile();
-    if (parent != null) {
-      if (!parent.exists()) {
-        parent.mkdirs();
-      }
-    }
-    new FileOutputStream(file).close();
+    new FileOutputStream(path).close();
     return true;
   }
 
@@ -74,8 +57,45 @@ public class PerfFileSystemLocal extends PerfFileSystem {
   }
 
   @Override
+  public InputStream getInputStream(String path) throws IOException {
+    return new FileInputStream(path);
+  }
+
+  @Override
   public long getLength(String path) throws IOException {
     return new File(path).length();
+  }
+
+  @Override
+  public long getModificationTime(String path) throws IOException {
+    return new File(path).lastModified();
+  }
+
+  @Override
+  public OutputStream getOutputStream(String path) throws IOException {
+    File file = new File(path);
+    if (!file.exists()) {
+      File parent = file.getParentFile();
+      if (parent != null) {
+        if (!parent.exists()) {
+          parent.mkdirs();
+        }
+      }
+      return new FileOutputStream(file);
+    } else {
+      return new FileOutputStream(file, true);
+    }
+  }
+
+  @Override
+  public String getParent(String path) throws IOException {
+    File file = new File(path);
+    File parent = file.getParentFile();
+    if (parent == null) {
+      return null;
+    } else {
+      return parent.getAbsolutePath();
+    }
   }
 
   @Override
@@ -89,7 +109,7 @@ public class PerfFileSystemLocal extends PerfFileSystem {
   }
 
   @Override
-  public List<String> listFullPath(String path) throws IOException {
+  public List<String> list(String path) throws IOException {
     File file = new File(path);
     if (file.isFile()) {
       ArrayList<String> ret = new ArrayList<String>(1);
@@ -109,19 +129,9 @@ public class PerfFileSystemLocal extends PerfFileSystem {
   }
 
   @Override
-  public boolean mkdirs(String path, boolean createParent) throws IOException {
+  public boolean mkdir(String path, boolean createParent) throws IOException {
     File file = new File(path);
     return (createParent ? file.mkdirs() : file.mkdir());
-  }
-
-  @Override
-  public InputStream open(String path) throws IOException {
-    return new FileInputStream(path);
-  }
-
-  @Override
-  public InputStream open(String path, String readType) throws IOException {
-    return open(path);
   }
 
   @Override

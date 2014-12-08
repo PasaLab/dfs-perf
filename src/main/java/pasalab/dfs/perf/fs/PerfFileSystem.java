@@ -8,22 +8,21 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import pasalab.dfs.perf.PerfConstants;
+import pasalab.dfs.perf.basic.TaskConfiguration;
 import pasalab.dfs.perf.conf.DfsConf;
 
 public abstract class PerfFileSystem {
   protected static final Logger LOG = Logger.getLogger(PerfConstants.PERF_LOGGER_TYPE);
 
-  public static PerfFileSystem get(String path) throws IOException {
+  public static PerfFileSystem get(String path, TaskConfiguration taskConf) throws IOException {
     if (isGlusterfs(path)) {
-      DfsConf dfsConf = DfsConf.get();
-      return PerfFileSystemGlusterfs.getClient(path, dfsConf.GLUSTERFS_IMPL,
-          dfsConf.GLUSTERFS_VOLUMES, dfsConf.GLUSTERFS_MOUNTS);
+      return PerfFileSystemGlusterfs.getClient(path, taskConf);
     } else if (isHdfs(path)) {
-      return PerfFileSystemHdfs.getClient(path, DfsConf.get().HDFS_IMPL);
+      return PerfFileSystemHdfs.getClient(path, taskConf);
     } else if (isLocalFS(path)) {
-      return PerfFileSystemLocal.getClient();
+      return PerfFileSystemLocal.getClient(path, taskConf);
     } else if (isTfs(path)) {
-      return PerfFileSystemTfs.getClient(path);
+      return PerfFileSystemTfs.getClient(path, taskConf);
     }
     throw new IOException("Unknown file system scheme " + path);
   }
@@ -72,44 +71,22 @@ public abstract class PerfFileSystem {
   public abstract void close() throws IOException;
 
   /**
-   * Create a file. Use the default block size and write type if supported.
+   * Create the connection to the file system
    * 
-   * @param path the file's full path
-   * @return the output stream of the created file
    * @throws IOException
    */
-  public abstract OutputStream create(String path) throws IOException;
+  public abstract void connect() throws IOException;
 
   /**
-   * Create a file with the specified block size. Use the default write type if supported.
+   * Create a file.
    * 
    * @param path the file's full path
-   * @param blockSizeByte the block size of the file
-   * @return the output stream of the created file
+   * @return true if success, false otherwise
    * @throws IOException
    */
-  public abstract OutputStream create(String path, int blockSizeByte) throws IOException;
-
-  /**
-   * Create a file with the specified block size and write type.
-   * 
-   * @param path the file's full path
-   * @param blockSizeByte the block size of the file
-   * @param writeType the write type of the file
-   * @return the output stream of the created file
-   * @throws IOException
-   */
-  public abstract OutputStream create(String path, int blockSizeByte, String writeType)
-      throws IOException;
-
-  /**
-   * Create an empty file
-   * 
-   * @param path the file's full path
-   * @return true if success, false otherwise.
-   * @throws IOException
-   */
-  public abstract boolean createEmptyFile(String path) throws IOException;
+  public boolean create(String path) throws IOException {
+    throw new IOException("Not Implement");
+  }
 
   /**
    * Delete the file. If recursive and the path is a directory, it will delete all the files under
@@ -120,7 +97,9 @@ public abstract class PerfFileSystem {
    * @return true if success, false otherwise.
    * @throws IOException
    */
-  public abstract boolean delete(String path, boolean recursive) throws IOException;
+  public boolean delete(String path, boolean recursive) throws IOException {
+    throw new IOException("Not Implement");
+  }
 
   /**
    * Check whether the file exists or not.
@@ -129,16 +108,65 @@ public abstract class PerfFileSystem {
    * @return true if exists, false otherwise
    * @throws IOException
    */
-  public abstract boolean exists(String path) throws IOException;
+  public boolean exists(String path) throws IOException {
+    throw new IOException("Not Implement");
+  }
+
+  /**
+   * Get the input stream of the file to read content.
+   * 
+   * @param path the file's full path
+   * @return the input stream of the file
+   * @throws IOException
+   */
+  public InputStream getInputStream(String path) throws IOException {
+    throw new IOException("Not Implement");
+  }
 
   /**
    * Get the length of the file, in bytes.
    * 
-   * @param path
+   * @param path the file's full path
    * @return the length of the file in bytes
    * @throws IOException
    */
-  public abstract long getLength(String path) throws IOException;
+  public long getLength(String path) throws IOException {
+    throw new IOException("Not Implement");
+  }
+
+  /**
+   * Get the modification time of the file.
+   * 
+   * @param path the file's full path
+   * @return the modification time
+   * @throws IOException
+   */
+  public long getModificationTime(String path) throws IOException {
+    throw new IOException("Not Implement");
+  }
+
+  /**
+   * Get the output stream of the file to write content. If the file does not exist, create a new
+   * one.
+   * 
+   * @param path the file's full path
+   * @return the output stream of the file
+   * @throws IOException
+   */
+  public OutputStream getOutputStream(String path) throws IOException {
+    throw new IOException("Not Implement");
+  }
+
+  /**
+   * Get the full path of the file's parent.
+   * 
+   * @param path the file's full path
+   * @return the full path of the file's parent, null if it has no parent
+   * @throws IOException
+   */
+  public String getParent(String path) throws IOException {
+    throw new IOException("Not Implement");
+  }
 
   /**
    * Check if the path is a directory.
@@ -147,7 +175,9 @@ public abstract class PerfFileSystem {
    * @return true if it's a directory, false otherwise
    * @throws IOException
    */
-  public abstract boolean isDirectory(String path) throws IOException;
+  public boolean isDirectory(String path) throws IOException {
+    throw new IOException("Not Implement");
+  }
 
   /**
    * Check if the path is a file.
@@ -156,7 +186,9 @@ public abstract class PerfFileSystem {
    * @return true if it's a file, false otherwise
    * @throws IOException
    */
-  public abstract boolean isFile(String path) throws IOException;
+  public boolean isFile(String path) throws IOException {
+    throw new IOException("Not Implement");
+  }
 
   /**
    * List the files under the path. If the path is a file, return the full path of the file. if the
@@ -167,7 +199,9 @@ public abstract class PerfFileSystem {
    * @return the list contains the full paths of the listed files
    * @throws IOException
    */
-  public abstract List<String> listFullPath(String path) throws IOException;
+  public List<String> list(String path) throws IOException {
+    throw new IOException("Not Implement");
+  }
 
   /**
    * Creates the directory named by the path. If the folder already exists, the method returns
@@ -179,26 +213,9 @@ public abstract class PerfFileSystem {
    * @return true if success, false otherwise
    * @throws IOException
    */
-  public abstract boolean mkdirs(String path, boolean createParent) throws IOException;
-
-  /**
-   * Open a file and return it's input stream. Use the default read type if supported.
-   * 
-   * @param path the file's full path
-   * @return the input stream of the opened file
-   * @throws IOException
-   */
-  public abstract InputStream open(String path) throws IOException;
-
-  /**
-   * Open a file and return it's input stream, with the specified read type.
-   * 
-   * @param path the file's full path
-   * @param readType the read type of the file
-   * @return the input stream of the opened file
-   * @throws IOException
-   */
-  public abstract InputStream open(String path, String readType) throws IOException;
+  public boolean mkdir(String path, boolean createParent) throws IOException {
+    throw new IOException("Not Implement");
+  }
 
   /**
    * Rename the file.
@@ -208,5 +225,7 @@ public abstract class PerfFileSystem {
    * @return true if success, false otherwise
    * @throws IOException
    */
-  public abstract boolean rename(String src, String dst) throws IOException;
+  public boolean rename(String src, String dst) throws IOException {
+    throw new IOException("Not Implement");
+  }
 }

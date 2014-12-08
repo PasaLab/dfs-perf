@@ -15,7 +15,6 @@ public class SkipReadThread extends PerfThread {
   private PerfFileSystem mFileSystem;
   private long mReadBytes;
   private List<String> mReadFiles;
-  private String mReadType;
   private long mSkipBytes;
   private String mSkipMode;
   private int mSkipTimes;
@@ -41,11 +40,10 @@ public class SkipReadThread extends PerfThread {
         if ("FORWARD".equals(mSkipMode)) {
           readBytes +=
               Operators.forwardSkipRead(mFileSystem, fileName, mBufferSize, mSkipBytes, mReadBytes,
-                  mReadType, mSkipTimes);
+                  mSkipTimes);
         } else {
           readBytes +=
-              Operators.randomSkipRead(mFileSystem, fileName, mBufferSize, mReadBytes, mReadType,
-                  mSkipTimes);
+              Operators.randomSkipRead(mFileSystem, fileName, mBufferSize, mReadBytes, mSkipTimes);
         }
       } catch (IOException e) {
         LOG.error("Failed to read file " + fileName, e);
@@ -63,11 +61,10 @@ public class SkipReadThread extends PerfThread {
     mSkipBytes = taskConf.getLongProperty("skip.bytes");
     mSkipMode = taskConf.getProperty("skip.mode");
     mSkipTimes = taskConf.getIntProperty("skip.times.per.file");
-    mReadType = taskConf.getProperty("read.type");
     try {
-      mFileSystem = Operators.connect((PerfConf.get().DFS_ADDRESS));
+      mFileSystem = Operators.connect(PerfConf.get().DFS_ADDRESS, taskConf);
       String readDir = taskConf.getProperty("read.dir");
-      List<String> candidates = mFileSystem.listFullPath(readDir);
+      List<String> candidates = mFileSystem.list(readDir);
       if (candidates == null || candidates.isEmpty()) {
         throw new IOException("No file to read");
       }

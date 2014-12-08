@@ -8,39 +8,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.FileUtil;
 import org.apache.hadoop.fs.Path;
+
+import pasalab.dfs.perf.basic.TaskConfiguration;
+import pasalab.dfs.perf.conf.DfsConf;
 
 import com.google.common.base.Throwables;
 
 public class PerfFileSystemGlusterfs extends PerfFileSystem {
   private static final int MAX_TRY = 5;
 
-  public static PerfFileSystem getClient(String path, String glusterfsImpl,
-      String glusterfsVolumes, String glusterfsMounts) {
-    return new PerfFileSystemGlusterfs(path, glusterfsImpl, glusterfsVolumes, glusterfsMounts);
+  public static PerfFileSystem getClient(String path, TaskConfiguration taskConf) {
+    DfsConf dfsConf = DfsConf.get();
+    return new PerfFileSystemGlusterfs(path, dfsConf.GLUSTERFS_IMPL, dfsConf.GLUSTERFS_VOLUMES,
+        dfsConf.GLUSTERFS_MOUNTS);
   }
 
+  private final Configuration mConf;
   private FileSystem mGlusterfs;
 
   private PerfFileSystemGlusterfs(String path, String glusterfsImpl, String glusterfsVolumes,
       String glusterfsMounts) {
-    Configuration conf = new Configuration();
-    conf.set("fs.defaultFS", path);
-    conf.set("fs.glusterfs.impl", glusterfsImpl);
-    conf.set("mapred.system.dir", "glusterfs:///mapred/system");
-    conf.set("fs.glusterfs.volumes", glusterfsVolumes);
-    conf.set("fs.glusterfs.volume.fuse." + glusterfsVolumes, glusterfsMounts);
-
-    try {
-      mGlusterfs = FileSystem.get(conf);
-    } catch (IOException e) {
-      LOG.error("Failed to get Glusterfs", e);
-      Throwables.propagate(e);
-    }
+    mConf = new Configuration();
+    mConf.set("fs.defaultFS", path);
+    mConf.set("fs.glusterfs.impl", glusterfsImpl);
+    mConf.set("mapred.system.dir", "glusterfs:///mapred/system");
+    mConf.set("fs.glusterfs.volumes", glusterfsVolumes);
+    mConf.set("fs.glusterfs.volume.fuse." + glusterfsVolumes, glusterfsMounts);
   }
 
   @Override
@@ -49,37 +46,29 @@ public class PerfFileSystemGlusterfs extends PerfFileSystem {
   }
 
   @Override
-  public OutputStream create(String path) throws IOException {
+  public void connect() throws IOException {
+    try {
+      mGlusterfs = FileSystem.get(mConf);
+    } catch (IOException e) {
+      LOG.error("Failed to connect Glusterfs", e);
+      Throwables.propagate(e);
+    }
+  }
+
+  @Override
+  public boolean create(String path) throws IOException {
     IOException te = null;
     int cnt = 0;
     while (cnt < MAX_TRY) {
       try {
-        FSDataOutputStream os = mGlusterfs.create(new Path(path));
-        return os;
+        mGlusterfs.create(new Path(path)).close();
+        return true;
       } catch (IOException e) {
         cnt ++;
         te = e;
       }
     }
     throw te;
-  }
-
-  @Override
-  public OutputStream create(String path, int blockSizeByte) throws IOException {
-    // Use the default block size of HDFS
-    return create(path);
-  }
-
-  @Override
-  public OutputStream create(String path, int blockSizeByte, String writeType) throws IOException {
-    return create(path, blockSizeByte);
-  }
-
-  @Override
-  public boolean createEmptyFile(String path) throws IOException {
-    OutputStream os = create(path);
-    os.close();
-    return true;
   }
 
   @Override
@@ -113,22 +102,88 @@ public class PerfFileSystemGlusterfs extends PerfFileSystem {
   }
 
   @Override
-  public long getLength(String path) throws IOException {
+  public InputStream getInputStream(String path) throws IOException {
     IOException te = null;
     int cnt = 0;
     while (cnt < MAX_TRY) {
       try {
-        Path p = new Path(path);
-        if (!mGlusterfs.exists(p)) {
-          return 0;
-        }
-        return mGlusterfs.getFileStatus(p).getLen();
+        return mGlusterfs.open(new Path(path));
       } catch (IOException e) {
         cnt ++;
         te = e;
       }
     }
     throw te;
+  }
+
+  @Override
+  public long getLength(String path) throws IOException {
+    IOException te = null;
+    int cnt = 0;
+    while (cnt < MAX_TRY) {
+      try {
+        FileStatus fileStatus = mGlusterfs.getFileStatus(new Path(path));
+        if (fileStatus != null) {
+          return fileStatus.getLen();
+        } else {
+          throw new FileNotFoundException("File not exists " + path);
+        }
+      } catch (IOException e) {
+        cnt ++;
+        te = e;
+      }
+    }
+    throw te;
+  }
+
+  @Override
+  public long getModificationTime(String path) throws IOException {
+    IOException te = null;
+    int cnt = 0;
+    while (cnt < MAX_TRY) {
+      try {
+        FileStatus fileStatus = mGlusterfs.getFileStatus(new Path(path));
+        if (fileStatus != null) {
+          return fileStatus.getModificationTime();
+        } else {
+          throw new FileNotFoundException("File not exists " + path);
+        }
+      } catch (IOException e) {
+        cnt ++;
+        te = e;
+      }
+    }
+    throw te;
+  }
+
+  @Override
+  public OutputStream getOutputStream(String path) throws IOException {
+    IOException te = null;
+    int cnt = 0;
+    while (cnt < MAX_TRY) {
+      try {
+        Path p = new Path(path);
+        if (!mGlusterfs.exists(p)) {
+          return mGlusterfs.create(p);
+        } else {
+          return mGlusterfs.append(p);
+        }
+      } catch (IOException e) {
+        cnt ++;
+        te = e;
+      }
+    }
+    throw te;
+  }
+
+  @Override
+  public String getParent(String path) throws IOException {
+    Path p = new Path(path).getParent();
+    if (p == null) {
+      return null;
+    } else {
+      return p.toString();
+    }
   }
 
   @Override
@@ -162,7 +217,7 @@ public class PerfFileSystemGlusterfs extends PerfFileSystem {
   }
 
   @Override
-  public List<String> listFullPath(String path) throws IOException {
+  public List<String> list(String path) throws IOException {
     if (isFile(path)) {
       ArrayList<String> list = new ArrayList<String>(1);
       list.add(path);
@@ -191,7 +246,7 @@ public class PerfFileSystemGlusterfs extends PerfFileSystem {
   }
 
   @Override
-  public boolean mkdirs(String path, boolean createParent) throws IOException {
+  public boolean mkdir(String path, boolean createParent) throws IOException {
     IOException te = null;
     int cnt = 0;
     while (cnt < MAX_TRY) {
@@ -207,30 +262,6 @@ public class PerfFileSystemGlusterfs extends PerfFileSystem {
       }
     }
     throw te;
-  }
-
-  @Override
-  public InputStream open(String path) throws IOException {
-    IOException te = null;
-    int cnt = 0;
-    while (cnt < MAX_TRY) {
-      try {
-        Path p = new Path(path);
-        if (!mGlusterfs.exists(p)) {
-          throw new FileNotFoundException("File not exists " + path);
-        }
-        return mGlusterfs.open(p);
-      } catch (IOException e) {
-        cnt ++;
-        te = e;
-      }
-    }
-    throw te;
-  }
-
-  @Override
-  public InputStream open(String path, String readType) throws IOException {
-    return open(path);
   }
 
   @Override

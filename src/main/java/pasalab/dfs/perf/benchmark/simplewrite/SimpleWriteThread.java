@@ -11,12 +11,10 @@ import pasalab.dfs.perf.conf.PerfConf;
 import pasalab.dfs.perf.fs.PerfFileSystem;
 
 public class SimpleWriteThread extends PerfThread {
-  private int mBlockSize;
   private int mBufferSize;
   private long mFileLength;
   private PerfFileSystem mFileSystem;
   private List<String> mWriteFiles;
-  private String mWriteType;
 
   private boolean mSuccess;
   private double mThroughput; // in MB/s
@@ -36,8 +34,7 @@ public class SimpleWriteThread extends PerfThread {
     mSuccess = true;
     for (String fileName : mWriteFiles) {
       try {
-        Operators.writeSingleFile(mFileSystem, fileName, mFileLength, mBlockSize, mBufferSize,
-            mWriteType);
+        Operators.writeSingleFile(mFileSystem, fileName, mFileLength, mBufferSize);
         writeBytes += mFileLength;
       } catch (IOException e) {
         LOG.error("Failed to write file " + fileName, e);
@@ -51,11 +48,9 @@ public class SimpleWriteThread extends PerfThread {
   @Override
   public boolean setupThread(TaskConfiguration taskConf) {
     mBufferSize = taskConf.getIntProperty("buffer.size.bytes");
-    mBlockSize = taskConf.getIntProperty("block.size.bytes");
     mFileLength = taskConf.getLongProperty("file.length.bytes");
-    mWriteType = taskConf.getProperty("write.type");
     try {
-      mFileSystem = Operators.connect((PerfConf.get().DFS_ADDRESS));
+      mFileSystem = Operators.connect(PerfConf.get().DFS_ADDRESS, taskConf);
       String writeDir = taskConf.getProperty("write.dir");
       int filesNum = taskConf.getIntProperty("files.per.thread");
       mWriteFiles = ListGenerator.generateWriteFiles(mId, filesNum, writeDir);

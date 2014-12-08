@@ -8,7 +8,8 @@ import pasalab.dfs.perf.fs.PerfFileSystem;
 public class DfsPerfCleaner {
   public static void main(String[] args) {
     try {
-      PerfFileSystem fs = PerfFileSystem.get(PerfConf.get().DFS_ADDRESS);
+      PerfFileSystem fs = PerfFileSystem.get(PerfConf.get().DFS_ADDRESS, null);
+      fs.connect();
       fs.delete(PerfConf.get().DFS_DIR, true);
       fs.close();
     } catch (IOException e) {

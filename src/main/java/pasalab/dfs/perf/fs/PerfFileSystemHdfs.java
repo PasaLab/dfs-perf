@@ -8,37 +8,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.FileUtil;
 import org.apache.hadoop.fs.Path;
 
+import pasalab.dfs.perf.basic.TaskConfiguration;
+import pasalab.dfs.perf.conf.DfsConf;
+
 import com.google.common.base.Throwables;
 
 
 public class PerfFileSystemHdfs extends PerfFileSystem {
-  public static PerfFileSystem getClient(String path, String hdfsImpl) {
-    return new PerfFileSystemHdfs(path, hdfsImpl);
+  public static PerfFileSystem getClient(String path, TaskConfiguration taskConf) {
+    return new PerfFileSystemHdfs(path, DfsConf.get().HDFS_IMPL);
   }
 
+  private final Configuration mConf;
   private FileSystem mHdfs;
 
   private PerfFileSystemHdfs(String path, String hdfsImpl) {
-    Configuration conf = new Configuration();
-    conf.set("fs.defaultFS", path);
-    conf.set("fs.hdfs.impl", hdfsImpl);
+    mConf = new Configuration();
+    mConf.set("fs.defaultFS", path);
+    mConf.set("fs.hdfs.impl", hdfsImpl);
 
     // To disable the instance cache for hdfs client, otherwise it causes the FileSystem closed
     // exception.
-    conf.set("fs.hdfs.impl.disable.cache", "true");
-
-    try {
-      mHdfs = FileSystem.get(conf);
-    } catch (IOException e) {
-      LOG.error("Failed to get HDFS", e);
-      Throwables.propagate(e);
-    }
+    // conf.set("fs.hdfs.impl.disable.cache", "true");
   }
 
   @Override
@@ -47,27 +43,18 @@ public class PerfFileSystemHdfs extends PerfFileSystem {
   }
 
   @Override
-  public OutputStream create(String path) throws IOException {
-    FSDataOutputStream os = mHdfs.create(new Path(path));
-    return os;
+  public void connect() throws IOException {
+    try {
+      mHdfs = FileSystem.get(mConf);
+    } catch (IOException e) {
+      LOG.error("Failed to connect HDFS", e);
+      Throwables.propagate(e);
+    }
   }
 
   @Override
-  public OutputStream create(String path, int blockSizeByte) throws IOException {
-    // Use the default block size of HDFS
-    FSDataOutputStream os = mHdfs.create(new Path(path));
-    return os;
-  }
-
-  @Override
-  public OutputStream create(String path, int blockSizeByte, String writeType) throws IOException {
-    return create(path, blockSizeByte);
-  }
-
-  @Override
-  public boolean createEmptyFile(String path) throws IOException {
-    FSDataOutputStream os = mHdfs.create(new Path(path));
-    os.close();
+  public boolean create(String path) throws IOException {
+    mHdfs.create(new Path(path)).close();
     return true;
   }
 
@@ -83,12 +70,48 @@ public class PerfFileSystemHdfs extends PerfFileSystem {
   }
 
   @Override
+  public InputStream getInputStream(String path) throws IOException {
+    return mHdfs.open(new Path(path));
+  }
+
+  @Override
   public long getLength(String path) throws IOException {
+    FileStatus fileStatus = mHdfs.getFileStatus(new Path(path));
+    if (fileStatus != null) {
+      return fileStatus.getLen();
+    } else {
+      throw new FileNotFoundException("File not exists " + path);
+    }
+  }
+
+  @Override
+  public long getModificationTime(String path) throws IOException {
+    FileStatus fileStatus = mHdfs.getFileStatus(new Path(path));
+    if (fileStatus != null) {
+      return fileStatus.getModificationTime();
+    } else {
+      throw new FileNotFoundException("File not exists " + path);
+    }
+  }
+
+  @Override
+  public OutputStream getOutputStream(String path) throws IOException {
     Path p = new Path(path);
     if (!mHdfs.exists(p)) {
-      return 0;
+      return mHdfs.create(p);
+    } else {
+      return mHdfs.append(p);
     }
-    return mHdfs.getFileStatus(p).getLen();
+  }
+
+  @Override
+  public String getParent(String path) throws IOException {
+    Path p = new Path(path).getParent();
+    if (p == null) {
+      return null;
+    } else {
+      return p.toString();
+    }
   }
 
   @Override
@@ -103,7 +126,7 @@ public class PerfFileSystemHdfs extends PerfFileSystem {
   }
 
   @Override
-  public List<String> listFullPath(String path) throws IOException {
+  public List<String> list(String path) throws IOException {
     if (isFile(path)) {
       ArrayList<String> list = new ArrayList<String>(1);
       list.add(path);
@@ -122,26 +145,12 @@ public class PerfFileSystemHdfs extends PerfFileSystem {
   }
 
   @Override
-  public boolean mkdirs(String path, boolean createParent) throws IOException {
+  public boolean mkdir(String path, boolean createParent) throws IOException {
     Path p = new Path(path);
     if (mHdfs.exists(p)) {
       return false;
     }
     return mHdfs.mkdirs(p);
-  }
-
-  @Override
-  public InputStream open(String path) throws IOException {
-    Path p = new Path(path);
-    if (!mHdfs.exists(p)) {
-      throw new FileNotFoundException("File not exists " + path);
-    }
-    return mHdfs.open(p);
-  }
-
-  @Override
-  public InputStream open(String path, String readType) throws IOException {
-    return open(path);
   }
 
   @Override

@@ -53,7 +53,7 @@ public class MetadataThread extends PerfThread {
       mClients = new PerfFileSystem[mClientsNum];
       String dfsAddress = PerfConf.get().DFS_ADDRESS;
       for (int i = 0; i < mClientsNum; i ++) {
-        mClients[i] = Operators.connect(dfsAddress);
+        mClients[i] = Operators.connect(dfsAddress, taskConf);
       }
     } catch (IOException e) {
       LOG.error("Failed to setup thread, task " + mTaskId + " - thread " + mId, e);

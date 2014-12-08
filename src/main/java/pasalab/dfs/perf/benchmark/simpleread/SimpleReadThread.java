@@ -14,7 +14,6 @@ public class SimpleReadThread extends PerfThread {
   private int mBufferSize;
   private PerfFileSystem mFileSystem;
   private List<String> mReadFiles;
-  private String mReadType;
 
   private boolean mSuccess;
   private double mThroughput; // in MB/s
@@ -34,7 +33,7 @@ public class SimpleReadThread extends PerfThread {
     mSuccess = true;
     for (String fileName : mReadFiles) {
       try {
-        readBytes += Operators.readSingleFile(mFileSystem, fileName, mBufferSize, mReadType);
+        readBytes += Operators.readSingleFile(mFileSystem, fileName, mBufferSize);
       } catch (IOException e) {
         LOG.error("Failed to read file " + fileName, e);
         mSuccess = false;
@@ -47,11 +46,10 @@ public class SimpleReadThread extends PerfThread {
   @Override
   public boolean setupThread(TaskConfiguration taskConf) {
     mBufferSize = taskConf.getIntProperty("buffer.size.bytes");
-    mReadType = taskConf.getProperty("read.type");
     try {
-      mFileSystem = Operators.connect((PerfConf.get().DFS_ADDRESS));
+      mFileSystem = Operators.connect(PerfConf.get().DFS_ADDRESS, taskConf);
       String readDir = taskConf.getProperty("read.dir");
-      List<String> candidates = mFileSystem.listFullPath(readDir);
+      List<String> candidates = mFileSystem.list(readDir);
       if (candidates == null || candidates.isEmpty()) {
         throw new IOException("No file to read");
       }

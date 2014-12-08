@@ -11,17 +11,14 @@ import pasalab.dfs.perf.conf.PerfConf;
 import pasalab.dfs.perf.fs.PerfFileSystem;
 
 public class IterateThread extends PerfThread {
-  protected int mBlockSize;
   protected int mBufferSize;
   protected long mFileLength;
   protected PerfFileSystem mFileSystem;
   protected int mIterations;
   protected int mReadFilesNum;
-  protected String mReadType;
   protected boolean mShuffle;
   protected String mWorkDir;
   protected int mWriteFilesNum;
-  protected String mWriteType;
 
   protected double mReadThroughput; // in MB/s
   protected boolean mSuccess;
@@ -42,7 +39,7 @@ public class IterateThread extends PerfThread {
   protected void initSyncBarrier() throws IOException {
     String syncFileName = mTaskId + "-" + mId;
     for (int i = 0; i < mIterations; i ++) {
-      mFileSystem.createEmptyFile(mWorkDir + "/sync/" + i + "/" + syncFileName);
+      mFileSystem.create(mWorkDir + "/sync/" + i + "/" + syncFileName);
     }
   }
 
@@ -50,7 +47,7 @@ public class IterateThread extends PerfThread {
     String syncDirPath = mWorkDir + "/sync/" + iteration;
     String syncFileName = mTaskId + "-" + mId;
     mFileSystem.delete(syncDirPath + "/" + syncFileName, false);
-    while (!mFileSystem.listFullPath(syncDirPath).isEmpty()) {
+    while (!mFileSystem.list(syncDirPath).isEmpty()) {
       try {
         Thread.sleep(300);
       } catch (InterruptedException e) {
@@ -78,8 +75,8 @@ public class IterateThread extends PerfThread {
       for (int w = 0; w < mWriteFilesNum; w ++) {
         try {
           String fileName = mTaskId + "-" + mId + "-" + w;
-          Operators.writeSingleFile(mFileSystem, dataDir + "/" + fileName, mFileLength, mBlockSize,
-              mBufferSize, mWriteType);
+          Operators
+              .writeSingleFile(mFileSystem, dataDir + "/" + fileName, mFileLength, mBufferSize);
           writeBytes += mFileLength;
         } catch (IOException e) {
           LOG.error("Failed to write file", e);
@@ -97,10 +94,10 @@ public class IterateThread extends PerfThread {
       }
       tTimeMs = System.currentTimeMillis();
       try {
-        List<String> candidates = mFileSystem.listFullPath(dataDir);
+        List<String> candidates = mFileSystem.list(dataDir);
         List<String> readList = ListGenerator.generateRandomReadFiles(mReadFilesNum, candidates);
         for (String fileName : readList) {
-          readBytes += Operators.readSingleFile(mFileSystem, fileName, mBufferSize, mReadType);
+          readBytes += Operators.readSingleFile(mFileSystem, fileName, mBufferSize);
         }
       } catch (Exception e) {
         LOG.error("Failed to read file", e);
@@ -116,17 +113,14 @@ public class IterateThread extends PerfThread {
   @Override
   public boolean setupThread(TaskConfiguration taskConf) {
     mBufferSize = taskConf.getIntProperty("buffer.size.bytes");
-    mBlockSize = taskConf.getIntProperty("block.size.bytes");
     mFileLength = taskConf.getLongProperty("file.length.bytes");
     mIterations = taskConf.getIntProperty("iterations");
     mReadFilesNum = taskConf.getIntProperty("read.files.per.thread");
-    mReadType = taskConf.getProperty("read.type");
     mShuffle = taskConf.getBooleanProperty("shuffle.mode");
     mWorkDir = taskConf.getProperty("work.dir");
     mWriteFilesNum = taskConf.getIntProperty("write.files.per.thread");
-    mWriteType = taskConf.getProperty("write.type");
     try {
-      mFileSystem = Operators.connect((PerfConf.get().DFS_ADDRESS));
+      mFileSystem = Operators.connect(PerfConf.get().DFS_ADDRESS, taskConf);
       initSyncBarrier();
     } catch (IOException e) {
       LOG.error("Failed to setup thread, task " + mTaskId + " - thread " + mId, e);
