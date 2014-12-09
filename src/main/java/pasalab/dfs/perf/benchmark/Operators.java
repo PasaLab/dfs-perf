@@ -31,7 +31,9 @@ public class Operators {
    */
   public static PerfFileSystem connect(String fsPath, TaskConfiguration taskConf)
       throws IOException {
-    return PerfFileSystem.get(fsPath, taskConf);
+    PerfFileSystem fs = PerfFileSystem.get(fsPath, taskConf);
+    fs.connect();
+    return fs;
   }
 
   /**
