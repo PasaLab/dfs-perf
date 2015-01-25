@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Octopus Overview - Octopus 0.1 Documentation</title>
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+    </style>
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="css/main.css">
+
+    <script src="js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+
+    <link rel="stylesheet" href="css/pygments-default.css">
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-47563775-2', 'tachyon-project.org');
+        ga('send', 'pageview');
+    </script>
+
+</head>
+<body>
+<!--[if lt IE 7]>
+<p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade
+    your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install
+    Google Chrome Frame</a> to better experience this site.</p>
+<![endif]-->
+
+<!-- This code is taken from http://twitter.github.com/bootstrap/examples/hero.html -->
+
+<div class="navbar navbar-fixed-top" id="topbar">
+    <div class="navbar-inner">
+        <div class="container">
+            <div class="brand">
+                <div style="position:absolute;">
+                    <a href="index.html">
+                        <img src="img/logo.png" alt="Octopus Logo" style="height:50px;"/>
+                    </a>
+                </div>
+				<div style="float:right;margin-top:30px;">
+					<span class="version">0.1</span>
+				</div>
+            </div>
+            <ul class="nav">
+                <li><a href="index.html">Overview</a></li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Programming Guides<b
+                            class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="Quick-Start.html">Quick Start</a></li>
+                        <li><a href="Examples.html">Examples</a></li>
+                        <li><a href="ML-Library.html">ML Library</a></li>
+						<li><a href="API-Docs.html">API Docs</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Deploying<b
+                            class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="Pre-built-Ones.html">Pre-built Ones</a></li>
+						<li><a href="Running-Octopus-Locally.html">Local Mode</a></li>
+						<li><a href="Running-Octopus-on-a-Cluster.html">Cluster Mode</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Community<b
+                            class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="FAQ.html">FAQ</a></li>
+                        <li><a href="http://pasa-bigdata.nju.edu.cn:61111/jira/browse/OCT/?selectedTab=com.atlassian.jira.jira-projects-plugin:summary-panel">JIRA</a></li>
+                        <li><a href="https://groups.google.com/forum/#!forum/octopus-user">Mail List</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">More<b
+                            class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="Configuration-Settings.html">Configuration Settings</a></li>
+                        <li><a href="Download.html">Download</a></li>
+						<li><a href="R-IDEs.html">User IDEs</a></li>
+                        <li><a href="Development.html">Development</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="container" id="content">
+    <h1 class="title">Octopus Overview</h1>
+
+    <p>Octopus is a high-level and unified programming model and platform for big data analytics and mining. It can transparently work on top of various distributed computing frameworks, allowing data analysts and big data application programmers to easily design and implement machine learning and data mining algorithms for big data analytics. It offers an R package that provides easy-to-use scalable matrix operations from R and seamlessly executes computation on the single-node R or distributed computing frameworks such as Spark, Hadoop, MPI, etc. It allows users to run R scripts or shell commands interactively on a cluster without the distributed programming knowledge such as Hadoop MapReduce or Spark RDD.</p>
+
+<p><a href="http://pasa-bigdata.nju.edu.cn:60011/gurong/octopus">Gitbucket Repository</a> |
+<a href="Download.html">Releases and Downloads</a> |
+<a href="#user-documentation">User Documentation</a> |
+<a href="http://pasa-bigdata.nju.edu.cn:61111/jira/browse/OCT/?selectedTab=com.atlassian.jira.jira-projects-plugin:issues-panel">JIRA</a> |
+<a href="https://groups.google.com/forum/#!forum/octopus-user">User Mailing List</a> |
+<a href="Development.html">Developer Documentation</a></p>
+
+<h1 id="current-features">Current Features</h1>
+
+<ul>
+  <li>
+    <p><strong>Ease-to-use/High-level User APIs</strong>: Octopus provides users with a set of R-based APIs, called <code>OctMatrix</code>. The APIs are similar to that of the Matrix/Vector operation APIs in the standard R language. The APIs are high-level matrix operators and operations and a user with the basic knowledge of R can easily program with Octopus to design and implement a variety of machine learning and data mining algorithms for big data. It does not require the low-level knowledge for the distributed system knowledge or programming skills.</p>
+  </li>
+  <li>
+    <p><strong>Write Once, Run Everywhere</strong>: The programs written with Octopus can run on different computing engines. Users can write algorithms using <code>OctMatrix</code> APIs with small data running on a single-node R engine for test and then run the program on large scale data without modifying the codes. Users only need to switch the underlying computing engines such as Spark, Hadoop MapReduce, or MPI. Also, Octopus has a generic interface to easily implement plugins for different underlying file systems. We currently support a number of I/O sources including Tachyon, HDFS, and single-node local file systems.</p>
+  </li>
+  <li>
+    <p><strong>Distributed R <code>apply</code> Functions</strong>: Besides the conventional Matrix/Vector functions, Octopus also offers the <code>apply</code> function on <code>OctMatrix</code>.  The parameter functions passed to <code>apply</code> can be any R functions include the UDFs. When the data of the <code>OctMatrix</code> in a distributed environment, the parameter function will be executed on each element/row/column of the <code>OctMatrix</code> on the cluster. In more detail, they are executed on the local RServer daemon process on each node of the cluster in parallel.  </p>
+  </li>
+  <li>
+    <p><strong>Machine Learning Algorithm Library</strong>: Besides providing the <code>OctMatrix</code> and its APIs, Octopus also carries a bunch of scalable machine learning algorithms and demo applications which are built on top of <code>OctMatrix</code>.  Currently, the library contains logistic regression, linear Support Vector Machines(SVMs), linear regression, KMeans, softmax, deep neural network(auto encoder), and support for many other Machine Learning algorithms is coming.</p>
+  </li>
+  <li>
+    <p><strong>Seamlessly Integration With R Ecosystem</strong>: Octopus offers its features in a R package called OctMatrix. Therefore, it naturally takes advantage of the rich resources of the R ecosystem, such as various third-party R packages. Also, it can be imported and used at many <a href="R-IDEs.html">friendly R IDEs</a></p>
+  </li>
+</ul>
+
+<h1 id="user-documentation">User Documentation</h1>
+
+<p><a href="Running-Octopus-Locally.html">Running Octopus Locally</a>: Get Octopus up and running on a single node for a quick spin in ~ 2 minutes.</p>
+
+<p><a href="Running-Octopus-on-a-Cluster.html">Running Octopus on a Cluster</a>: Get Octopus up and running on your own cluster.</p>
+
+<p><a href="Running-Octopus-on-Spark.html">Running Octopus on Spark</a>: Get Octopus running on Spark. </p>
+
+<p><a href="Running-Octopus-on-Hadoop.html">Running Octopus on Hadoop</a>: Get Octopus running on Hadoop MapReduce.</p>
+
+<p><a href="Running-Octopus-on-MPI.html">Running Octopus on MPI</a>: Get Octopus running on MPI. </p>
+
+<p><a href="Configuration-Settings.html">Configuration Settings</a>: How to configure Octopus.</p>
+
+<p><a href="API-Docs.html">Octopus User API (R)</a></p>
+
+<p><a href="ML-Library.html">Octopus Machine Learning Library (R)</a></p>
+
+<p>Octopus Presentations:</p>
+
+<ul>
+  <li>A very brief introduction to Octopus (Jan. 2015) <a href="resources/Octopus-short-intro.pdf">pdf</a></li>
+  <li>A video demo (Jan. 2015) <a href="http://v.youku.com/v_show/id_XODcxNjE0OTIw.html?qq-pf-to=pcqq.group">Chinese</a></li>
+</ul>
+
+<h1 id="support-or-contact">Support or Contact</h1>
+
+<p>If you are interested in trying out Octopus in your cluster, please contact <a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#121;&#104;&#117;&#097;&#110;&#103;&#064;&#110;&#106;&#117;&#046;&#101;&#100;&#117;&#046;&#099;&#110;">Yihua Huang</a> and <a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#103;&#117;&#114;&#111;&#110;&#103;&#119;&#097;&#108;&#107;&#101;&#114;&#064;&#103;&#109;&#097;&#105;&#108;&#046;&#099;&#111;&#109;">Rong Gu</a>. Users are welcome to join our
+<a href="https://groups.google.com/forum/#!forum/octopus-user">mailing list</a> to discuss
+questions and make suggestions. We use <a href="http://pasa-bigdata.nju.edu.cn:61111/jira/browse/OCT/?selectedTab=com.atlassian.jira.jira-projects-plugin:issues-panel">JIRA</a> to track development and issues. </p>
+
+<h1 id="acknowledgement">Acknowledgement</h1>
+
+<p>Ocotpus is a research project started at the
+<a href="http://pasa-bigdata.nju.edu.cn/">Nanjing University PASA Lab</a> and currently led by <a href="http://cs.nju.edu.cn/yhuang/">Yihua Huang</a> &amp; <a href="http://pasa-bigdata.nju.edu.cn/people/ronggu/index.html">Rong Gu</a>. This research and development is funded in part by Jiangsu Province Industry Support Program (BE2014131) and China NSF Grants (No.61223003). We would also like to thank to our initial project contributors in PASALab.</p>
+
+    <!-- Main hero unit for a primary marketing message or call to action -->
+    <!--<div class="hero-unit">
+        <h1>Hello, world!</h1>
+        <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+        <p><a class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+            </div>-->
+
+    <!-- Example row of columns -->
+    <!--<div class="row">
+        <div class="span4">
+            <h2>Heading</h2>
+            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+            <p><a class="btn" href="#">View details &raquo;</a></p>
+                </div>
+                <div class="span4">
+                    <h2>Heading</h2>
+                    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+                    <p><a class="btn" href="#">View details &raquo;</a></p>
+               </div>
+                <div class="span4">
+                    <h2>Heading</h2>
+                    <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+                    <p><a class="btn" href="#">View details &raquo;</a></p>
+                </div>
+            </div>
+
+            <hr>-->
+
+    <footer>
+        <hr>
+        <p style="text-align: center; veritcal-align: middle; color: #999;">
+            Octopus is a project developed at the Nanjing University
+            <a href="http://pasa-bigdata.nju.edu.cn/">
+                PASALab.
+            </a> All Rights Reserved.
+        </p>
+    </footer>
+
+</div>
+<!-- /container -->
+
+<script src="js/vendor/jquery-1.8.0.min.js"></script>
+<script src="js/vendor/bootstrap.min.js"></script>
+<script src="js/main.js"></script>
+
+<!-- A script to fix internal hash links because we have an overlapping top bar.
+     Based on https://github.com/twitter/bootstrap/issues/193#issuecomment-2281510 -->
+<script>
+    $(function () {
+        function maybeScrollToHash() {
+            if (window.location.hash && $(window.location.hash).length) {
+                var newTop = $(window.location.hash).offset().top - $('#topbar').height() - 5;
+                $(window).scrollTop(newTop);
+            }
+        }
+
+        $(window).bind('hashchange', function () {
+            maybeScrollToHash();
+        });
+        // Scroll now too in case we had opened the page on a hash, but wait 1 ms because some browsers
+        // will try to do *their* initial scroll after running the onReady handler.
+        setTimeout(function () {
+            maybeScrollToHash();
+        }, 1)
+    })
+</script>
+
+</body>
+</html>

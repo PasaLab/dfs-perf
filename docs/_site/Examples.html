@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Examples - Octopus 0.1 Documentation</title>
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+    </style>
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="css/main.css">
+
+    <script src="js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+
+    <link rel="stylesheet" href="css/pygments-default.css">
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-47563775-2', 'tachyon-project.org');
+        ga('send', 'pageview');
+    </script>
+
+</head>
+<body>
+<!--[if lt IE 7]>
+<p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade
+    your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install
+    Google Chrome Frame</a> to better experience this site.</p>
+<![endif]-->
+
+<!-- This code is taken from http://twitter.github.com/bootstrap/examples/hero.html -->
+
+<div class="navbar navbar-fixed-top" id="topbar">
+    <div class="navbar-inner">
+        <div class="container">
+            <div class="brand">
+                <div style="position:absolute;">
+                    <a href="index.html">
+                        <img src="img/logo.png" alt="Octopus Logo" style="height:50px;"/>
+                    </a>
+                </div>
+				<div style="float:right;margin-top:30px;">
+					<span class="version">0.1</span>
+				</div>
+            </div>
+            <ul class="nav">
+                <li><a href="index.html">Overview</a></li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Programming Guides<b
+                            class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="Quick-Start.html">Quick Start</a></li>
+                        <li><a href="Examples.html">Examples</a></li>
+                        <li><a href="ML-Library.html">ML Library</a></li>
+						<li><a href="API-Docs.html">API Docs</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Deploying<b
+                            class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="Pre-built-Ones.html">Pre-built Ones</a></li>
+						<li><a href="Running-Octopus-Locally.html">Local Mode</a></li>
+						<li><a href="Running-Octopus-on-a-Cluster.html">Cluster Mode</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Community<b
+                            class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="FAQ.html">FAQ</a></li>
+                        <li><a href="http://pasa-bigdata.nju.edu.cn:61111/jira/browse/OCT/?selectedTab=com.atlassian.jira.jira-projects-plugin:summary-panel">JIRA</a></li>
+                        <li><a href="https://groups.google.com/forum/#!forum/octopus-user">Mail List</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">More<b
+                            class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="Configuration-Settings.html">Configuration Settings</a></li>
+                        <li><a href="Download.html">Download</a></li>
+						<li><a href="R-IDEs.html">User IDEs</a></li>
+                        <li><a href="Development.html">Development</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="container" id="content">
+    <h1 class="title">Examples</h1>
+
+    <p>This page describes how to implement an algorithm with <a href="API-Docs.html">OctMatrix API</a> and how to use the <a href="ML-Library.html">ML-Library</a>.</p>
+
+<h1 id="examples-for-octmatrix-api">Examples for OctMatrix API</h1>
+
+<p>If you are familiar with R-Matrix or have already implemented algorithms with R-Matrix, it will be very easy for you to implement an algorithm with OctMatrix, since OctMatrix provides the similar API with R-Matrix. Here we take Logistic Regression(LR) and K-Means for instance.</p>
+
+<h2 id="logistic-regressionlr">Logistic Regression(LR)</h2>
+
+<p>Logistic Regression(LR) is a typical probabilistic statistical classification model. We usually use it to predict the outcome of a categorical dependent variable (i.e., a class label) based on one or more predictor variables/features. As a classification model, LR can be split into two parts, training and predicting. Here we implement LR as follows:</p>
+
+<ul>
+  <li>When training, we take sigmod as the logistic function and iteratively calculate the model parameters with gradient descent.</li>
+  <li>When predicting, we apply the model on the observations and classify them according to the results.</li>
+</ul>
+
+<p>With OctMatrix, we can implement LR with the representation of matrix:</p>
+
+<pre><code># Train a logistic regression classifier with hinge loss. Return the weights.
+# x: an OctMatrix, where each row represents an observation.
+# y: an OctMatrix, where each row represents the label of an observation.
+# iters: number of iterations.
+# stepSize: the step for gradient.
+train.lr &lt;- function(x, y, iters, stepSize) {
+  # Initialize paramaters.
+  dims &lt;- dim(x)
+  m &lt;- dims[1]
+  n &lt;- dims[2]
+  x &lt;- cbind2(ones(m, 1), x)
+  theta &lt;- zeros(n+1, 1)
+  
+  # Define the sigmod function.
+  g &lt;- function(z) {
+    1.0 / (1.0 + exp(-z)) 
+  }
+  
+  # Update the model parameters iteratively with gradient descent.
+  for (i in 1:iters) {
+    z &lt;- x %*% theta
+    h &lt;- apply(z, c(1,2), g)
+    grad &lt;- t(x) %*% (h - y)
+    theta &lt;- theta - stepSize / sqrt(i) * grad
+  }
+  theta
+}
+</code></pre>
+
+<p><br /></p>
+
+<pre><code># Predict data x with a logistic regression classifier. Return the labels.
+# model: the logistic regression classifier model, which is the weights returned by train.lr(...).
+# x: an OctMatrix, where each row represents an observation.
+predict.lr &lt;- function(model, x) {
+  # Define the sigmod function.
+  g &lt;- function(z) {
+    1.0 / (1.0 + exp(-z)) 
+  }
+  
+  # Apply the model on the observations.
+  data &lt;- cbind2(ones(dim(x)[1], 1), x)
+  margin &lt;- data %*% model
+  
+  # Classify into 2 classes, (&lt; 0.5 ? 0 : 1).
+  apply(margin, c(1,2), function(z){
+    ifelse (g(z) &lt; 0.5, 0.0, 1.0)
+  })
+}
+</code></pre>
+
+<h2 id="k-means">K-Means</h2>
+
+<p>K-Means is a popular clustering algorithm in data mining. It aims to partition <code>n</code> observations into <code>k</code> clusters in which each observation belongs to the cluster with the nearest mean. The basic steps of K-Means are:</p>
+
+<ul>
+  <li>Choose <code>k</code> cluster centers.</li>
+  <li>In each iteration, calculate the distance between each observation and each center and choose the nearest one.</li>
+  <li>Update the centers with the new means.</li>
+  <li>Terminate if reach the max iterations or the centers become stable.</li>
+</ul>
+
+<p>With OctMatrix, we can implement K-Means with the representation of matrix:</p>
+
+<pre><code># Train a k-means model. Return two OctMatrix, 'centers' and 'vector'.  'centers' represents the coordinates of each center and 'vector' is a one-column OctMatrix of integers (from 1:k) indicating the cluster to which each point is allocated.
+# data: an OctMatrix, where each row represents an observation.
+# clusters: num of clusters.
+# max_iter: the maximum number of iterations.
+kmeans.OctMatrix &lt;- function(data, clusters, max_iter = 3)
+{
+  # Preparations, initialize the k centers
+  train_num &lt;- dim(data)[1]
+  raw_data &lt;- t(data)
+  centers &lt;- t(data[1:clusters,])
+  
+  # Iterations
+  for(i in 1: max_iter)
+  {
+    # Calculate the distance with (x-y)^2=x^2+y^2-2xy
+    x &lt;- rep(apply(t(raw_data * raw_data), 1, sum), clusters)
+    y &lt;- t(rep(apply(t(centers * centers), 1, sum), train_num))
+    dis &lt;- x + y - 2 * (t(raw_data) %*% centers)
+    
+    # Choose the nearest center and split data to different clusters
+    tmp &lt;- apply(dis, 1, which.min)
+    ls &lt;- split(data, tmp)
+    
+    # Update centers with new means
+    ls2 &lt;- lapply(ls, function(x) (apply(t(x), 1, sum) / dim(x)[1]))
+    ls3 &lt;- ls2[[1]]
+    if(length(ls2) &gt; 1)
+    {
+      # Since we only have cbind2, use iterations to bind the new centers
+      for(i in 2:length(ls2))
+        ls3 &lt;- cbind2(ls3, ls2[[i]])
+    }
+    
+    # If not enough centers, choose from the origin data
+    if(length(ls3) &lt; clusters)
+      centers &lt;- cbind2(ls3, t(data[(length(ls2) + 1):clusters,]))
+    else
+      centers &lt;- ls3
+  }
+  
+  # Get the final cluster of each observation
+  x &lt;- rep(apply(t(raw_data * raw_data), 1, sum), clusters)
+  y &lt;- t(rep(apply(t(centers * centers), 1, sum), train_num))
+  dis &lt;- x + y - 2 * (t(raw_data) %*% centers)
+  tmp &lt;- apply(dis, 1, which.min)
+  
+  list("vector" = tmp, "centers" = t(centers))
+}
+</code></pre>
+
+<h1 id="examples-for-ml-library">Examples for ML-Library</h1>
+
+<p>Octopus’ ML-Library already provides several useful algorithms, including classification, regression, clustering and feature extraction. For an application, you only need to complete the input and output steps, e.g. to generate the input OctMatrix with yout input data and to convert the output OctMatrix to your own data structure.</p>
+
+<h2 id="k-means-1">K-Means</h2>
+
+<p>Here we give an example on clustering with K-Means algorithm and iris data set. This famous (Fisher’s or Anderson’s) iris data set gives the measurements in centimeters of the variables sepal length and width and petal length and width, respectively, for 50 flowers from each of 3 species of iris. The species are Iris setosa, versicolor, and virginica. The dataset is like this:</p>
+
+<pre><code>#   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+#           5.1         3.5          1.4         0.2  setosa
+#           4.9         3.0          1.4         0.2  setosa
+#           4.7         3.2          1.3         0.2  setosa
+#           4.6         3.1          1.5         0.2  setosa
+#           5.0         3.6          1.4         0.2  setosa
+#           5.4         3.9          1.7         0.4  setosa
+#...
+</code></pre>
+
+<p>The R script is very simple since we already have the K-Means algorithm:</p>
+
+<pre><code># Environment initialization.
+library(ggplot2)
+require(OctMatrix)
+source(paste(OCTOPUS_HOME, "/R/ml-library/kmeans.R", sep = ""))
+
+engineType = "Spark"    # Choose the platform as your wish.
+
+# Load iris data.
+data(iris)
+ 
+# Remove orginal labels.
+data &lt;- as.matrix(iris[, -dim(iris)[2]])
+
+# Generate OctMatrix with the input data
+data &lt;- OctMatrix(data, engineType = engineType)
+
+# Call the kmeans function.
+res &lt;- kmeans.OctMatrix(data, clusters = 3, max_iter = 5)
+ 
+# Show the results.
+table(iris[, ncol(iris)], as.vector(as.matrix(res$vector)))
+</code></pre>
+
+
+    <!-- Main hero unit for a primary marketing message or call to action -->
+    <!--<div class="hero-unit">
+        <h1>Hello, world!</h1>
+        <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+        <p><a class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+            </div>-->
+
+    <!-- Example row of columns -->
+    <!--<div class="row">
+        <div class="span4">
+            <h2>Heading</h2>
+            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+            <p><a class="btn" href="#">View details &raquo;</a></p>
+                </div>
+                <div class="span4">
+                    <h2>Heading</h2>
+                    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+                    <p><a class="btn" href="#">View details &raquo;</a></p>
+               </div>
+                <div class="span4">
+                    <h2>Heading</h2>
+                    <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+                    <p><a class="btn" href="#">View details &raquo;</a></p>
+                </div>
+            </div>
+
+            <hr>-->
+
+    <footer>
+        <hr>
+        <p style="text-align: center; veritcal-align: middle; color: #999;">
+            Octopus is a project developed at the Nanjing University
+            <a href="http://pasa-bigdata.nju.edu.cn/">
+                PASALab.
+            </a> All Rights Reserved.
+        </p>
+    </footer>
+
+</div>
+<!-- /container -->
+
+<script src="js/vendor/jquery-1.8.0.min.js"></script>
+<script src="js/vendor/bootstrap.min.js"></script>
+<script src="js/main.js"></script>
+
+<!-- A script to fix internal hash links because we have an overlapping top bar.
+     Based on https://github.com/twitter/bootstrap/issues/193#issuecomment-2281510 -->
+<script>
+    $(function () {
+        function maybeScrollToHash() {
+            if (window.location.hash && $(window.location.hash).length) {
+                var newTop = $(window.location.hash).offset().top - $('#topbar').height() - 5;
+                $(window).scrollTop(newTop);
+            }
+        }
+
+        $(window).bind('hashchange', function () {
+            maybeScrollToHash();
+        });
+        // Scroll now too in case we had opened the page on a hash, but wait 1 ms because some browsers
+        // will try to do *their* initial scroll after running the onReady handler.
+        setTimeout(function () {
+            maybeScrollToHash();
+        }, 1)
+    })
+</script>
+
+</body>
+</html>

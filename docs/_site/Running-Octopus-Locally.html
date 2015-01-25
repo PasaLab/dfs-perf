@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Running Octopus Locally - Octopus 0.1 Documentation</title>
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+    </style>
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="css/main.css">
+
+    <script src="js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+
+    <link rel="stylesheet" href="css/pygments-default.css">
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-47563775-2', 'tachyon-project.org');
+        ga('send', 'pageview');
+    </script>
+
+</head>
+<body>
+<!--[if lt IE 7]>
+<p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade
+    your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install
+    Google Chrome Frame</a> to better experience this site.</p>
+<![endif]-->
+
+<!-- This code is taken from http://twitter.github.com/bootstrap/examples/hero.html -->
+
+<div class="navbar navbar-fixed-top" id="topbar">
+    <div class="navbar-inner">
+        <div class="container">
+            <div class="brand">
+                <div style="position:absolute;">
+                    <a href="index.html">
+                        <img src="img/logo.png" alt="Octopus Logo" style="height:50px;"/>
+                    </a>
+                </div>
+				<div style="float:right;margin-top:30px;">
+					<span class="version">0.1</span>
+				</div>
+            </div>
+            <ul class="nav">
+                <li><a href="index.html">Overview</a></li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Programming Guides<b
+                            class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="Quick-Start.html">Quick Start</a></li>
+                        <li><a href="Examples.html">Examples</a></li>
+                        <li><a href="ML-Library.html">ML Library</a></li>
+						<li><a href="API-Docs.html">API Docs</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Deploying<b
+                            class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="Pre-built-Ones.html">Pre-built Ones</a></li>
+						<li><a href="Running-Octopus-Locally.html">Local Mode</a></li>
+						<li><a href="Running-Octopus-on-a-Cluster.html">Cluster Mode</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Community<b
+                            class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="FAQ.html">FAQ</a></li>
+                        <li><a href="http://pasa-bigdata.nju.edu.cn:61111/jira/browse/OCT/?selectedTab=com.atlassian.jira.jira-projects-plugin:summary-panel">JIRA</a></li>
+                        <li><a href="https://groups.google.com/forum/#!forum/octopus-user">Mail List</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">More<b
+                            class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="Configuration-Settings.html">Configuration Settings</a></li>
+                        <li><a href="Download.html">Download</a></li>
+						<li><a href="R-IDEs.html">User IDEs</a></li>
+                        <li><a href="Development.html">Development</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="container" id="content">
+    <h1 class="title">Running Octopus Locally</h1>
+
+    <p>This guide describes how to get Octopus running on local R for a quick spin in ~ 2 minutes.</p>
+
+<h1 id="prerequisites">Prerequisites</h1>
+
+<p>The prerequisites for this part is that you have Java and R. RStudio is recommended to run your R script in a browser.</p>
+
+<p>The OctMatrix package requires rJava package, so you also need to install rJava in your R. The very simple way is to run the following script in R shell:</p>
+
+<pre><code>install.packages("rJava")
+</code></pre>
+
+<h1 id="configurations">Configurations</h1>
+<p>Prepare the binary distribution of Octopus:</p>
+
+<pre><code>$ tar xvfz octopus-0.1-bin.tar.gz
+$ cd octopus-0.1
+</code></pre>
+
+<p>Before installing Octopus, requisite environment variables must be specified in <code>conf/octopus-env.R</code></p>
+
+<p>To run locally, these four variables in <code>conf/octopus-env.R</code> should be set as follows:</p>
+
+<pre><code># To run locally, set this to FALSE
+OCTOPUS_SPARK_START=FALSE
+ 
+# Set the home directory path of Octopus
+OCTOPUS_HOME="{where.your.octopus-0.1}"
+ 
+# To run locally, set this to local file system
+OCTOPUS_UNDERFS_ADDRESS="file://"
+ 
+# Set the data folder's path of Octopus in underlying file system
+OCTOPUS_WAREHOUSE="/tmp/octopus_warehouse"
+</code></pre>
+
+<p>Then, the following command should be added to make R be able to load the configurations. It can be added to <code>Rprofile.site</code> in the installation path of R, e.g. <code>/usr/lib64/R/etc/Rprofile.site</code>. Or added to <code>.Rprofile</code> in the user’s home path, e.g. <code>~/.Rprofile</code>.</p>
+
+<pre><code>source("{where.your.octopus-0.1}/conf/octopus-env.R")
+</code></pre>
+
+<p>Now, you can install Octopus by running:</p>
+
+<pre><code>$ R CMD INSTALL {where.your.octopus-0.1}/R/pkg
+</code></pre>
+
+<p>Before using Octopus, you can format your Octopus Warehouse by running:</p>
+
+<pre><code>$ sbin/octopus-format.sh
+</code></pre>
+
+<h1 id="example">Example</h1>
+<p>Now you can write a few R script to verify if the installed package <code>OctMatrix</code> works well.</p>
+
+<pre><code>require(OctMatrix)
+a &lt;- OctMatrix(1:4, 2, 2, "R")
+b &lt;- OctMatrix(5:8, 2, 2, "R")
+c &lt;- a + b
+c
+WriteOctMatrix(c, "file:///tmp/octoput-test-c")
+</code></pre>
+
+<p>You can see the correct result of <code>a + b</code> and the result <code>c</code> is output to the target path.</p>
+
+    <!-- Main hero unit for a primary marketing message or call to action -->
+    <!--<div class="hero-unit">
+        <h1>Hello, world!</h1>
+        <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+        <p><a class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+            </div>-->
+
+    <!-- Example row of columns -->
+    <!--<div class="row">
+        <div class="span4">
+            <h2>Heading</h2>
+            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+            <p><a class="btn" href="#">View details &raquo;</a></p>
+                </div>
+                <div class="span4">
+                    <h2>Heading</h2>
+                    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+                    <p><a class="btn" href="#">View details &raquo;</a></p>
+               </div>
+                <div class="span4">
+                    <h2>Heading</h2>
+                    <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+                    <p><a class="btn" href="#">View details &raquo;</a></p>
+                </div>
+            </div>
+
+            <hr>-->
+
+    <footer>
+        <hr>
+        <p style="text-align: center; veritcal-align: middle; color: #999;">
+            Octopus is a project developed at the Nanjing University
+            <a href="http://pasa-bigdata.nju.edu.cn/">
+                PASALab.
+            </a> All Rights Reserved.
+        </p>
+    </footer>
+
+</div>
+<!-- /container -->
+
+<script src="js/vendor/jquery-1.8.0.min.js"></script>
+<script src="js/vendor/bootstrap.min.js"></script>
+<script src="js/main.js"></script>
+
+<!-- A script to fix internal hash links because we have an overlapping top bar.
+     Based on https://github.com/twitter/bootstrap/issues/193#issuecomment-2281510 -->
+<script>
+    $(function () {
+        function maybeScrollToHash() {
+            if (window.location.hash && $(window.location.hash).length) {
+                var newTop = $(window.location.hash).offset().top - $('#topbar').height() - 5;
+                $(window).scrollTop(newTop);
+            }
+        }
+
+        $(window).bind('hashchange', function () {
+            maybeScrollToHash();
+        });
+        // Scroll now too in case we had opened the page on a hash, but wait 1 ms because some browsers
+        // will try to do *their* initial scroll after running the onReady handler.
+        setTimeout(function () {
+            maybeScrollToHash();
+        }, 1)
+    })
+</script>
+
+</body>
+</html>
