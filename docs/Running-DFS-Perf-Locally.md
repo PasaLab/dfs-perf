@@ -1,6 +1,6 @@
 ---
 layout: global
-title: Running Octopus Locally
+title: Running DFS-Perf Locally
 ---
 This guide describes how to get Octopus running on local R for a quick spin in ~ 2 minutes.
 

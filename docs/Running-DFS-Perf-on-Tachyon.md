@@ -1,6 +1,6 @@
 ---
 layout: global
-title: Running Octopus on Spark
+title: Running DFS-Perf on Tachyon
 ---
 
 To run Octopus on Spark, you must install Octopus in [cluster mode](Running-Octopus-on-a-Cluster.html)

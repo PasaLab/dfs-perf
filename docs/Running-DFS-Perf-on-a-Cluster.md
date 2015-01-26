@@ -1,6 +1,6 @@
 ---
 layout: global
-title: Running Octopus on a Cluster
+title: Running DFS-Perf on a Cluster
 ---
 This guide describes how to get Octopus running on a cluster.
 

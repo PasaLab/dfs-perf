@@ -1,6 +1,6 @@
 ---
 layout: global
-title: Running Octopus on Hadoop
+title: Running DFS-Perf on HDFS
 ---
 
 To run Octopus on Hadoop, you must install Octopus in [cluster mode](Running-Octopus-on-a-Cluster.html)
