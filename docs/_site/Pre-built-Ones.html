@@ -99,19 +99,16 @@
     <h1 class="title">Environment Setup</h1>
 
     <h1 id="prerequisites">Prerequisites</h1>
-<p>To run Octopus, several prerequisite softwares are needed on your single node or cluster. The more detailed prerequisites can be found in <a href="Running-Octopus-Locally.html">Running Octopus Locally</a> and <a href="Running-Octopus-on-a-Cluster.html">Running Octopus on a Cluster</a>.</p>
+<p>To run DFS-Perf, several prerequisite softwares are needed on your single node or cluster. The more detailed prerequisites can be found in <a href="Running-DFS-Perf-Locally.html">Running DFS-Perf Locally</a> and <a href="Running-DFS-Perf-on-a-Cluster.html">Running DFS-Perf on a Cluster</a>.</p>
 
-<p>In local mode, you need Java (JDK 6 or above), R (3.0 or above) with rJava package.</p>
+<p>In local mode, you need Java (JDK 6 or above).</p>
 
-<p>In cluster mode, you need Java (JDK 6 or above), R (3.0 or above) with rJava and Rserve package. And you can choose one Distributed File System and at least one Distributed Computing Framework from Spark, Hadoop, MPI.</p>
+<p>In cluster mode, you need Java (JDK 6 or above). And you can choose one Distributed File System from GlusterFS, GPFS, HDFS and Tachyon.</p>
 
 <h1 id="pre-built-ones">Pre-built Ones</h1>
-<p>We have pre-built Octopus with different dependencies versions. Actually, Octopus uses the stable APIs of the underlying computing frameworks such as Spark/Hadoop. Thus, our pre-built Octopus can run well on various Spark/Hadoop versions. If you are interested in using Octopus, please refer <a href="Download.html">Download</a>.</p>
+<p>We have pre-built DFS-Perf with different dependencies versions. If you are interested in using DFS-Perf, please refer <a href="Download.html">Download</a>.</p>
 
-<p>Octopus-0.1–Spark-1.0.1–Hadoop-2.3.0–Tachyon-0.6.0-SNAPSHOT–OpenMPI-1.8.3</p>
-
-<h2 id="native-library-dependencies">Native Library Dependencies</h2>
-<p>Octopus-Spark uses the linear algebra package <a href="http://www.scalanlp.org/">Breeze</a>, which depends on <a href="https://github.com/fommil/netlib-java">netlib-java</a>, and <a href="https://github.com/mikiobraun/jblas">jblas</a>. <code>netlib-java</code> and <code>jblas</code> depend on native Fortran routines. You need to install the <a href="https://github.com/mikiobraun/jblas/wiki/Missing-Libraries">gfortran runtime library</a> if it is not already present on your nodes. Octopus-Spark will throw a linking error if it cannot detect these libraries automatically. Due to license issues, we do not include <code>netlib-java</code>’s native libraries in Octopus-Spark’s dependency set under default settings. If no native library is available at runtime, you will see a warning message. To use native libraries from <code>netlib-java</code>, please build Spark with <code>-Pnetlib-lgpl</code> or include <code>com.github.fommil.netlib:all:1.1.2</code> as a dependency of your project. If you want to use optimized BLAS/LAPACK libraries such as <a href="http://www.openblas.net/">OpenBLAS</a>, please link its shared libraries to <code>/usr/lib/libblas.so.3</code> and <code>/usr/lib/liblapack.so.3</code>, respectively. BLAS/LAPACK libraries on worker nodes should be built without multithreading. In more detail, you can refer this <a href="https://github.com/PasaLab/marlin/wiki/How-to-load-native-linear-algebra-library">page</a> to see how to enable Spark to load native linear algebra library successfully.</p>
+<p>DFS-Perf-0.1–GlusterFS-3.5.0–GPFS-3.5.0.21–Hadoop-2.3.0–Tachyon-0.6.0-SNAPSHOT</p>
 
     <!-- Main hero unit for a primary marketing message or call to action -->
     <!--<div class="hero-unit">

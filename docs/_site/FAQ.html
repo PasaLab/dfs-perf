@@ -10,7 +10,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Octopus FAQ - DFS-Perf 0.1 Documentation</title>
+    <title>DFS-Perf FAQ - DFS-Perf 0.1 Documentation</title>
     <meta name="description" content="">
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -96,46 +96,30 @@
 </div>
 
 <div class="container" id="content">
-    <h1 class="title">Octopus FAQ</h1>
+    <h1 class="title">DFS-Perf FAQ</h1>
 
-    <p>This page lists the frequent asked general questions about the Octopus project. If you have some problems during usage, please put forward your questions in the <a href="https://groups.google.com/forum/#!forum/octopus-user">user mailing list</a>.</p>
+    <p>This page lists the frequent asked general questions about the DFS-Perf project. If you have some problems during usage, please put forward your questions in the <a href="https://groups.google.com/forum/?fromgroups#!forum/dfs-perf-users">user mailing list</a>.</p>
 
 <ul>
   <li>
-    <p><strong>How does Octopus relate to Spark/Hadoop?</strong><br />
-Octopus is a high-level analytical programming platform backended with various distributed computing frameworks such as Spark, Hadoop, MPI, etc. It allows users to run R scripts or shell commands interactively on a cluster without the distributed programming knowledge such as Hadoop MapReduce or Spark RDD, etc.</p>
+    <p><strong>How does DFS-Perf relate to HDFS/Tachyon …?</strong><br />
+DFS-Perf is a benchmark framework on top of Distributed File Systems(DFS) such as HDFS, Tachyon, etc. It allows users to run workloads to test the performance of DFS.</p>
   </li>
   <li>
-    <p><strong>How can I run Octopus on a cluster?</strong><br />
- To run on a cluster, you need a Distributed File System, e.g. HDFS or Tachyon, at least one Computing Framework, e.g. Spark, Hadoop MapReduce or MPI. Then, you can refer <a href="Running-Octopus-on-a-Cluster.html">Running Octopus on a Cluster</a> to get Octopus up and running on your own cluster.</p>
+    <p><strong>How can I run DFS-Perf on a cluster?</strong><br />
+To run on a cluster, you need a DFS as test target. Then, you can refer <a href="Running-DFS-Perf-on-a-Cluster.html">Running DFS-Perf on a Cluster</a> to get DFS-Perf up and running on your own cluster.</p>
   </li>
   <li>
-    <p><strong>Do I need Hadoop/Spark to run Octopus?</strong><br />
- Not always. Octopus can runs locally without Hadoop/Spark. It’s a good way to have a quick experience with Octopus.</p>
+    <p><strong>Can I run DFS-Perf on different file systems?</strong><br />
+Of courese yes. DFS-Perf is designed to support different widely used DFS. The very simple way to switch to another DFS is to modify the path schema in the configuration file, e.g. <code>hdfs://master:9000</code> to <code>tachyon://master:19998</code>.</p>
   </li>
   <li>
-    <p><strong>Does the machine installed OctMatrix package need to have high performance?</strong><br />
-No. Actually, in the cluster mode, the matrix data are stored and processed in the underlying distributed engines across cluster, but not in the single-node machine.</p>
-  </li>
-  <li>
-    <p><strong>Can I take advantage of the native linear algebra library to accelerate Octopus’s computation speed?</strong><br />
-Yes, please refer <a href="Pre-built-Ones.html#native-library-dependencies">here</a> to see how. As the computation of OctMatrix are mostly numerical operations, we do strongly encourage you to do so. Experiment results show that enabling native linear algebra library can get around 10 times performance improvement for large datasets.</p>
-  </li>
-  <li>
-    <p><strong>What’s the difference between Octopus and SparkR?</strong><br />
-Accroding <a href="http://amplab-extras.github.io/SparkR-pkg/">SparkR website</a>, SparkR is an R package that provides a light-weight frontend to use Apache Spark from R. SparkR exposes the Spark API through the RDD class and allows users to run jobs from the R on a cluster. From the user’s perspective, SparkR supports various Spark RDD transformations/actions for general processing, while the Octopus’s APIs are high-level matrix operators and operations, which are similar to the Matrix/Vector operation APIs in the standard R language. A user with the basic knowledge of R can use Octopus to design and implement a variety of machine learning and data mining algorithms. It does not require the low-level knowledge of the distributed system knowledge or programming skills, such as Spark RDD. From the computing engine’s perspective, instead of only using Spark, Octopus is backended with various computing frameworks, including Spark, Hadoop, MPI and single-node R.  </p>
-  </li>
-  <li>
-    <p><strong>Which languages does Octopus expose to end-users now?</strong><br />
-Currently, Octopus exposes R to end-users.</p>
-  </li>
-  <li>
-    <p><strong>What are good resources for learning R?</strong><br />
-Check out the <a href="http://www.inside-r.org/">Inside-R</a> web site,<a href="http://cran.r-project.org/">CRAN</a> (particularly the <a href="http://cran.r-project.org/web/views/">task views</a>) and <a href="http://crantastic.org/">crantastic</a>. Also, you can download R and a GUI-based integrated development environment (IDE) to practise there.</p>
+    <p><strong>What’s the difference between DFS-Perf and YCSB, HiBench, …?</strong><br />
+Now there exists benchmark frameworks for big data computing, such as <a href="https://github.com/brianfrankcooper/YCSB">YCSB</a>, <a href="https://github.com/intel-hadoop/HiBench">HiBench</a>, etc. However, they are not targeted on DFS. YCSB is a benchmark framework for evaluating the performance of the new generation “key-value” and “cloud” serving stores. And HiBench is a Hadoop Benchmark Suite which contains a series of typical Hadoop MapReduce workloads. Indeed, there is no testing framework that can execute different workloads on different DFS. Our goal is to design such a general benchmarking framework for different DFS with the guidance of those existing benchmarks. That is DFS-Perf. </p>
   </li>
   <li>
     <p><strong>Where can I get more help?</strong><br />
-Please post on the Octopus <a href="https://groups.google.com/forum/#!forum/octopus-user">user mailing list</a>. We’ll be glad to help there!</p>
+Please post on the DFS-Perf <a href="https://groups.google.com/forum/?fromgroups#!forum/dfs-perf-users">user mailing list</a>. We’ll be glad to help there!</p>
   </li>
 </ul>
 
