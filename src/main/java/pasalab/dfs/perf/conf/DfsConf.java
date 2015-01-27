@@ -13,7 +13,7 @@ public class DfsConf extends Utils {
   }
 
   // TODO: Add and get from properties
-  public final ImmutableList<String> GLUSTER_PREFIX = ImmutableList.of("glusterfs:///");
+  public final ImmutableList<String> GLUSTER_PREFIX = ImmutableList.of("glusterfs://");
   public final ImmutableList<String> HDFS_PREFIX = ImmutableList.of("hdfs://");
   public final ImmutableList<String> LFS_PREFIX = ImmutableList.of("file://");
   public final ImmutableList<String> TFS_PREFIX = ImmutableList.of("tachyon://");
