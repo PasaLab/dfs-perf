@@ -1,6 +1,6 @@
 ---
 layout: global
-title: Quick Start
+title: Quick Start--
 ---
 
 This short tutorial provides a quick introduction to how to use Octopus. We will first introduce some basic APIs, then show how to write applications. See the [API Docs](API-Docs.html) for a more complete reference.

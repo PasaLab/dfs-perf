@@ -3,4 +3,4 @@ layout: global
 title: Download
 ---
 
-Currently, Octopus is limited to invitation-only. If you are interested in trying out Octopus, please contact [Yihua Huang](mailto:yhuang@nju.edu.cn) and [Rong Gu](mailto:gurongwalker@gmail.com). 
+Currently, DFS-Perf is limited to invitation-only. If you are interested in trying out DFS-Perf, please contact [Rong Gu](mailto:gurongwalker@gmail.com) and [Qianhao Dong](mailto:09122swat@gmail.com). 

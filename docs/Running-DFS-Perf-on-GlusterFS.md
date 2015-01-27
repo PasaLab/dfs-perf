@@ -1,6 +1,6 @@
 ---
 layout: global
-title: Running DFS-Perf on GlusterFS
+title: Running DFS-Perf on GlusterFS--
 ---
 
 To run Octopus on MPI, you must install Octopus in [cluster mode](Running-Octopus-on-a-Cluster.html)

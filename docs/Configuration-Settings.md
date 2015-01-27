@@ -1,6 +1,6 @@
 ---
 layout: global
-title: Configuration Settings
+title: Configuration Settings--
 ---
 
 Octopus configuration parameters are those variables in `conf/octopus-env.R`, and will be loaded when starting a new R session.

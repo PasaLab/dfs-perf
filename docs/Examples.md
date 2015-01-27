@@ -1,6 +1,6 @@
 ---
 layout: global
-title: Examples
+title: Examples--
 ---
 
 This page describes how to implement an algorithm with [OctMatrix API](API-Docs.html) and how to use the [ML-Library](ML-Library.html).
