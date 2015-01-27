@@ -43,13 +43,6 @@
     <totalReportClass>pasalab.dfs.perf.benchmark.SimpleTotalReport</totalReportClass>
   </type>
   <type>
-    <name>Iterate2</name>
-    <taskClass>pasalab.dfs.perf.benchmark.iterate.IterateTask</taskClass>
-    <taskContextClass>pasalab.dfs.perf.benchmark.iterate.IterateTaskContext</taskContextClass>
-    <taskThreadClass>pasalab.dfs.perf.benchmark.iterate.Iterate2Thread</taskThreadClass>
-    <totalReportClass>pasalab.dfs.perf.benchmark.SimpleTotalReport</totalReportClass>
-  </type>
-  <type>
     <name>Massive</name>
     <taskClass>pasalab.dfs.perf.benchmark.massive.MassiveTask</taskClass>
     <taskContextClass>pasalab.dfs.perf.benchmark.massive.MassiveTaskContext</taskContextClass>

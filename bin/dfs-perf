@@ -4,7 +4,7 @@ function printUsage {
   echo "Usage: dfs-perf <TestCase>"
   echo "now TestCase is one of:"
   echo -e "  SimpleWrite SimpleRead SkipRead Metadata"
-  echo -e "  Iterate Iterate2 Massive"
+  echo -e "  Iterate Massive"
   echo "the detailed configurations are in conf/testsuite/"
 }
 
