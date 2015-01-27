@@ -10,7 +10,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Running DFS-Perf Locally-- - DFS-Perf 0.1 Documentation</title>
+    <title>Running DFS-Perf Locally - DFS-Perf 0.1 Documentation</title>
     <meta name="description" content="">
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -96,70 +96,47 @@
 </div>
 
 <div class="container" id="content">
-    <h1 class="title">Running DFS-Perf Locally--</h1>
+    <h1 class="title">Running DFS-Perf Locally</h1>
 
-    <p>This guide describes how to get Octopus running on local R for a quick spin in ~ 2 minutes.</p>
+    <p>This guide describes how to get DFS-Perf running locally for a quick spin in ~ 2 minutes.</p>
 
 <h1 id="prerequisites">Prerequisites</h1>
-
-<p>The prerequisites for this part is that you have Java and R. RStudio is recommended to run your R script in a browser.</p>
-
-<p>The OctMatrix package requires rJava package, so you also need to install rJava in your R. The very simple way is to run the following script in R shell:</p>
-
-<pre><code>install.packages("rJava")
-</code></pre>
+<p>The prerequisites for this part is that you have Java (JDK 6 or above).</p>
 
 <h1 id="configurations">Configurations</h1>
-<p>Prepare the binary distribution of Octopus:</p>
+<p>Prepare the binary distribution of DFS-Perf:</p>
 
-<pre><code>$ tar xvfz octopus-0.1-bin.tar.gz
-$ cd octopus-0.1
+<pre><code>$ tar xvfz dfs-perf-0.1-bin.tar.gz
+$ cd dfs-perf-0.1
 </code></pre>
 
-<p>Before installing Octopus, requisite environment variables must be specified in <code>conf/octopus-env.R</code></p>
+<p>Before running DFS-Perf, requisite environment variables must be specified in <code>conf/dfs-perf-env.sh</code></p>
 
-<p>To run locally, these four variables in <code>conf/octopus-env.R</code> should be set as follows:</p>
+<pre><code>$ cp conf/dfs-perf-env.sh.template conf/dfs-perf-env.sh
+</code></pre>
 
-<pre><code># To run locally, set this to FALSE
-OCTOPUS_SPARK_START=FALSE
+<p>To run locally, these variables in <code>conf/dfs-perf-env.sh</code> should be set as follows:</p>
+
+<pre><code>export JAVA={where.your.java}
  
-# Set the home directory path of Octopus
-OCTOPUS_HOME="{where.your.octopus-0.1}"
+# Set to the local file system
+export DFS_PERF_DFS_ADRESS="file://"
  
-# To run locally, set this to local file system
-OCTOPUS_UNDERFS_ADDRESS="file://"
- 
-# Set the data folder's path of Octopus in underlying file system
-OCTOPUS_WAREHOUSE="/tmp/octopus_warehouse"
+# Set master to localhost
+DFS_PERF_MASTER_HOSTNAME="localhost"
 </code></pre>
 
-<p>Then, the following command should be added to make R be able to load the configurations. It can be added to <code>Rprofile.site</code> in the installation path of R, e.g. <code>/usr/lib64/R/etc/Rprofile.site</code>. Or added to <code>.Rprofile</code> in the user’s home path, e.g. <code>~/.Rprofile</code>.</p>
-
-<pre><code>source("{where.your.octopus-0.1}/conf/octopus-env.R")
-</code></pre>
-
-<p>Now, you can install Octopus by running:</p>
-
-<pre><code>$ R CMD INSTALL {where.your.octopus-0.1}/R/pkg
-</code></pre>
-
-<p>Before using Octopus, you can format your Octopus Warehouse by running:</p>
-
-<pre><code>$ sbin/octopus-format.sh
-</code></pre>
+<p>Then, set the slaves in <code>conf/slaves</code>. In local mode it’s recommend to use ‘localhost’ as slave.</p>
 
 <h1 id="example">Example</h1>
-<p>Now you can write a few R script to verify if the installed package <code>OctMatrix</code> works well.</p>
+<p>Now you can run DFS-Perf on the local file system. For example, run the metadata workload.</p>
 
-<pre><code>require(OctMatrix)
-a &lt;- OctMatrix(1:4, 2, 2, "R")
-b &lt;- OctMatrix(5:8, 2, 2, "R")
-c &lt;- a + b
-c
-WriteOctMatrix(c, "file:///tmp/octoput-test-c")
+<pre><code>$ bin/dfs-perf-clean
+$ bin/dfs-perf Metadata
+$ bin/dfs-perf-collect Metadata
 </code></pre>
 
-<p>You can see the correct result of <code>a + b</code> and the result <code>c</code> is output to the target path.</p>
+<p>See more examples on <a href="Examples.html">Examples</a>.</p>
 
     <!-- Main hero unit for a primary marketing message or call to action -->
     <!--<div class="hero-unit">

@@ -10,7 +10,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Running DFS-Perf on a Cluster-- - DFS-Perf 0.1 Documentation</title>
+    <title>Running DFS-Perf on a Cluster - DFS-Perf 0.1 Documentation</title>
     <meta name="description" content="">
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -96,79 +96,49 @@
 </div>
 
 <div class="container" id="content">
-    <h1 class="title">Running DFS-Perf on a Cluster--</h1>
+    <h1 class="title">Running DFS-Perf on a Cluster</h1>
 
-    <p>This guide describes how to get Octopus running on a cluster.</p>
+    <p>This guide describes how to get DFS-Perf running on a cluster.</p>
 
 <h1 id="prerequisites">Prerequisites</h1>
-<p>The prerequisites for this part contains all the prerequisites of <a href="Running-Octopus-Locally.html">Running Octopus Locally</a>. In addition, to run on a cluster, you need a Distributed File System, e.g. HDFS or Tachyon, at least one Computing Framework, e.g. Spark, Hadoop MapReduce or MPI. </p>
-
-<p>More a step, if you want to use the <code>apply</code> method, you should have Rserve package on each of your cluster nodes. You can install the Rserve package with following steps (Note that this should be executed on each node):</p>
-
-<pre><code>1. start R shell with root permission
-2. &gt; install.packages("Rserve")
-3. quit R shell and root
-4. $ R CMD Rserve
-</code></pre>
+<p>The prerequisites for this part contains all the prerequisites of <a href="Running-DFS-Perf-Locally.html">Running DFS-Perf Locally</a>. In addition, to run on a cluster, you need a Distributed File System from GlusterFS, GPFS, HDFS and Tachyon. </p>
 
 <h1 id="configurations">Configurations</h1>
-<p>Prepare the binary distribution of Octopus:</p>
+<p>Prepare the binary distribution of DFS-Perf:</p>
 
-<pre><code>$ tar xvfz octopus-0.1-bin.tar.gz
-$ cd octopus-0.1
+<pre><code>$ tar xvfz dfs-perf-0.1-bin.tar.gz
+$ cd dfs-perf-0.1
 </code></pre>
 
-<p>Before installing Octopus, requisite environment variables must be specified in <code>conf/octopus-env.R</code></p>
+<p>Before running DFS-Perf, requisite environment variables must be specified in <code>conf/dfs-perf-env.sh</code></p>
 
-<p>To run on a cluster, these variables in <code>conf/octopus-env.R</code> should be set as follows:</p>
+<pre><code>$ cp conf/dfs-perf-env.sh.template conf/dfs-perf-env.sh
+</code></pre>
 
-<pre><code># If you has Spark as a computing framework, set this to TRUE
-OCTOPUS_SPARK_START=TRUE
+<p>To run on a cluster, these variables in <code>conf/dfs-perf-env.sh</code> should be set as follows:</p>
+
+<pre><code>export JAVA={where.your.java}
  
-# Set the home directory path of Octopus
-OCTOPUS_HOME="{where.your.octopus-0.1}"
+# Set to the distributed file system, here take hdfs as example
+export DFS_PERF_DFS_ADRESS="hdfs://master:9000"
  
-# To run on a cluster, set this to a distributed file system, e.g. hdfs or tachyon
-OCTOPUS_UNDERFS_ADDRESS="hdfs://ip:port"
- 
-# Set the data folder's path of Octopus in underlying file system
-OCTOPUS_WAREHOUSE="/tmp/octopus_warehouse"
+# Set master address
+DFS_PERF_MASTER_HOSTNAME="master"
 </code></pre>
 
-<p>Moreover, set those variables correspond to your computing framework. For different computing frameworks, you can distinguish those configurations with their prefixes, e.g. <code>OCTOPUS_SPARK_</code>, <code>OCTOPUS_HADOOP_</code> or <code>OCTOPUS_MPI_</code>.</p>
+<p>For different DFS, some specific variables need to be set. You can see the details in <a href="Running-DFS-Perf-on-GlusterFS.html">Running DFS-Perf on GlusterFS</a>, <a href="Running-DFS-Perf-on-GPFS.html">Running DFS-Perf on GPFS</a>, <a href="Running-DFS-Perf-on-HDFS.html">Running DFS-Perf on HDFS</a> and <a href="Running-DFS-Perf-on-Tachyon.html">Running DFS-Perf on Tachyon</a>.</p>
 
-<p>Then, the following command should be added to make R be able to load the configurations. It can be added to <code>Rprofile.site</code> in the installation path of R, e.g. <code>/usr/lib64/R/etc/Rprofile.site</code>. Or added to <code>.Rprofile</code> in the user’s home path, e.g. <code>~/.Rprofile</code>.</p>
-
-<pre><code>source("{where.your.octopus-0.1}/conf/octopus-env.R")
-</code></pre>
-
-<p>Now, you can install Octopus by running:</p>
-
-<pre><code>$ R CMD INSTALL {where.your.octopus-0.1}/R/pkg
-</code></pre>
-
-<p>Before using Octopus, you can format your Octopus Warehouse by running:</p>
-
-<pre><code>$ sbin/octopus-format.sh
-</code></pre>
+<p>Then, set the slaves in <code>conf/slaves</code>. Each line represents a slave (actually a process).</p>
 
 <h1 id="example">Example</h1>
-<p>Now you can write a few R script to verify if the installed package <code>OctMatrix</code> works well.</p>
+<p>Now you can run DFS-Perf on DFS. For example, run the metadata workload.</p>
 
-<pre><code>require(OctMatrix)
-
-#Here we take Spark and HDFS as example
-engineType &lt;- "Spark"
-outputPath &lt;- "hdfs://master:9000/tmp/octoput-test-c"
-
-a &lt;- OctMatrix(1:4, 2, 2, engineType)
-b &lt;- OctMatrix(5:8, 2, 2, engineType)
-c &lt;- a + b
-c
-WriteOctMatrix(c, outputPath)
+<pre><code>$ bin/dfs-perf-clean
+$ bin/dfs-perf Metadata
+$ bin/dfs-perf-collect Metadata
 </code></pre>
 
-<p>You can see the correct result of <code>a + b</code> and the result <code>c</code> is output to the target path.</p>
+<p>See more examples on <a href="Examples.html">Examples</a>.</p>
 
     <!-- Main hero unit for a primary marketing message or call to action -->
     <!--<div class="hero-unit">
