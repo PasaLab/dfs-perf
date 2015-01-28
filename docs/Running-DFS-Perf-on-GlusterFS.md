@@ -1,18 +1,26 @@
 ---
 layout: global
-title: Running DFS-Perf on GlusterFS--
+title: Running DFS-Perf on GlusterFS
 ---
 
-To run Octopus on MPI, you must install Octopus in [cluster mode](Running-Octopus-on-a-Cluster.html)
+To run DFS-Perf on GlusterFS, you must install DFS-Perf in [cluster mode](Running-DFS-Perf-on-a-Cluster.html)
 
 # Configurations
-Before installing the OctMatrix R package, you should set these MPI-related variables in `conf/octopus-env.R`:
+Before running DFS-Perf, you should set these GlusterFS-related variables in `conf/dfs-perf-env.sh`:
 
-    # Set the the home directory path of  MPI
-    # Ignore this if you never about to using MPI as a underlying executing engine.
-    OCTOPUS_MPI_HOME="{where.your.MPI}"
+    export DFS_PERF_DFS_ADRESS="glusterfs://"
+    
+    export DFS_PERF_DFS_OPTS="
+      -Dpasalab.dfs.glusterfs.impl=org.apache.hadoop.fs.glusterfs.GlusterFileSystem
+      -Dpasalab.dfs.perf.glusterfs.volumes=glusterfs_vol
+      -Dpasalab.dfs.perf.glusterfs.mounts=/vol
+    "
 
 # Usages
-When using OctMatrix package in R script, set the engineType to be "Mpi" then the matrix will be handled by MPI.
+Now you can run DFS-Perf on GlusterFS. Actually the usages of all the DFS are the same, e.g.
 
-    a <- OctMatrix(data, nrow, ncol, "Mpi", byrow)
+    $ bin/dfs-perf-clean
+    $ bin/dfs-perf Metadata
+    $ bin/dfs-perf-collect Metadata
+    
+See more examples on [Examples](Examples.html).
