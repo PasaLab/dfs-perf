@@ -10,7 +10,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Running DFS-Perf on GlusterFS-- - DFS-Perf 0.1 Documentation</title>
+    <title>Running DFS-Perf on GlusterFS - DFS-Perf 0.1 Documentation</title>
     <meta name="description" content="">
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -58,7 +58,6 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Usages<b
                             class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="Quick-Start.html">Quick Start</a></li>
                         <li><a href="Examples.html">Examples</a></li>
                     </ul>
                 </li>
@@ -96,23 +95,31 @@
 </div>
 
 <div class="container" id="content">
-    <h1 class="title">Running DFS-Perf on GlusterFS--</h1>
+    <h1 class="title">Running DFS-Perf on GlusterFS</h1>
 
-    <p>To run Octopus on MPI, you must install Octopus in <a href="Running-Octopus-on-a-Cluster.html">cluster mode</a></p>
+    <p>To run DFS-Perf on GlusterFS, you must install DFS-Perf in <a href="Running-DFS-Perf-on-a-Cluster.html">cluster mode</a></p>
 
 <h1 id="configurations">Configurations</h1>
-<p>Before installing the OctMatrix R package, you should set these MPI-related variables in <code>conf/octopus-env.R</code>:</p>
+<p>Before running DFS-Perf, you should set these GlusterFS-related variables in <code>conf/dfs-perf-env.sh</code>:</p>
 
-<pre><code># Set the the home directory path of  MPI
-# Ignore this if you never about to using MPI as a underlying executing engine.
-OCTOPUS_MPI_HOME="{where.your.MPI}"
+<pre><code>export DFS_PERF_DFS_ADRESS="glusterfs://"
+
+export DFS_PERF_DFS_OPTS="
+  -Dpasalab.dfs.glusterfs.impl=org.apache.hadoop.fs.glusterfs.GlusterFileSystem
+  -Dpasalab.dfs.perf.glusterfs.volumes=glusterfs_vol
+  -Dpasalab.dfs.perf.glusterfs.mounts=/vol
+"
 </code></pre>
 
 <h1 id="usages">Usages</h1>
-<p>When using OctMatrix package in R script, set the engineType to be “Mpi” then the matrix will be handled by MPI.</p>
+<p>Now you can run DFS-Perf on GlusterFS. Actually the usages of all the DFS are the same, e.g.</p>
 
-<pre><code>a &lt;- OctMatrix(data, nrow, ncol, "Mpi", byrow)
+<pre><code>$ bin/dfs-perf-clean
+$ bin/dfs-perf Metadata
+$ bin/dfs-perf-collect Metadata
 </code></pre>
+
+<p>See more examples on <a href="Examples.html">Examples</a>.</p>
 
     <!-- Main hero unit for a primary marketing message or call to action -->
     <!--<div class="hero-unit">

@@ -10,7 +10,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Configuration Settings-- - DFS-Perf 0.1 Documentation</title>
+    <title>Configuration Settings - DFS-Perf 0.1 Documentation</title>
     <meta name="description" content="">
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -58,7 +58,6 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Usages<b
                             class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="Quick-Start.html">Quick Start</a></li>
                         <li><a href="Examples.html">Examples</a></li>
                     </ul>
                 </li>
@@ -96,70 +95,346 @@
 </div>
 
 <div class="container" id="content">
-    <h1 class="title">Configuration Settings--</h1>
+    <h1 class="title">Configuration Settings</h1>
 
-    <p>Octopus configuration parameters are those variables in <code>conf/octopus-env.R</code>, and will be loaded when starting a new R session.</p>
+    <p>DFS-Perf has two categories of configuration parameters. One is the <em>Environment Configurations</em> which is for the DFS-Perf framework. Another is the <em>Workloads Configurations</em> which is used to custom the workloads.</p>
 
-<h1 id="configurations">Configurations</h1>
+<h1 id="environment-configurations">Environment Configurations</h1>
 
-<p>These configuration contains the environment settings to run Octopus.</p>
+<p>These configuration contains the environment settings to run DFS-Perf. First, in <code>conf/slaves</code>, you can configure the nodes to launch DFS-Perf process, and you can repeat the node name to launch multi-process, e.g.</p>
+
+<pre><code>slaveA
+slaveA
+slaveB
+slaveB
+</code></pre>
+
+<p>means to launch two DFS-Perf processes on <code>slaveA</code> and <code>slaveB</code>.</p>
+
+<p>Then, the environment configurations are set in <code>conf/dfs-perf-env.sh</code></p>
 
 <table class="table">
 <tr><th>Property Name</th><th>Example</th><th>Meaning</th></tr>
 <tr>
-  <td>OCTOPUS_HOME</td>
-  <td>/home/user/octopus</td>
-  <td>Octopus installation folder.</td>
+  <td>JAVA</td>
+  <td>/usr/lib/jvm/bin/java</td>
+  <td>Java installation path.</td>
 </tr>
 <tr>
-  <td>OCTOPUS_UNDERFS_ADDRESS</td>
-  <td>hdfs://master:9000</td>
-  <td>The URI address of the underlying file system.</td>
+  <td>DFS_PERF_DFS_ADRESS</td>
+  <td>tachyon://master:19998</td>
+  <td>The URI address of the targeted DFS.</td>
 </tr>
 <tr>
-  <td>OCTOPUS_WAREHOUSE</td>
-  <td>/tmp/octopus-warehouse</td>
-  <td>The data folder's path of Octopus in underlying file system.</td>
+  <td>DFS_PERF_WORKSPACE</td>
+  <td>/tmp/dfs-perf-workspace</td>
+  <td>The workspace folder's path of DFS-Perf in targeted DFS.</td>
 </tr>
 <tr>
-  <td>OCTOPUS_R_JAVA_MEMORY</td>
-  <td>8g</td>
-  <td>the amount of memory to use for R-JAVA.</td>
+  <td>DFS_PERF_OUT_DIR</td>
+  <td>$DFS_PERF_HOME/result</td>
+  <td>The performance result output dir.</td>
 </tr>
 <tr>
-  <td>OCTOPUS_SPARK_START</td>
-  <td>TRUE</td>
-  <td>If use Spark, set it to TRUE, otherwise FALSE.</td>
+  <td>DFS_PERF_MASTER_HOSTNAME</td>
+  <td>master</td>
+  <td>The DFS-Perf master service address.</td>
 </tr>
 <tr>
-  <td>OCTOPUS_SPARK_MASTER</td>
-  <td>spark://master:7077</td>
-  <td>The master URL for the Spark cluster.</td>
+  <td>DFS_PERF_MASTER_PORT</td>
+  <td>23333</td>
+  <td>The DFS-Perf master service port.</td>
 </tr>
 <tr>
-  <td>OCTOPUS_SPARK_CORES_MAX</td>
+  <td>DFS_PERF_THREADS_NUM</td>
   <td>4</td>
-  <td>The maximum amount of CPU cores of the application from the cluster, which is equivalent to <code>spark.deploy.defaultCores</code></td>
+  <td>The thread num of each DFS-Perf process.</td>
 </tr>
 <tr>
-  <td>OCTOPUS_SPARK_EXECUTOR_MEMORY</td>
-  <td>8g</td>
-  <td>The amount of memory to use per executor process, which is equivalent to <code>spark.executor.memory</code></td>
+  <td>DFS_PERF_UNREGISTER_TIMEOUT_MS</td>
+  <td>10000</td>
+  <td>The slave is considered to be failed if not register in this time.</td>
 </tr>
 <tr>
-  <td>OCTOPUS_SPARK_DEFAULT_PARALLELISM</td>
+  <td>DFS_PERF_STATUS_DEBUG</td>
+  <td>false</td>
+  <td>If true, it will print the names of those running and remaining nodes.</td>
+</tr>
+<tr>
+  <td>DFS_PERF_FAILED_ABORT</td>
+  <td>true</td>
+  <td>If true, the test will abort when the number of failed nodes more than the threshold.</td>
+</tr>
+<tr>
+  <td>DFS_PERF_FAILED_PERCENTAGE</td>
+  <td>1</td>
+  <td>The threshold percentage for failure abort.</td>
+</tr>
+</table>
+
+<h1 id="workloads-configurations">Workloads Configurations</h1>
+
+<p>Each workload has its own configurations and can be modified in <code>conf/testsuite/{workload.name}</code></p>
+
+<h2 id="metadata">Metadata</h2>
+
+<table class="table">
+<tr><th>Property Name</th><th>Example</th><th>Meaning</th></tr>
+<tr>
+  <td>clients.per.thread</td>
+  <td>20</td>
+  <td>the number of clients to connect to the file system for each thread</td>
+</tr>
+<tr>
+  <td>op.second.per.thread</td>
+  <td>5</td>
+  <td>the metadata operations time for each thread, in seconds</td>
+</tr>
+</table>
+
+<h2 id="simplewrite">SimpleWrite</h2>
+
+<table class="table">
+<tr><th>Property Name</th><th>Example</th><th>Meaning</th></tr>
+<tr>
+  <td>files.per.thread</td>
+  <td>2</td>
+  <td>the number of files to write for each write thread</td>
+</tr>
+<tr>
+  <td>block.size.bytes</td>
+  <td>134217728</td>
+  <td>the block size of a file</td>
+</tr>
+<tr>
+  <td>file.length.bytes</td>
+  <td>134217728</td>
+  <td>the file size of write test, in bytes</td>
+</tr>
+<tr>
+  <td>buffer.size.bytes</td>
+  <td>4194304</td>
+  <td>the size of the buffer write once</td>
+</tr>
+<tr>
+  <td>write.type</td>
+  <td>THROUGH</td>
+  <td>the WriteType of the write operation, now only used for Tachyon</td>
+</tr>
+</table>
+
+<h2 id="simpleread">SimpleRead</h2>
+
+<table class="table">
+<tr><th>Property Name</th><th>Example</th><th>Meaning</th></tr>
+<tr>
+  <td>files.per.thread</td>
+  <td>2</td>
+  <td>the number of files to read for each read thread</td>
+</tr>
+<tr>
+  <td>read.mode</td>
+  <td>SEQUENCE</td>
+  <td>the read mode of read test, should be RANDOM or SEQUENCE. This is used to choose which files to read</td>
+</tr>
+<tr>
+  <td>buffer.size.bytes</td>
+  <td>4194304</td>
+  <td>the size of the buffer read once</td>
+</tr>
+<tr>
+  <td>read.type</td>
+  <td>CACHE</td>
+  <td>the ReadType of the write operation, now only used for Tachyon</td>
+</tr>
+</table>
+
+<h2 id="skipread">SkipRead</h2>
+
+<table class="table">
+<tr><th>Property Name</th><th>Example</th><th>Meaning</th></tr>
+<tr>
+  <td>files.per.thread</td>
+  <td>2</td>
+  <td>the number of files to read for each read thread</td>
+</tr>
+<tr>
+  <td>read.mode</td>
+  <td>SEQUENCE</td>
+  <td>the read mode of read test, should be RANDOM or SEQUENCE. This is used to choose which files to read</td>
+</tr>
+<tr>
+  <td>buffer.size.bytes</td>
+  <td>4194304</td>
+  <td>the size of the buffer read once</td>
+</tr>
+<tr>
+  <td>read.type</td>
+  <td>CACHE</td>
+  <td>the ReadType of the write operation, now only used for Tachyon</td>
+</tr>
+<tr>
+  <td>read.bytes</td>
+  <td>16777216</td>
+  <td>the read bytes for each skip-and-read operator</td>
+</tr>
+<tr>
+  <td>skip.bytes</td>
+  <td>16777216</td>
+  <td>the skip bytes for each skip-and-read operator</td>
+</tr>
+<tr>
+  <td>skip.mode</td>
+  <td>FORWARD</td>
+  <td>the skip mode, should be FORWARD or RANDOM</td>
+</tr>
+<tr>
+  <td>skip.times.per.file</td>
+  <td>2</td>
+  <td>the skip-and-read times for each read file</td>
+</tr>
+</table>
+
+<h2 id="mixture">Mixture</h2>
+
+<table class="table">
+<tr><th>Property Name</th><th>Example</th><th>Meaning</th></tr>
+<tr>
+  <td>basic.files.per.thread</td>
+  <td>2</td>
+  <td>the number of basic files to write at the beginning for each thread</td>
+</tr>
+<tr>
+  <td>read.files.per.thread</td>
   <td>4</td>
-  <td>The default task number of shuffle process, which is equivalent to <code>spark.default.parallelism</code></td>
+  <td>the number of files to read for each thread</td>
 </tr>
 <tr>
-  <td>OCTOPUS_HADOOP_HOME</td>
-  <td>/home/user/hadoop</td>
-  <td>The home directory path of Hadoop.</td>
+  <td>write.files.per.thread</td>
+  <td>1</td>
+  <td>the number of files to write for each thread</td>
 </tr>
 <tr>
-  <td>OCTOPUS_MPI_HOME</td>
-  <td>/home/user/mpi</td>
-  <td>The home directory path of MPI.</td>
+  <td>block.size.bytes</td>
+  <td>134217728</td>
+  <td>the block size of a file</td>
+</tr>
+<tr>
+  <td>file.length.bytes</td>
+  <td>134217728</td>
+  <td>the file size in bytes</td>
+</tr>
+<tr>
+  <td>buffer.size.bytes</td>
+  <td>4194304</td>
+  <td>the size of the buffer read and write once</td>
+</tr>
+<tr>
+  <td>read.type</td>
+  <td>CACHE</td>
+  <td>the ReadType of the read operation, now only used for Tachyon</td>
+</tr>
+<tr>
+  <td>write.type</td>
+  <td>THROUGH</td>
+  <td>the WriteType of the write operation, now only used for Tachyon</td>
+</tr>
+</table>
+
+<h2 id="iterate">Iterate</h2>
+
+<table class="table">
+<tr><th>Property Name</th><th>Example</th><th>Meaning</th></tr>
+<tr>
+  <td>iterations</td>
+  <td>2</td>
+  <td>the number of the write-read iteration</td>
+</tr>
+<tr>
+  <td>shuffle.mode</td>
+  <td>false</td>
+  <td>shuffle mode means it may read remotely</td>
+</tr>
+<tr>
+  <td>read.files.per.thread</td>
+  <td>2</td>
+  <td>the number of files to read for each thread</td>
+</tr>
+<tr>
+  <td>write.files.per.thread</td>
+  <td>2</td>
+  <td>the number of files to write for each thread</td>
+</tr>
+<tr>
+  <td>block.size.bytes</td>
+  <td>134217728</td>
+  <td>the block size of a file</td>
+</tr>
+<tr>
+  <td>file.length.bytes</td>
+  <td>134217728</td>
+  <td>the file size in bytes</td>
+</tr>
+<tr>
+  <td>buffer.size.bytes</td>
+  <td>4194304</td>
+  <td>the size of the buffer read and write once</td>
+</tr>
+<tr>
+  <td>read.type</td>
+  <td>CACHE</td>
+  <td>the ReadType of the read operation, now only used for Tachyon</td>
+</tr>
+<tr>
+  <td>write.type</td>
+  <td>THROUGH</td>
+  <td>the WriteType of the write operation, now only used for Tachyon</td>
+</tr>
+</table>
+
+<h2 id="massive">Massive</h2>
+
+<table class="table">
+<tr><th>Property Name</th><th>Example</th><th>Meaning</th></tr>
+<tr>
+  <td>time.seconds</td>
+  <td>5</td>
+  <td>the time to do the global read/write</td>
+</tr>
+<tr>
+  <td>shuffle.mode</td>
+  <td>false</td>
+  <td>shuffle mode means it may read remotely</td>
+</tr>
+<tr>
+  <td>basic.files.per.thread</td>
+  <td>2</td>
+  <td>the number of global files to write at the beginning for each thread</td>
+</tr>
+<tr>
+  <td>block.size.bytes</td>
+  <td>134217728</td>
+  <td>the block size of a file</td>
+</tr>
+<tr>
+  <td>file.length.bytes</td>
+  <td>134217728</td>
+  <td>the file size in bytes</td>
+</tr>
+<tr>
+  <td>buffer.size.bytes</td>
+  <td>4194304</td>
+  <td>the size of the buffer read and write once</td>
+</tr>
+<tr>
+  <td>read.type</td>
+  <td>CACHE</td>
+  <td>the ReadType of the read operation, now only used for Tachyon</td>
+</tr>
+<tr>
+  <td>write.type</td>
+  <td>THROUGH</td>
+  <td>the WriteType of the write operation, now only used for Tachyon</td>
 </tr>
 </table>
 

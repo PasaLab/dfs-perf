@@ -10,7 +10,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Perf Report-- - DFS-Perf 0.1 Documentation</title>
+    <title>Perf Report - DFS-Perf 0.1 Documentation</title>
     <meta name="description" content="">
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -58,7 +58,6 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Usages<b
                             class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="Quick-Start.html">Quick Start</a></li>
                         <li><a href="Examples.html">Examples</a></li>
                     </ul>
                 </li>
@@ -96,9 +95,52 @@
 </div>
 
 <div class="container" id="content">
-    <h1 class="title">Perf Report--</h1>
+    <h1 class="title">Perf Report</h1>
 
-    <p>Currently, Octopus is limited to invitation-only. If you are interested in trying out Octopus, please contact <a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#121;&#104;&#117;&#097;&#110;&#103;&#064;&#110;&#106;&#117;&#046;&#101;&#100;&#117;&#046;&#099;&#110;">Yihua Huang</a> and <a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#103;&#117;&#114;&#111;&#110;&#103;&#119;&#097;&#108;&#107;&#101;&#114;&#064;&#103;&#109;&#097;&#105;&#108;&#046;&#099;&#111;&#109;">Rong Gu</a>. </p>
+    <p>We have evaluated the performance of widely-used representative DFS under different workloads with DFS-Perf. Here is a short report.</p>
+
+<h1 id="experimental-setup">Experimental Setup</h1>
+
+<pre><code>One master node -- two Intel Xeon X5660 CPUs with 64GB memory
+16 slave nodes -- two Intel Xeon E5620 CPUs with 64GB memory
+1Gb/s Ethernet
+
+RHEL 6.0 with Linux 2.6.32, Ext3 file system and Java 1.6.0.
+GlusterFS-3.5.0
+HDFS-2.3.0
+Tachyon-0.6.0-SNAPSHOT
+</code></pre>
+
+<h1 id="basic-performance">Basic Performance</h1>
+<p>## Metadata Performance</p>
+
+<p><img src="./img/metadata-a.png" alt="Metadata multi-thread" />
+<br /></p>
+
+<p><img src="./img/metadata-b.png" alt="Metadata multi-process" />
+<br /></p>
+
+<h2 id="readwrite-throughput">Read/Write Throughput</h2>
+
+<p><img src="./img/rw-a.png" alt="RW multi-thread" />
+<br /></p>
+
+<p><img src="./img/rw-b.png" alt="RW multi-process" />
+<br /></p>
+
+<h1 id="scalability">Scalability</h1>
+
+<p><img src="./img/scalability-a.png" alt="Scalability single-node multi-thread" />
+<br /></p>
+
+<p><img src="./img/scalability-b.png" alt="Scalability single-node multi-process" />
+<br /></p>
+
+<p><img src="./img/scalability-c.png" alt="Scalability multi-node multi-thread" />
+<br /></p>
+
+<p><img src="./img/scalability-d.png" alt="Scalability multi-node multi-process" />
+<br /></p>
 
     <!-- Main hero unit for a primary marketing message or call to action -->
     <!--<div class="hero-unit">
