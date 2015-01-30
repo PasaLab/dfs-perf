@@ -3,7 +3,9 @@ layout: global
 title: DFS-Perf Overview
 ---
 
-DFS-Perf is a unified benchmarking framework for evaluating DFS' performance. DFS-Perf offers excellent scalability by supporting multi-node, multi-process, and multi-thread testing modes. These modes can work in a combination way in DFS-Perf. Morevoer, DFS-Perf provides various workloads to test on a series of typical underlying file systems, e.g. GlusterFS, GPFS, HDFS and Tachyon. DFS-Perf is an excellent tool to choose the most suitable DFS for applications and to improve DFS itself.
+DFS-Perf is a unified benchmarking framework for evaluating the performance of various DFS. DFS-Perf offers good scalability by supporting multi-node, multi-process, and multi-thread testing modes. These modes can work in a combination way in DFS-Perf. Morevoer, DFS-Perf provides typical workloads to test on a series of widely used underlying file systems, e.g. GlusterFS, GPFS, HDFS and Tachyon. And DFS-Perf is quite extensible to easily plugin user-defined workloads and support new DFS. 
+
+For the users of DFS, DFS-Perf is an evaluation utility to choose the most suitable DFS for applications. And for the developers of DFS, DFS-Perf is a good utility optimize and improve DFS itself.
 
 [Gitbucket Repository](http://pasa-bigdata.nju.edu.cn:60011/dongqianhao/DFS-Perf) |
 [Releases and Downloads](Download.html) |
@@ -16,9 +18,11 @@ DFS-Perf is a unified benchmarking framework for evaluating DFS' performance. DF
 * **Excellent Scalability**: DFS-Perf is designed to be scalable to run multi-node, multi-process and multi-thread benchmarks, which reflects different application parallelism characteristics scenarios. To be convenient for users, the numbers of nodes, processes and threads are part of configurations and can be directly modified in the configuration files.
 In addition, the scalability of DFS-Perf is well designed that it only has to introduce a little overhead on the performance of DFS, which results in good scalability.
 
+* **Excellent Extensibility**: DFS-Perf is also designed to be extensible to easily plugin user-defined workloads and support new DFS. To meet the requirements of real world applications and evaluations, the number of workloads is infinite. It's necessary to run new workloads on existing DFS or new DFS. And the excellent extensibility of DFS-Perf make it easy to deal with these situations.
+
 * **Various Workloads**: There are a variety of applications running on DFS. In order to comprehensively test the performance of the DFS for the various applications, we designed and implemented a series of typical workloads for the file access patterns from the real-world applications. 
 
-* **Support Widely Used DFS**: With the extensibility, DFS-Perf aims to benchmark different DFS. Thus, we make DFS-Perf support several widely used DFS, e.g. GlusterFS, GPFS, HDFS, Tachyon, also with the Local File System (LocalFS). 
+* **Support Widely Used DFS**: With the extensibility, DFS-Perf aims to benchmark different DFS. Thus, we have already made DFS-Perf support several widely used DFS, e.g. GlusterFS, GPFS, HDFS, Tachyon, also with the Local File System (LocalFS). 
 
 # User Documentation
 
