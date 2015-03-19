@@ -8,14 +8,6 @@
   <name>dfs-perf</name>
   <url>http://pasa-bigdata.nju.edu.cn</url>
 
-  <repositories>
-    <repository>
-      <id>in-project</id>
-      <name>In Project Repo</name>
-      <url>file://${project.basedir}/lib</url>
-    </repository>
-  </repositories>
-
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -73,7 +65,7 @@
     <hadoop.version>2.3.0</hadoop.version>
     <libthrift.version>0.9.1</libthrift.version>
     <slf4j.version>1.7.2</slf4j.version>
-    <tachyon.version>0.6.0-SNAPSHOT</tachyon.version>
+    <tachyon.version>0.6.0</tachyon.version>
   </properties>
 
   <build>
