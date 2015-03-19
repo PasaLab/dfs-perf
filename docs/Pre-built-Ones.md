@@ -14,3 +14,4 @@ In cluster mode, you need Java (JDK 6 or above). And you can choose one Distribu
 We have pre-built DFS-Perf with different dependencies versions. If you are interested in using DFS-Perf, please refer [Download](Download.html).
 
 DFS-Perf-0.1--GlusterFS-3.5.0--GPFS-3.5.0.21--Hadoop-2.3.0--Tachyon-0.6.0-SNAPSHOT
+DFS-Perf-0.1--GlusterFS-3.5.0--GPFS-3.5.0.21--Hadoop-2.3.0--Tachyon-0.6.0
