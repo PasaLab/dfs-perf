@@ -23,6 +23,8 @@ public abstract class PerfFileSystem {
       return PerfFileSystemLocal.getClient(path, taskConf);
     } else if (isTfs(path)) {
       return PerfFileSystemTfs.getClient(path, taskConf);
+    } else if (isTfsHadoop(path)) {
+      return PerfFileSystemTfsHadoop.getClient(path, taskConf);
     }
     throw new IOException("Unknown file system scheme " + path);
   }
@@ -56,6 +58,15 @@ public abstract class PerfFileSystem {
 
   private static boolean isTfs(final String path) {
     for (final String prefix : DfsConf.get().TFS_PREFIX) {
+      if (path.startsWith(prefix)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private static boolean isTfsHadoop(final String path) {
+    for (final String prefix : DfsConf.get().TFS_HADOOP_PREFIX) {
       if (path.startsWith(prefix)) {
         return true;
       }
