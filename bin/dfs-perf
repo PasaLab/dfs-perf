@@ -23,7 +23,7 @@ DFS_PERF_LIBEXEC_DIR=${DFS_PERF_LIBEXEC_DIR:-$DEFAULT_PERF_LIBEXEC_DIR}
 NODELIST=$DFS_PERF_CONF_DIR/slaves
 
 taskid=0
-SLAVES=`cat "$NODELIST"|sed  "s/#.*$//;/^$/d"`
+SLAVES=`sort "$NODELIST"|sed  "s/#.*$//;/^$/d"`
 UNIQ_SLAVES=`sort "$NODELIST" | uniq | sed  "s/#.*$//;/^$/d"`
 for slave in $UNIQ_SLAVES; do
   echo -n "Copy configurations to $slave... "
