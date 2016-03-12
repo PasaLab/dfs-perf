@@ -93,7 +93,7 @@ public class PerfFileSystemAlluxioFS extends PerfFileSystem {
     try {
       return mAlluxioFs.exists(new AlluxioURI(path));
     } catch (AlluxioException e) {
-      throw new IOException();
+      return false;
     }
   }
 
@@ -153,7 +153,7 @@ public class PerfFileSystemAlluxioFS extends PerfFileSystem {
     try {
       return mAlluxioFs.getStatus(uri).isFolder();
     } catch (AlluxioException e) {
-      throw new IOException();
+      return false;
     }
   }
 
@@ -163,7 +163,7 @@ public class PerfFileSystemAlluxioFS extends PerfFileSystem {
     try {
       return !mAlluxioFs.getStatus(uri).isFolder();
     } catch (AlluxioException e) {
-      throw new IOException();
+      return false;
     }
   }
 
@@ -196,7 +196,7 @@ public class PerfFileSystemAlluxioFS extends PerfFileSystem {
     } catch (FileAlreadyExistsException e) {
       return false;
     } catch (AlluxioException e) {
-      throw new IOException();
+      return false;
     }
   }
 
@@ -210,7 +210,7 @@ public class PerfFileSystemAlluxioFS extends PerfFileSystem {
     } catch (FileDoesNotExistException e) {
       return false;
     } catch (AlluxioException e) {
-      throw new IOException();
+      return false;
     }
   }
 }
