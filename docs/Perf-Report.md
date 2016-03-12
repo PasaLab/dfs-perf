@@ -14,7 +14,7 @@ We have evaluated the performance of widely-used representative DFS under differ
     RHEL 6.0 with Linux 2.6.32, Ext3 file system and Java 1.6.0.
     GlusterFS-3.5.0
     HDFS-2.3.0
-    Alluxio-0.6.0-SNAPSHOT
+    Alluxio-1.0.0
 
 # Basic Performance
 
