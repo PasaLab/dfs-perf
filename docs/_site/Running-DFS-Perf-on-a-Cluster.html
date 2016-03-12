@@ -100,7 +100,7 @@
     <p>This guide describes how to get DFS-Perf running on a cluster.</p>
 
 <h1 id="prerequisites">Prerequisites</h1>
-<p>The prerequisites for this part contains all the prerequisites of <a href="Running-DFS-Perf-Locally.html">Running DFS-Perf Locally</a>. In addition, to run on a cluster, you need a Distributed File System from GlusterFS, GPFS, HDFS and Tachyon. </p>
+<p>The prerequisites for this part contains all the prerequisites of <a href="Running-DFS-Perf-Locally.html">Running DFS-Perf Locally</a>. In addition, to run on a cluster, you need a Distributed File System from GlusterFS, GPFS, HDFS and Alluxio. </p>
 
 <h1 id="configurations">Configurations</h1>
 <p>Prepare the binary distribution of DFS-Perf:</p>
@@ -125,7 +125,7 @@ export DFS_PERF_DFS_ADRESS="hdfs://master:9000"
 DFS_PERF_MASTER_HOSTNAME="master"
 </code></pre>
 
-<p>For different DFS, some specific variables need to be set. You can see the details in <a href="Running-DFS-Perf-on-GlusterFS.html">Running DFS-Perf on GlusterFS</a>, <a href="Running-DFS-Perf-on-GPFS.html">Running DFS-Perf on GPFS</a>, <a href="Running-DFS-Perf-on-HDFS.html">Running DFS-Perf on HDFS</a> and <a href="Running-DFS-Perf-on-Tachyon.html">Running DFS-Perf on Tachyon</a>.</p>
+<p>For different DFS, some specific variables need to be set. You can see the details in <a href="Running-DFS-Perf-on-GlusterFS.html">Running DFS-Perf on GlusterFS</a>, <a href="Running-DFS-Perf-on-GPFS.html">Running DFS-Perf on GPFS</a>, <a href="Running-DFS-Perf-on-HDFS.html">Running DFS-Perf on HDFS</a> and <a href="Running-DFS-Perf-on-Alluxio.html">Running DFS-Perf on Alluxio</a>.</p>
 
 <p>Then, set the slaves in <code>conf/slaves</code>. Each line represents a slave (actually a process).</p>
 

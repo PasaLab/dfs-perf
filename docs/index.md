@@ -3,7 +3,7 @@ layout: global
 title: DFS-Perf Overview
 ---
 
-DFS-Perf is a unified benchmarking framework for evaluating the performance of various DFS. DFS-Perf offers good scalability by supporting multi-node, multi-process, and multi-thread testing modes. These modes can work in a combination way in DFS-Perf. Morevoer, DFS-Perf provides typical workloads to test on a series of widely-used underlying file systems, e.g. GlusterFS, GPFS, HDFS and Tachyon. And DFS-Perf is quite extensible to easily plugin user-defined workloads and support new DFS. 
+DFS-Perf is a unified benchmarking framework for evaluating the performance of various DFS. DFS-Perf offers good scalability by supporting multi-node, multi-process, and multi-thread testing modes. These modes can work in a combination way in DFS-Perf. Morevoer, DFS-Perf provides typical workloads to test on a series of widely-used underlying file systems, e.g. GlusterFS, GPFS, HDFS and Alluxio. And DFS-Perf is quite extensible to easily plugin user-defined workloads and support new DFS. 
 
 For the users of DFS, DFS-Perf is an evaluation utility to choose the most suitable DFS for applications. And for the developers of DFS, DFS-Perf is a good utility optimize and improve DFS itself.
 
@@ -22,7 +22,7 @@ In addition, the scalability of DFS-Perf is well designed that it only has to in
 
 * **Various Workloads**: There are a variety of applications running on DFS. In order to comprehensively test the performance of the DFS for the various applications, we designed and implemented a series of typical workloads for the file access patterns from the real-world applications. 
 
-* **Support Widely-Used DFS**: With the extensibility, DFS-Perf aims to benchmark different DFS. Thus, we have already made DFS-Perf support several widely-used DFS, e.g. GlusterFS, GPFS, HDFS, Tachyon, also with the Local File System (LocalFS). 
+* **Support Widely-Used DFS**: With the extensibility, DFS-Perf aims to benchmark different DFS. Thus, we have already made DFS-Perf support several widely-used DFS, e.g. GlusterFS, GPFS, HDFS, Alluxio, also with the Local File System (LocalFS). 
 
 # User Documentation
 
@@ -36,7 +36,7 @@ In addition, the scalability of DFS-Perf is well designed that it only has to in
 
 [Running DFS-Perf on HDFS](Running-DFS-Perf-on-HDFS.html): Get DFS-Perf up and running on HDFS.
 
-[Running DFS-Perf on Tachyon](Running-DFS-Perf-on-Tachyon.html): Get DFS-Perf up and running on Tachyon.
+[Running DFS-Perf on Alluxio](Running-DFS-Perf-on-Alluxio.html): Get DFS-Perf up and running on Alluxio.
 
 [Workloads](Workloads.html): A brief introduction of those workloads in DFS-Perf.
 

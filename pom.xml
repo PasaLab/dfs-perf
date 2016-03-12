@@ -16,9 +16,20 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.tachyonproject</groupId>
-      <artifactId>tachyon</artifactId>
-      <version>${tachyon.version}</version>
+      <groupId>org.alluxio</groupId>
+      <artifactId>alluxio-core-client</artifactId>
+      <version>${alluxio.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.hadoop</groupId>
+          <artifactId>hadoop-client</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.alluxio</groupId>
+      <artifactId>alluxio-core-client-internal</artifactId>
+      <version>${alluxio.version}</version>
       <exclusions>
         <exclusion>
           <groupId>org.apache.hadoop</groupId>
@@ -53,6 +64,11 @@
       <version>${slf4j.version}</version>
     </dependency>
     <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.17</version>
+    </dependency>
+    <dependency>
       <groupId>org.gluster</groupId>
       <artifactId>glusterfs-hadoop</artifactId>
       <version>${glusterfs-hadoop.version}</version>
@@ -63,9 +79,9 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <glusterfs-hadoop.version>2.3.5</glusterfs-hadoop.version>
     <hadoop.version>2.3.0</hadoop.version>
-    <libthrift.version>0.9.1</libthrift.version>
+    <libthrift.version>0.9.3</libthrift.version>
     <slf4j.version>1.7.2</slf4j.version>
-    <tachyon.version>0.6.0</tachyon.version>
+    <alluxio.version>1.0.0</alluxio.version>
   </properties>
 
   <build>

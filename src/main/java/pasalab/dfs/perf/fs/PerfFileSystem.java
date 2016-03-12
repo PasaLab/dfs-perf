@@ -22,9 +22,9 @@ public abstract class PerfFileSystem {
     } else if (isLocalFS(path)) {
       return PerfFileSystemLocal.getClient(path, taskConf);
     } else if (isTfs(path)) {
-      return PerfFileSystemTfs.getClient(path, taskConf);
+      return PerfFileSystemAlluxioFS.getClient(path, taskConf);
     } else if (isTfsHadoop(path)) {
-      return PerfFileSystemTfsHadoop.getClient(path, taskConf);
+      return PerfFileSystemAlluxioHadoop.getClient(path, taskConf);
     }
     throw new IOException("Unknown file system scheme " + path);
   }

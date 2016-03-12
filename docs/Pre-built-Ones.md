@@ -8,10 +8,10 @@ To run DFS-Perf, several prerequisite softwares are needed on your single node o
 
 In local mode, you need Java (JDK 6 or above).
 
-In cluster mode, you need Java (JDK 6 or above). And you can choose one Distributed File System from GlusterFS, GPFS, HDFS and Tachyon.
+In cluster mode, you need Java (JDK 6 or above). And you can choose one Distributed File System from GlusterFS, GPFS, HDFS and Alluxio.
 
 # Pre-built Ones
 We have pre-built DFS-Perf with different dependencies versions. If you are interested in using DFS-Perf, please refer [Download](Download.html).
 
-DFS-Perf-0.1--GlusterFS-3.5.0--GPFS-3.5.0.21--Hadoop-2.3.0--Tachyon-0.6.0-SNAPSHOT
-DFS-Perf-0.1--GlusterFS-3.5.0--GPFS-3.5.0.21--Hadoop-2.3.0--Tachyon-0.6.0
+DFS-Perf-0.1--GlusterFS-3.5.0--GPFS-3.5.0.21--Hadoop-2.3.0--Alluxio-0.6.0-SNAPSHOT
+DFS-Perf-0.1--GlusterFS-3.5.0--GPFS-3.5.0.21--Hadoop-2.3.0--Alluxio-0.6.0

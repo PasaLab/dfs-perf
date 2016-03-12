@@ -17,20 +17,20 @@ import pasalab.dfs.perf.basic.TaskConfiguration;
 
 import com.google.common.base.Throwables;
 
-import tachyon.hadoop.TFS;
+import alluxio.hadoop.FileSystem;
 
-public class PerfFileSystemTfsHadoop extends PerfFileSystem {
+public class PerfFileSystemAlluxioHadoop extends PerfFileSystem {
   public static PerfFileSystem getClient(String path, TaskConfiguration taskConf) {
-    return new PerfFileSystemTfsHadoop(path, taskConf);
+    return new PerfFileSystemAlluxioHadoop(path, taskConf);
   }
 
   private final URI mUri;
 
-  private TFS mTfsHadoop;
+  private FileSystem mTfsHadoop;
 
-  private PerfFileSystemTfsHadoop(String path, TaskConfiguration taskConf) {
+  private PerfFileSystemAlluxioHadoop(String path, TaskConfiguration taskConf) {
     mUri = URI.create(path);
-    mTfsHadoop = new TFS();
+    mTfsHadoop = new FileSystem();
   }
 
   @Override
@@ -43,7 +43,7 @@ public class PerfFileSystemTfsHadoop extends PerfFileSystem {
     try {
       mTfsHadoop.initialize(mUri, new Configuration());
     } catch (IOException e) {
-      LOG.error("Failed to get TFS", e);
+      LOG.error("Failed to get FileSystem", e);
       Throwables.propagate(e);
     }
   }

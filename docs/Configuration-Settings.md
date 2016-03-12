@@ -27,7 +27,7 @@ Then, the environment configurations are set in `conf/dfs-perf-env.sh`
 </tr>
 <tr>
   <td>DFS_PERF_DFS_ADRESS</td>
-  <td>tachyon://master:19998</td>
+  <td>alluxio://master:19998</td>
   <td>The URI address of the targeted DFS.</td>
 </tr>
 <tr>
@@ -124,7 +124,7 @@ Each workload has its own configurations and can be modified in `conf/testsuite/
 <tr>
   <td>write.type</td>
   <td>THROUGH</td>
-  <td>the WriteType of the write operation, now only used for Tachyon</td>
+  <td>the WriteType of the write operation, now only used for Alluxio</td>
 </tr>
 </table>
 
@@ -150,7 +150,7 @@ Each workload has its own configurations and can be modified in `conf/testsuite/
 <tr>
   <td>read.type</td>
   <td>CACHE</td>
-  <td>the ReadType of the write operation, now only used for Tachyon</td>
+  <td>the ReadType of the write operation, now only used for Alluxio</td>
 </tr>
 </table>
 
@@ -176,7 +176,7 @@ Each workload has its own configurations and can be modified in `conf/testsuite/
 <tr>
   <td>read.type</td>
   <td>CACHE</td>
-  <td>the ReadType of the write operation, now only used for Tachyon</td>
+  <td>the ReadType of the write operation, now only used for Alluxio</td>
 </tr>
 <tr>
   <td>read.bytes</td>
@@ -237,12 +237,12 @@ Each workload has its own configurations and can be modified in `conf/testsuite/
 <tr>
   <td>read.type</td>
   <td>CACHE</td>
-  <td>the ReadType of the read operation, now only used for Tachyon</td>
+  <td>the ReadType of the read operation, now only used for Alluxio</td>
 </tr>
 <tr>
   <td>write.type</td>
   <td>THROUGH</td>
-  <td>the WriteType of the write operation, now only used for Tachyon</td>
+  <td>the WriteType of the write operation, now only used for Alluxio</td>
 </tr>
 </table>
 
@@ -288,12 +288,12 @@ Each workload has its own configurations and can be modified in `conf/testsuite/
 <tr>
   <td>read.type</td>
   <td>CACHE</td>
-  <td>the ReadType of the read operation, now only used for Tachyon</td>
+  <td>the ReadType of the read operation, now only used for Alluxio</td>
 </tr>
 <tr>
   <td>write.type</td>
   <td>THROUGH</td>
-  <td>the WriteType of the write operation, now only used for Tachyon</td>
+  <td>the WriteType of the write operation, now only used for Alluxio</td>
 </tr>
 </table>
 
@@ -334,11 +334,11 @@ Each workload has its own configurations and can be modified in `conf/testsuite/
 <tr>
   <td>read.type</td>
   <td>CACHE</td>
-  <td>the ReadType of the read operation, now only used for Tachyon</td>
+  <td>the ReadType of the read operation, now only used for Alluxio</td>
 </tr>
 <tr>
   <td>write.type</td>
   <td>THROUGH</td>
-  <td>the WriteType of the write operation, now only used for Tachyon</td>
+  <td>the WriteType of the write operation, now only used for Alluxio</td>
 </tr>
 </table>
