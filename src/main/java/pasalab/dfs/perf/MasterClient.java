@@ -37,7 +37,6 @@ public class MasterClient implements Closeable {
     mClient = new MasterService.Client(mProtocol);
   }
 
-  @Override
   public synchronized void close() throws IOException {
     if (mConnected) {
       LOG.info("Disconnecting from DFS-Perf Master " + mMasterHostname + ":" + mMasterPort);
