@@ -21,7 +21,7 @@ public abstract class PerfFileSystem {
       return PerfFileSystemHdfs.getClient(path, taskConf);
     } else if (isLocalFS(path)) {
       return PerfFileSystemLocal.getClient(path, taskConf);
-    } else if (isTfs(path)) {
+    } else if (isAlluxio(path)) {
       return PerfFileSystemAlluxioFS.getClient(path, taskConf);
     } else if (isTfsHadoop(path)) {
       return PerfFileSystemAlluxioHadoop.getClient(path, taskConf);
@@ -56,8 +56,8 @@ public abstract class PerfFileSystem {
     return false;
   }
 
-  private static boolean isTfs(final String path) {
-    for (final String prefix : DfsConf.get().TFS_PREFIX) {
+  private static boolean isAlluxio(final String path) {
+    for (final String prefix : DfsConf.get().ALLUXIO_PREFIX) {
       if (path.startsWith(prefix)) {
         return true;
       }
@@ -66,7 +66,7 @@ public abstract class PerfFileSystem {
   }
 
   private static boolean isTfsHadoop(final String path) {
-    for (final String prefix : DfsConf.get().TFS_HADOOP_PREFIX) {
+    for (final String prefix : DfsConf.get().ALLUXIO_HADOOP_PREFIX) {
       if (path.startsWith(prefix)) {
         return true;
       }
