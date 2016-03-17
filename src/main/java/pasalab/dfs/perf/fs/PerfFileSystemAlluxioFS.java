@@ -70,6 +70,7 @@ public class PerfFileSystemAlluxioFS extends PerfFileSystem {
     ClientContext.getConf().set(Constants.MASTER_HOSTNAME, mFilePath.getHost());
     ClientContext.getConf().set(Constants.MASTER_RPC_PORT,
         Integer.toString(mFilePath.getPort()));
+    ClientContext.init();
     mAlluxioFs = FileSystem.Factory.get();
   }
 
