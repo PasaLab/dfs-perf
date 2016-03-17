@@ -60,7 +60,6 @@ public class MassiveThread extends PerfThread {
     }
   }
 
-  @Override
   public void run() {
     long basicBytes = 0;
     long basicTimeMs = 0;

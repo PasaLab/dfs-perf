@@ -29,36 +29,38 @@ public class PerfFileSystemAlluxioFS extends PerfFileSystem {
     return new PerfFileSystemAlluxioFS(path, taskConf);
   }
 
-  private final AlluxioURI mFilePath;
   private final OpenFileOptions mReadOptions;
   private final CreateFileOptions mWriteOptions;
-
   private FileSystem mAlluxioFs;
 
   private PerfFileSystemAlluxioFS(String path, TaskConfiguration taskConf) {
-    int mBlockSizeByte;
-    ReadType mReadType;
-    WriteType mWriteType;
-    mFilePath = new AlluxioURI(path);
+    int blockSizeByte;
+    ReadType readType;
+    WriteType writeType;
+    AlluxioURI uri = new AlluxioURI(path);
+
+    ClientContext.getConf().set(Constants.MASTER_HOSTNAME, uri.getHost());
+    ClientContext.getConf().set(Constants.MASTER_RPC_PORT, Integer.toString(uri.getPort()));
+    ClientContext.init();
 
     if (taskConf == null) {
-      mBlockSizeByte = 1024 * 1024 * 1024;
-      mReadType = ReadType.NO_CACHE;
-      mWriteType = WriteType.ASYNC_THROUGH;
+      blockSizeByte = 1024 * 1024 * 1024;
+      readType = ReadType.NO_CACHE;
+      writeType = WriteType.ASYNC_THROUGH;
     } else {
-      mBlockSizeByte =
+      blockSizeByte =
           taskConf.hasProperty("block.size.bytes") ? taskConf.getIntProperty("block.size.bytes")
               : 1024 * 1024 * 1024;
-      mReadType =
+      readType =
           taskConf.hasProperty("read.type") ? ReadType.valueOf(taskConf.getProperty("read.type"))
               : ReadType.NO_CACHE;
-      mWriteType =
+      writeType =
           taskConf.hasProperty("write.type") ? WriteType.valueOf(taskConf.getProperty("write.type"))
               : WriteType.ASYNC_THROUGH;
     }
 
-    mReadOptions = OpenFileOptions.defaults().setReadType(mReadType);
-    mWriteOptions = CreateFileOptions.defaults().setWriteType(mWriteType).setBlockSizeBytes(mBlockSizeByte);
+    mReadOptions = OpenFileOptions.defaults().setReadType(readType);
+    mWriteOptions = CreateFileOptions.defaults().setWriteType(writeType).setBlockSizeBytes(blockSizeByte);
   }
 
   @Override
@@ -67,10 +69,6 @@ public class PerfFileSystemAlluxioFS extends PerfFileSystem {
 
   @Override
   public void connect() throws IOException {
-    ClientContext.getConf().set(Constants.MASTER_HOSTNAME, mFilePath.getHost());
-    ClientContext.getConf().set(Constants.MASTER_RPC_PORT,
-        Integer.toString(mFilePath.getPort()));
-    ClientContext.init();
     mAlluxioFs = FileSystem.Factory.get();
   }
 

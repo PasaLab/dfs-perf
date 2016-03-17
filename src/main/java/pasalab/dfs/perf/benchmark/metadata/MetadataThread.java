@@ -25,7 +25,6 @@ public class MetadataThread extends PerfThread {
     return mSuccess;
   }
 
-  @Override
   public void run() {
     int currentOps = 0;
     int nextClient = 0;
