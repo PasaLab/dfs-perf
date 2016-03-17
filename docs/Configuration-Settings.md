@@ -123,7 +123,7 @@ Each workload has its own configurations and can be modified in `conf/testsuite/
 </tr>
 <tr>
   <td>write.type</td>
-  <td>THROUGH</td>
+  <td>ASYNC_THROUGH</td>
   <td>the WriteType of the write operation, now only used for Alluxio</td>
 </tr>
 </table>
@@ -149,7 +149,7 @@ Each workload has its own configurations and can be modified in `conf/testsuite/
 </tr>
 <tr>
   <td>read.type</td>
-  <td>CACHE</td>
+  <td>CACHE_PROMOTE</td>
   <td>the ReadType of the write operation, now only used for Alluxio</td>
 </tr>
 </table>
@@ -175,7 +175,7 @@ Each workload has its own configurations and can be modified in `conf/testsuite/
 </tr>
 <tr>
   <td>read.type</td>
-  <td>CACHE</td>
+  <td>CACHE_PROMOTE</td>
   <td>the ReadType of the write operation, now only used for Alluxio</td>
 </tr>
 <tr>
@@ -236,12 +236,12 @@ Each workload has its own configurations and can be modified in `conf/testsuite/
 </tr>
 <tr>
   <td>read.type</td>
-  <td>CACHE</td>
+  <td>CACHE_PROMOTE</td>
   <td>the ReadType of the read operation, now only used for Alluxio</td>
 </tr>
 <tr>
   <td>write.type</td>
-  <td>THROUGH</td>
+  <td>ASYNC_THROUGH</td>
   <td>the WriteType of the write operation, now only used for Alluxio</td>
 </tr>
 </table>
@@ -287,12 +287,12 @@ Each workload has its own configurations and can be modified in `conf/testsuite/
 </tr>
 <tr>
   <td>read.type</td>
-  <td>CACHE</td>
+  <td>CACHE_PROMOTE</td>
   <td>the ReadType of the read operation, now only used for Alluxio</td>
 </tr>
 <tr>
   <td>write.type</td>
-  <td>THROUGH</td>
+  <td>ASYNC_THROUGH</td>
   <td>the WriteType of the write operation, now only used for Alluxio</td>
 </tr>
 </table>
@@ -333,12 +333,12 @@ Each workload has its own configurations and can be modified in `conf/testsuite/
 </tr>
 <tr>
   <td>read.type</td>
-  <td>CACHE</td>
+  <td>CACHE_PROMOTE</td>
   <td>the ReadType of the read operation, now only used for Alluxio</td>
 </tr>
 <tr>
   <td>write.type</td>
-  <td>THROUGH</td>
+  <td>ASYNC_THROUGH</td>
   <td>the WriteType of the write operation, now only used for Alluxio</td>
 </tr>
 </table>

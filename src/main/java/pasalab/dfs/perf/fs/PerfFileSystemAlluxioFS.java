@@ -45,7 +45,7 @@ public class PerfFileSystemAlluxioFS extends PerfFileSystem {
 
     if (taskConf == null) {
       blockSizeByte = 1024 * 1024 * 1024;
-      readType = ReadType.NO_CACHE;
+      readType = ReadType.CACHE_PROMOTE;
       writeType = WriteType.ASYNC_THROUGH;
     } else {
       blockSizeByte =
@@ -53,7 +53,7 @@ public class PerfFileSystemAlluxioFS extends PerfFileSystem {
               : 1024 * 1024 * 1024;
       readType =
           taskConf.hasProperty("read.type") ? ReadType.valueOf(taskConf.getProperty("read.type"))
-              : ReadType.NO_CACHE;
+              : ReadType.CACHE_PROMOTE;
       writeType =
           taskConf.hasProperty("write.type") ? WriteType.valueOf(taskConf.getProperty("write.type"))
               : WriteType.ASYNC_THROUGH;

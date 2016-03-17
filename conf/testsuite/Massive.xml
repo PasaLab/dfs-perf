@@ -32,12 +32,12 @@
   </property>
   <property>
     <name>read.type</name>
-    <value>CACHE</value>
+    <value>CACHE_PROMOTE</value>
     <description>the ReadType of the read operation, now only used for Alluxio</description>
   </property>
   <property>
     <name>write.type</name>
-    <value>THROUGH</value>
+    <value>ASYNC_THROUGH</value>
     <description>the WriteType of the write operation, now only used for Alluxio</description>
   </property>
 </configuration>
