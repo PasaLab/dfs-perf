@@ -30,7 +30,6 @@ public class SkipReadThread extends PerfThread {
     return mThroughput;
   }
 
-  @Override
   public void run() {
     long timeMs = System.currentTimeMillis();
     long readBytes = 0;

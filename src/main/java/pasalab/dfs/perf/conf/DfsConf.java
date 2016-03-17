@@ -16,8 +16,8 @@ public class DfsConf extends Utils {
   public final ImmutableList<String> GLUSTER_PREFIX = ImmutableList.of("glusterfs://");
   public final ImmutableList<String> HDFS_PREFIX = ImmutableList.of("hdfs://");
   public final ImmutableList<String> LFS_PREFIX = ImmutableList.of("file://");
-  public final ImmutableList<String> TFS_PREFIX = ImmutableList.of("tachyon://");
-  public final ImmutableList<String> TFS_HADOOP_PREFIX = ImmutableList.of("tachyon-tfs://");
+  public final ImmutableList<String> ALLUXIO_PREFIX = ImmutableList.of("alluxio://");
+  public final ImmutableList<String> ALLUXIO_HADOOP_PREFIX = ImmutableList.of("alluxio-tfs://");
 
   public final String GLUSTERFS_IMPL;
   public final String GLUSTERFS_VOLUMES;

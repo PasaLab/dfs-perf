@@ -3,12 +3,13 @@ package pasalab.dfs.perf.conf;
 import java.io.File;
 
 import org.apache.log4j.Logger;
+import pasalab.dfs.perf.PerfConstants;
 
 /**
  * DFS-Perf Configurations
  */
 public class PerfConf extends Utils {
-  private static final Logger LOG = Logger.getLogger("");
+  private static final Logger LOG = Logger.getLogger(PerfConstants.PERF_LOGGER_TYPE);
 
   private static PerfConf sPerfConf = null;
 

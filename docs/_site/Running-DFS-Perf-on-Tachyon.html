@@ -10,7 +10,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Running DFS-Perf on Tachyon - DFS-Perf 0.1 Documentation</title>
+    <title>Running DFS-Perf on Alluxio - DFS-Perf 0.1 Documentation</title>
     <meta name="description" content="">
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -95,22 +95,22 @@
 </div>
 
 <div class="container" id="content">
-    <h1 class="title">Running DFS-Perf on Tachyon</h1>
+    <h1 class="title">Running DFS-Perf on Alluxio</h1>
 
-    <p>To run DFS-Perf on Tachyon, you must install DFS-Perf in <a href="Running-DFS-Perf-on-a-Cluster.html">cluster mode</a></p>
+    <p>To run DFS-Perf on Alluxio, you must install DFS-Perf in <a href="Running-DFS-Perf-on-a-Cluster.html">cluster mode</a></p>
 
 <h1 id="configurations">Configurations</h1>
-<p>Before running DFS-Perf, you should set these Tachyon-related variables in <code>conf/dfs-perf-env.sh</code>:</p>
+<p>Before running DFS-Perf, you should set these Alluxio-related variables in <code>conf/dfs-perf-env.sh</code>:</p>
 
-<pre><code>export DFS_PERF_DFS_ADRESS="tachyon://ip:port"
+<pre><code>export DFS_PERF_DFS_ADRESS="alluxio://ip:port"
 
 export DFS_PERF_DFS_OPTS="
-  -Dtachyon.user.master.client.timeout.ms=600000
+  -Dalluxio.user.master.client.timeout.ms=600000
 "
 </code></pre>
 
 <h1 id="usages">Usages</h1>
-<p>Now you can run DFS-Perf on Tachyon. Actually the usages of all the DFS are the same, e.g.</p>
+<p>Now you can run DFS-Perf on Alluxio. Actually the usages of all the DFS are the same, e.g.</p>
 
 <pre><code>$ bin/dfs-perf-clean
 $ bin/dfs-perf Metadata

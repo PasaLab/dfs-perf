@@ -27,7 +27,6 @@ public class SimpleWriteThread extends PerfThread {
     return mThroughput;
   }
 
-  @Override
   public void run() {
     long timeMs = System.currentTimeMillis();
     long writeBytes = 0;

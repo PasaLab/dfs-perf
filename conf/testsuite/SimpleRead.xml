@@ -17,8 +17,8 @@
   </property>
   <property>
     <name>read.type</name>
-    <value>CACHE</value>
-    <description>the ReadType of the read operation, no it only used for Tachyon</description>
+    <value>CACHE_PROMOTE</value>
+    <description>the ReadType of the read operation, no it only used for Alluxio</description>
   </property>
 </configuration>
 

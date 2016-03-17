@@ -1,6 +1,6 @@
 namespace java pasalab.dfs.perf.thrift
 
-// Version 1: 0.1.0 (Thrift version is 0.9.1 which is in keeping with Tachyon-0.6.0)
+// Version 1: 0.1.0 (Thrift version is 0.9.3 which is in keeping with Alluxio-1.0.0)
 
 exception SlaveAlreadyRegisterException {
   1: string message

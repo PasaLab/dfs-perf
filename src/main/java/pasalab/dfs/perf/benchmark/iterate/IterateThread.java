@@ -56,7 +56,6 @@ public class IterateThread extends PerfThread {
     }
   }
 
-  @Override
   public void run() {
     long readBytes = 0;
     long readTimeMs = 0;
