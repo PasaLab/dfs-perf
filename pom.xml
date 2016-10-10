@@ -28,7 +28,7 @@
     </dependency>
     <dependency>
       <groupId>org.alluxio</groupId>
-      <artifactId>alluxio-core-client-internal</artifactId>
+      <artifactId>alluxio-core-client</artifactId>
       <version>${alluxio.version}</version>
       <exclusions>
         <exclusion>
@@ -81,7 +81,7 @@
     <hadoop.version>2.3.0</hadoop.version>
     <libthrift.version>0.9.3</libthrift.version>
     <slf4j.version>1.7.2</slf4j.version>
-    <alluxio.version>1.0.0</alluxio.version>
+    <alluxio.version>1.3.0</alluxio.version>
   </properties>
 
   <build>
