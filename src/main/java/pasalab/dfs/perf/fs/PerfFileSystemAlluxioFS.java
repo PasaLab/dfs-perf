@@ -9,7 +9,8 @@ import java.util.List;
 import pasalab.dfs.perf.basic.TaskConfiguration;
 
 import alluxio.AlluxioURI;
-import alluxio.Constants;
+import alluxio.Configuration;
+import alluxio.PropertyKey;
 import alluxio.client.ClientContext;
 import alluxio.client.ReadType;
 import alluxio.client.file.FileSystem;
@@ -39,8 +40,8 @@ public class PerfFileSystemAlluxioFS extends PerfFileSystem {
     WriteType writeType;
     AlluxioURI uri = new AlluxioURI(path);
 
-    ClientContext.getConf().set(Constants.MASTER_HOSTNAME, uri.getHost());
-    ClientContext.getConf().set(Constants.MASTER_RPC_PORT, Integer.toString(uri.getPort()));
+    Configuration.set(PropertyKey.MASTER_HOSTNAME, uri.getHost());
+    Configuration.set(PropertyKey.MASTER_RPC_PORT, Integer.toString(uri.getPort()));
     ClientContext.init();
 
     if (taskConf == null) {
